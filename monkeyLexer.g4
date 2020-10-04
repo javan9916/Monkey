@@ -3,10 +3,16 @@ lexer grammar monkeyLexer;
 // Simbolos
 PCOMA       : ';';
 DOSPUNTOS   : ':';
-ASSIGN      : ':=';
+ASSIGN      : '=';
+LIZQ       : '{';
+LDER       : '}';
 PIZQ        : '(';
 PDER        : ')';
+PCIZQ       : '[';
+PCDER       : ']';
 VIR         : '~';
+DCOMILLAS   : '"';
+COMA        : ',';
 
 // Operadores
 SUMA    : '+';
@@ -26,6 +32,7 @@ BEGIN   : 'begin';
 END     : 'end';
 CONST   : 'const';
 VAR     : 'var';
+
 
 // Otros tokens
 IDENT   : LETRA (LETRA|DIGITO)*;

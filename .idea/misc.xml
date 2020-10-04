@@ -36,7 +36,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/monkeyLexer.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="C:\Users\Javier\PycharmProjects\Monkey" />
+          <option name="outputDir" value="E:\Almacenamiento\Tec\Semestre-II-2020\Compi\Proyecto Python\Monkey" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="generated" />
@@ -46,7 +46,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/monkeyParser.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="C:\Users\Javier\PycharmProjects\Monkey" />
+          <option name="outputDir" value="E:\Almacenamiento\Tec\Semestre-II-2020\Compi\Proyecto Python\Monkey" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="generated" />
@@ -56,5 +56,5 @@
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (2)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8" project-jdk-type="Python SDK" />
 </project>
