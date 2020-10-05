@@ -40,32 +40,39 @@ expression
     | PIZQ primaryExpression ( operator primaryExpression PDER)*
     | primaryExpression operator PIZQ primaryExpression ( operator primaryExpression PDER)*
     | PCIZQ expressionList
-    | LIZQ expressionDict;
+    | LIZQ expressionDict
+    ;
 
 expressionList
     : primaryExpression PCDER
-    | primaryExpression COMA expressionList;
+    | primaryExpression COMA expressionList
+    ;
 
 expressionDict
     : dictionaryExpression DOSPUNTOS secondExpression LDER
-    | dictionaryExpression DOSPUNTOS secondExpression COMA expressionDict;
+    | dictionaryExpression DOSPUNTOS secondExpression COMA expressionDict
+    ;
 
 secondExpression
-    : LITERAL | expression;
-
+    : LITERAL | expression
+    ;
 
 dictionaryExpression
-    :DCOMILLAS IDENT DCOMILLAS;
+    : DCOMILLAS IDENT DCOMILLAS
+    ;
 
 primaryExpression
     : LITERAL
     ;
+
 primaryExpressionI
     : IDENT
     ;
+
 operator
     : SUMA | RESTA | MULT | DIV
     ;
 
 statement
-    :LET IDENT ( ASSIGN expression );
+    :LET IDENT ( ASSIGN expression )
+    ;
