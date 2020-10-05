@@ -7,6 +7,7 @@ options {
 program
     : singleCommand
     ;
+
 command
     : singleCommand ( PCOMA singleCommand )*
     ;
