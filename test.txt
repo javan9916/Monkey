@@ -1,4 +1,12 @@
 begin
-    x:=3;
-    y(4)
+    let age = 1;
+    let name = "Monkey";
+    let r = 10 * 20;
+    let result =  (20 / 2);
+    let myArray = [1, 2, 3, 4, 5];
+
+    let thorsten = {"name": "Thorsten", "age": 28 }
+
+
+
 end

@@ -1,4 +1,4 @@
-# Generated from C:/Users/Javier/PycharmProjects/Monkey\monkeyParser.g4 by ANTLR 4.8
+# Generated from E:/Almacenamiento/Tec/Semestre-II-2020/Compi/Proyecto Python/Monkey\monkeyParser.g4 by ANTLR 4.8
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .monkeyParser import monkeyParser
@@ -71,6 +71,42 @@ class monkeyParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by monkeyParser#expressionList.
+    def enterExpressionList(self, ctx:monkeyParser.ExpressionListContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#expressionList.
+    def exitExpressionList(self, ctx:monkeyParser.ExpressionListContext):
+        pass
+
+
+    # Enter a parse tree produced by monkeyParser#expressionDict.
+    def enterExpressionDict(self, ctx:monkeyParser.ExpressionDictContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#expressionDict.
+    def exitExpressionDict(self, ctx:monkeyParser.ExpressionDictContext):
+        pass
+
+
+    # Enter a parse tree produced by monkeyParser#secondExpression.
+    def enterSecondExpression(self, ctx:monkeyParser.SecondExpressionContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#secondExpression.
+    def exitSecondExpression(self, ctx:monkeyParser.SecondExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by monkeyParser#dictionaryExpression.
+    def enterDictionaryExpression(self, ctx:monkeyParser.DictionaryExpressionContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#dictionaryExpression.
+    def exitDictionaryExpression(self, ctx:monkeyParser.DictionaryExpressionContext):
+        pass
+
+
     # Enter a parse tree produced by monkeyParser#primaryExpression.
     def enterPrimaryExpression(self, ctx:monkeyParser.PrimaryExpressionContext):
         pass
@@ -80,12 +116,30 @@ class monkeyParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by monkeyParser#primaryExpressionI.
+    def enterPrimaryExpressionI(self, ctx:monkeyParser.PrimaryExpressionIContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#primaryExpressionI.
+    def exitPrimaryExpressionI(self, ctx:monkeyParser.PrimaryExpressionIContext):
+        pass
+
+
     # Enter a parse tree produced by monkeyParser#operator.
     def enterOperator(self, ctx:monkeyParser.OperatorContext):
         pass
 
     # Exit a parse tree produced by monkeyParser#operator.
     def exitOperator(self, ctx:monkeyParser.OperatorContext):
+        pass
+
+
+    # Enter a parse tree produced by monkeyParser#statement.
+    def enterStatement(self, ctx:monkeyParser.StatementContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#statement.
+    def exitStatement(self, ctx:monkeyParser.StatementContext):
         pass
 
 

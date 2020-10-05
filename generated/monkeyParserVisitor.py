@@ -1,4 +1,4 @@
-# Generated from C:/Users/Javier/PycharmProjects/Monkey\monkeyParser.g4 by ANTLR 4.8
+# Generated from E:/Almacenamiento/Tec/Semestre-II-2020/Compi/Proyecto Python/Monkey\monkeyParser.g4 by ANTLR 4.8
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .monkeyParser import monkeyParser
@@ -44,13 +44,43 @@ class monkeyParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by monkeyParser#expressionList.
+    def visitExpressionList(self, ctx:monkeyParser.ExpressionListContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#expressionDict.
+    def visitExpressionDict(self, ctx:monkeyParser.ExpressionDictContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#secondExpression.
+    def visitSecondExpression(self, ctx:monkeyParser.SecondExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#dictionaryExpression.
+    def visitDictionaryExpression(self, ctx:monkeyParser.DictionaryExpressionContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by monkeyParser#primaryExpression.
     def visitPrimaryExpression(self, ctx:monkeyParser.PrimaryExpressionContext):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by monkeyParser#primaryExpressionI.
+    def visitPrimaryExpressionI(self, ctx:monkeyParser.PrimaryExpressionIContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by monkeyParser#operator.
     def visitOperator(self, ctx:monkeyParser.OperatorContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#statement.
+    def visitStatement(self, ctx:monkeyParser.StatementContext):
         return self.visitChildren(ctx)
 
 

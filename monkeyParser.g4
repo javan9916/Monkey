@@ -9,11 +9,12 @@ program
     ;
 
 command
-    : singleCommand ( PCOMA singleCommand )*
+    : singleCommand ( PCOMA singleCommand  )*
     ;
 
+
 singleCommand
-    : IDENT ( ASSIGN expression | PIZQ expression PDER )
+    : statement
     | IF expression THEN singleCommand ELSE singleCommand
     | WHILE expression DO singleCommand
     | LET declaration IN singleCommand
@@ -34,13 +35,37 @@ typeDenoter
     ;
 
 expression
-    : primaryExpression ( operator primaryExpression )*
-    ;
+    : primaryExpression ( operator primaryExpression)*
+    | DCOMILLAS IDENT ( operator IDENT)*DCOMILLAS
+    | PIZQ primaryExpression ( operator primaryExpression PDER)*
+    | primaryExpression operator PIZQ primaryExpression ( operator primaryExpression PDER)*
+    | PCIZQ expressionList
+    | LIZQ expressionDict;
+
+expressionList
+    : primaryExpression PCDER
+    | primaryExpression COMA expressionList;
+
+expressionDict
+    : dictionaryExpression DOSPUNTOS secondExpression LDER
+    | dictionaryExpression DOSPUNTOS secondExpression COMA expressionDict;
+
+secondExpression
+    : LITERAL | expression;
+
+
+dictionaryExpression
+    :DCOMILLAS IDENT DCOMILLAS;
 
 primaryExpression
-    : LITERAL | IDENT | PIZQ expression PDER
+    : LITERAL
     ;
-
+primaryExpressionI
+    : IDENT
+    ;
 operator
     : SUMA | RESTA | MULT | DIV
     ;
+
+statement
+    :LET IDENT ( ASSIGN expression );
