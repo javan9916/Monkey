@@ -19,6 +19,7 @@ SUMA    : '+';
 RESTA   : '-';
 MULT    : '*';
 DIV     : '/';
+FN      : 'fn';
 
 // Palabras reservadas
 IF      : 'if';
@@ -32,11 +33,12 @@ BEGIN   : 'begin';
 END     : 'end';
 CONST   : 'const';
 VAR     : 'var';
-
+RETURN  : 'return';
 
 // Otros tokens
 IDENT   : LETRA (LETRA|DIGITO)*;
 LITERAL : DIGITO DIGITO*;
+
 
 fragment LETRA  : 'a'..'z' | 'A'..'Z';
 fragment DIGITO : '0'..'9';

@@ -125,6 +125,33 @@ class monkeyParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by monkeyParser#posArray.
+    def enterPosArray(self, ctx:monkeyParser.PosArrayContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#posArray.
+    def exitPosArray(self, ctx:monkeyParser.PosArrayContext):
+        pass
+
+
+    # Enter a parse tree produced by monkeyParser#elmentArray.
+    def enterElmentArray(self, ctx:monkeyParser.ElmentArrayContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#elmentArray.
+    def exitElmentArray(self, ctx:monkeyParser.ElmentArrayContext):
+        pass
+
+
+    # Enter a parse tree produced by monkeyParser#expressionFn.
+    def enterExpressionFn(self, ctx:monkeyParser.ExpressionFnContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#expressionFn.
+    def exitExpressionFn(self, ctx:monkeyParser.ExpressionFnContext):
+        pass
+
+
     # Enter a parse tree produced by monkeyParser#operator.
     def enterOperator(self, ctx:monkeyParser.OperatorContext):
         pass

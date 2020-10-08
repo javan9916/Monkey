@@ -74,6 +74,21 @@ class monkeyParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by monkeyParser#posArray.
+    def visitPosArray(self, ctx:monkeyParser.PosArrayContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#elmentArray.
+    def visitElmentArray(self, ctx:monkeyParser.ElmentArrayContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#expressionFn.
+    def visitExpressionFn(self, ctx:monkeyParser.ExpressionFnContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by monkeyParser#operator.
     def visitOperator(self, ctx:monkeyParser.OperatorContext):
         return self.visitChildren(ctx)

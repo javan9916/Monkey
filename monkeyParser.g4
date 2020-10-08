@@ -15,6 +15,8 @@ command
 
 singleCommand
     : statement
+    | posArray
+    |elmentArray
     | IF expression THEN singleCommand ELSE singleCommand
     | WHILE expression DO singleCommand
     | LET declaration IN singleCommand
@@ -41,6 +43,7 @@ expression
     | primaryExpression operator PIZQ primaryExpression ( operator primaryExpression PDER)*
     | PCIZQ expressionList
     | LIZQ expressionDict
+    | expressionFn
     ;
 
 expressionList
@@ -68,6 +71,15 @@ primaryExpression
 primaryExpressionI
     : IDENT
     ;
+
+posArray
+    :IDENT PCIZQ LITERAL PCDER;
+
+elmentArray
+    :IDENT PCIZQ DCOMILLAS IDENT ( operator IDENT)* DCOMILLAS PCDER;
+
+expressionFn
+    :FN PIZQ IDENT COMA IDENT PDER LIZQ RETURN IDENT SUMA IDENT LDER;
 
 operator
     : SUMA | RESTA | MULT | DIV
