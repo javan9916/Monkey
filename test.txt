@@ -11,6 +11,36 @@ begin
 
     thorsten["name"];
 
-    let add = fn(a,b){ return a + b}
+    let add = fn(a,b){ return a + b};
+
+    while(X == "HOLA"){
+        let x = 1
+    };
+
+    while(X == true){
+        let x = 1
+    };
+     while(true){
+        let x = 1
+    };
+
+    if(y=="hola"){
+        let x=1
+    }
+    else{
+        let y =1
+    };
+
+    if(Y ==  ){
+         let x=1
+    }
+    else{
+        let y =1
+    };
+
+    let fibonacci = fn(x) {
+        let age = 1;
+        let x = 2
+    }
 
 end

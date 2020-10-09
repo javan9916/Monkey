@@ -16,9 +16,9 @@ command
 singleCommand
     : statement
     | posArray
-    |elmentArray
-    | IF expression THEN singleCommand ELSE singleCommand
-    | WHILE expression DO singleCommand
+    | elmentArray
+    | ifExpression
+    | whileExpression
     | LET declaration IN singleCommand
     | BEGIN command END
     ;
@@ -44,6 +44,7 @@ expression
     | PCIZQ expressionList
     | LIZQ expressionDict
     | expressionFn
+    | expressionFnAux
     ;
 
 expressionList
@@ -80,6 +81,21 @@ elmentArray
 
 expressionFn
     :FN PIZQ IDENT COMA IDENT PDER LIZQ RETURN IDENT SUMA IDENT LDER;
+
+expressionFnAux
+    :FN PIZQ IDENT PDER LIZQ command LDER ;
+
+whileExpression
+    : WHILE PIZQ IDENT EQUAL DCOMILLAS IDENT DCOMILLAS PDER LIZQ singleCommand LDER
+    | WHILE PIZQ IDENT EQUAL (TRUE|FALSE) PDER LIZQ singleCommand LDER
+    | WHILE PIZQ TRUE PDER LIZQ singleCommand LDER;
+
+ifExpression
+    : IF PIZQ IDENT EQUAL DCOMILLAS IDENT DCOMILLAS PDER LIZQ  singleCommand LDER ELSE LIZQ singleCommand LDER
+    | IF PIZQ IDENT EQUAL (TRUE|FALSE) PDER LIZQ  singleCommand LDER ELSE LIZQ singleCommand LDER;
+
+expressionAux
+    :FN PIZQ IDENT PDER LIZQ command LDER ;
 
 operator
     : SUMA | RESTA | MULT | DIV

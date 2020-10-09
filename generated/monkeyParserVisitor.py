@@ -89,6 +89,26 @@ class monkeyParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by monkeyParser#expressionFnAux.
+    def visitExpressionFnAux(self, ctx:monkeyParser.ExpressionFnAuxContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#whileExpression.
+    def visitWhileExpression(self, ctx:monkeyParser.WhileExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#ifExpression.
+    def visitIfExpression(self, ctx:monkeyParser.IfExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#expressionAux.
+    def visitExpressionAux(self, ctx:monkeyParser.ExpressionAuxContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by monkeyParser#operator.
     def visitOperator(self, ctx:monkeyParser.OperatorContext):
         return self.visitChildren(ctx)

@@ -152,6 +152,42 @@ class monkeyParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by monkeyParser#expressionFnAux.
+    def enterExpressionFnAux(self, ctx:monkeyParser.ExpressionFnAuxContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#expressionFnAux.
+    def exitExpressionFnAux(self, ctx:monkeyParser.ExpressionFnAuxContext):
+        pass
+
+
+    # Enter a parse tree produced by monkeyParser#whileExpression.
+    def enterWhileExpression(self, ctx:monkeyParser.WhileExpressionContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#whileExpression.
+    def exitWhileExpression(self, ctx:monkeyParser.WhileExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by monkeyParser#ifExpression.
+    def enterIfExpression(self, ctx:monkeyParser.IfExpressionContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#ifExpression.
+    def exitIfExpression(self, ctx:monkeyParser.IfExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by monkeyParser#expressionAux.
+    def enterExpressionAux(self, ctx:monkeyParser.ExpressionAuxContext):
+        pass
+
+    # Exit a parse tree produced by monkeyParser#expressionAux.
+    def exitExpressionAux(self, ctx:monkeyParser.ExpressionAuxContext):
+        pass
+
+
     # Enter a parse tree produced by monkeyParser#operator.
     def enterOperator(self, ctx:monkeyParser.OperatorContext):
         pass

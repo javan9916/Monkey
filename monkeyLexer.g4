@@ -4,6 +4,7 @@ lexer grammar monkeyLexer;
 PCOMA       : ';';
 DOSPUNTOS   : ':';
 ASSIGN      : '=';
+EQUAL       : '==';
 LIZQ        : '{';
 LDER        : '}';
 PIZQ        : '(';
@@ -34,11 +35,12 @@ END     : 'end';
 CONST   : 'const';
 VAR     : 'var';
 RETURN  : 'return';
+TRUE    : 'true';
+FALSE   :'false';
 
 // Otros tokens
 IDENT   : LETRA (LETRA|DIGITO)*;
 LITERAL : DIGITO DIGITO*;
-
 
 fragment LETRA  : 'a'..'z' | 'A'..'Z';
 fragment DIGITO : '0'..'9';
