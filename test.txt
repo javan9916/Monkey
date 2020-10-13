@@ -1,46 +1,14 @@
-begin
-    let age = 1;
-    let name = "Monkey";
-    let r = 10 * 20;
-    let result =  (20 / 2);
-    let myArray = [1, 2, 3, 4, 5];
+let age = 1;
 
-    let thorsten = {"name": "Thorsten", "age": 28 };
+let name = "Monkey";
 
-    myArray[0];
+let result = 10 * (20 / 2);
 
-    thorsten["name"];
+let myArray = [1, 2, 3, 4, 5];
 
-    let add = fn(a,b){ return a + b};
+let thorsten = {"name": "Thorsten", "age": 28};
 
-    while(X == "HOLA"){
-        let x = 1
-    };
+myArray[0] // => 1
 
-    while(X == true){
-        let x = 1
-    };
-     while(true){
-        let x = 1
-    };
-
-    if(y=="hola"){
-        let x=1
-    }
-    else{
-        let y =1
-    };
-
-    if(Y == true){
-         let x=1
-    }
-    else{
-        let y =1
-    };
-
-    let fibonacci = fn(x) {
-        let age = 1;
-        let x = 2
-    }
-
-end
+thorsten["name"] // => "Thorsten
+comentario"

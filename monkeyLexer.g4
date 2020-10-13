@@ -17,7 +17,7 @@ COMA        : ',';
 MENOR       : '<';
 MAYOR       : '>';
 MENOREQUAL  : '<=';
-MAYOREQUAL : '>=';
+MAYOREQUAL  : '>=';
 
 // Operadores
 SUMA    : '+';
@@ -49,13 +49,20 @@ LAST    : 'last';
 REST    : 'rest';
 PUSH    : 'push';
 
-STRING  :'string';
-INTGER  :'integer';
+
+
 // Otros tokens
 IDENT   : LETRA (LETRA|DIGITO)*;
-Literal : DIGITO DIGITO*;
+INTEGER : DIGITO DIGITO*;
+STRING  : '"'LETRA(LETRA|DIGITO)*'"';
 
 fragment LETRA  : 'a'..'z' | 'A'..'Z';
 fragment DIGITO : '0'..'9';
 
-WS : [ \t\n\r]+ -> skip;
+WS  : [ \t\n\r]+ -> skip;
+COMMENT
+: '// => "' .*? '"' -> skip
+;
+LINE_COMMENT
+: '// =>' ~[\r\n]* -> skip
+;
