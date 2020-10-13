@@ -31,7 +31,7 @@ begin
         let y =1
     };
 
-    if(Y ==  ){
+    if(Y == true){
          let x=1
     }
     else{

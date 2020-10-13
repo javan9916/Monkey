@@ -14,6 +14,10 @@ PCDER       : ']';
 VIR         : '~';
 DCOMILLAS   : '"';
 COMA        : ',';
+MENOR       : '<';
+MAYOR       : '>';
+MENOREQUAL  : '<=';
+MAYOREQUAL : '>=';
 
 // Operadores
 SUMA    : '+';
@@ -36,11 +40,19 @@ CONST   : 'const';
 VAR     : 'var';
 RETURN  : 'return';
 TRUE    : 'true';
-FALSE   :'false';
+FALSE   : 'false';
+PUTS    : 'puts';
 
+LEN     : 'len';
+FIRST   : 'first';
+LAST    : 'last';
+REST    : 'rest';
+PUSH    : 'push';
+
+STRING  :'string';
 // Otros tokens
 IDENT   : LETRA (LETRA|DIGITO)*;
-LITERAL : DIGITO DIGITO*;
+Integer : DIGITO DIGITO*;
 
 fragment LETRA  : 'a'..'z' | 'A'..'Z';
 fragment DIGITO : '0'..'9';
