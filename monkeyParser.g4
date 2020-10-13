@@ -5,102 +5,102 @@ options {
 }
 
 program
-    : statement*;
+    : statement*                                                            #programAST;
 
 statement
-    : LET letStatement
-    | RETURN returnStatement
-    | expressionStatement;
+    : LET letStatement                                                      #letStatementAST
+    | RETURN returnStatement                                                #returnStatementAST
+    | expressionStatement                                                   #expressionStatemenAST;
 
 letStatement
-    : IDENT ASSIGN expression ( PCOMA | ε) ;
+    : IDENT ASSIGN expression ( PCOMA | )                                   #letIdentStatementAST;
 
 returnStatement
-    : expression ( PCOMA | ε) ;
+    : expression ( PCOMA | )                                                #returnExpressionStatementAST;
 
 expressionStatement
-    : expression ( PCOMA | ε);
+    : expression ( PCOMA | )                                                #expressionStatementAST;
 
 expression
-    : additionExpression comparison;
+    : additionExpression comparison                                         #expressionAST;
 
 comparison
-    : ((MENOR|MAYOR|MENOREQUAL|MAYOREQUAL|EQUAL) additionExpression)*;
+    : ((MENOR|MAYOR|MENOREQUAL|MAYOREQUAL|EQUAL) additionExpression)*       #comparisonAST;
 
 additionExpression
-    : multiplicationExpression additionFactor;
+    : multiplicationExpression additionFactor                               #additionExpressionAST;
 
 additionFactor
-    : ((SUMA|RESTA) multiplicationExpression)*;
+    : ((SUMA|RESTA) multiplicationExpression)*                              #additionFactorAST;
 
 multiplicationExpression
-    : elementExpression multiplicationFactor ;
+    : elementExpression multiplicationFactor                                #multiplicationExpressionAST;
 
 multiplicationFactor
-    : ((MULT|DIV) elementExpression)* ;
+    : ((MULT|DIV) elementExpression)*                                       #multiplicationFactorAST;
 
 elementExpression
-    : primitiveExpression (elementAccess | callExpression | ε) ;
+    : primitiveExpression (elementAccess | callExpression | )               #elementExpressionAST;
 
 elementAccess
-    : PCIZQ expression PCDER;
+    : PCIZQ expression PCDER                                                #elementAccessAST;
 
 callExpression
-    : PIZQ expressionList PDER;
+    : PIZQ expressionList PDER                                              #callExpressionAST;
 
 primitiveExpression
-    : Integer
-    | STRING
-    | IDENT
-    | TRUE
-    | FALSE
-    | PIZQ expression PDER
-    | arrayLiteral
-    | arrayFunctions PIZQ expressionList PDER
-    | functionLiteral
-    | hashLiteral
-    | printExpression
-    | ifExpression;
+    : INTEGER                                                               #primitiveExpressionIntegerAST
+    | STRING                                                                #primitiveExpressionStringAST
+    | IDENT                                                                 #primitiveExpressionIdentAST
+    | TRUE                                                                  #primitiveExpressionTrueAST
+    | FALSE                                                                 #primitiveExpressionFalseAST
+    | PIZQ expression PDER                                                  #primitiveExpressionExpressionAST
+    | arrayLiteral                                                          #primitiveExpressionarrayLiteralast
+    | arrayFunctions PIZQ expressionList PDER                               #primitiveExpressionarrayFunctionsAST
+    | functionLiteral                                                       #primitiveExpressionfunctionLiteralAST
+    | hashLiteral                                                           #primitiveExpressionhashLiteralAST
+    | printExpression                                                       #primitiveExpressionprintExpressionAST
+    | ifExpression                                                          #primitiveExpressionifExpressionAST;
 
 arrayFunctions
-    : LEN
-    | FIRST
-    | LAST
-    | REST
-    | PUSH;
+    : LEN                                                                   #arrayFunctionsLenAST
+    | FIRST                                                                 #arrayFunctionsFirstAST
+    | LAST                                                                  #arrayFunctionsLastAST
+    | REST                                                                  #arrayFunctionsRestAST
+    | PUSH                                                                  #arrayFunctionsPushAST;
 
 arrayLiteral
-    : PCIZQ expressionList PCDER;
+    : PCIZQ expressionList PCDER                                            #arrayLiteralAST;
 
 functionLiteral
-    :FN PIZQ functionParameters PDER blockStatement;
+    :FN PIZQ functionParameters PDER blockStatement                         #functionLiteralAST;
 
 functionParameters
-    : IDENT moreIdentifiers;
+    : IDENT moreIdentifiers                                                 #functionParametersAST;
 
 moreIdentifiers
-    : (COMA IDENT)*;
+    : (COMA IDENT)*                                                         #moreIdentifiersAST;
 
 hashLiteral
-    : LIZQ hashContent moreHashContent LDER ;
+    : LIZQ hashContent moreHashContent LDER                                 #hashLiteralAST;
 
 hashContent
-    : expression DOSPUNTOS expression;
+    : expression DOSPUNTOS expression                                       #hashContentAST;
 
 moreHashContent
-    : (COMA hashContent)*;
+    : (COMA hashContent)*                                                   #moreHashContentAST;
 
 expressionList
-    : expression moreExpressions | ε;
+    : expression (moreExpressions | )                                       #expressionListAST;
 
 moreExpressions
-    : (COMA expression)*;
+    : (COMA expression)*                                                    #moreExpressionsAST;
 
 printExpression
-    : PUTS PIZQ expression PDER;
+    : PUTS PIZQ expression PDER                                             #printExpressionAST;
 
 ifExpression
-    : IF expression blockStatement (ELSE blockStatement | ε);
+    : IF expression blockStatement (ELSE blockStatement | )                 #ifExpressionAST;
 
 blockStatement
-    : LIZQ statement* LDER;
+    : LIZQ statement* LDER                                                  #blockStatementAST;

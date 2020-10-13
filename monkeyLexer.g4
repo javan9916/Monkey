@@ -50,9 +50,10 @@ REST    : 'rest';
 PUSH    : 'push';
 
 STRING  :'string';
+INTGER  :'integer';
 // Otros tokens
 IDENT   : LETRA (LETRA|DIGITO)*;
-Integer : DIGITO DIGITO*;
+Literal : DIGITO DIGITO*;
 
 fragment LETRA  : 'a'..'z' | 'A'..'Z';
 fragment DIGITO : '0'..'9';
