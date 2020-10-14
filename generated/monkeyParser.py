@@ -1,4 +1,4 @@
-# Generated from E:/Almacenamiento/Tec/Semestre-II-2020/Compi/Proyecto Python/Monkey\monkeyParser.g4 by ANTLR 4.8
+# Generated from C:/Users/Javier/PycharmProjects/Monkey\monkeyParser.g4 by ANTLR 4.8
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -11,7 +11,7 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\60")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\62")
         buf.write("\u00e7\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
@@ -132,7 +132,7 @@ class monkeyParser ( Parser ):
                       "IF", "THEN", "ELSE", "WHILE", "DO", "LET", "IN", 
                       "BEGIN", "END", "CONST", "VAR", "RETURN", "TRUE", 
                       "FALSE", "PUTS", "LEN", "FIRST", "LAST", "REST", "PUSH", 
-                      "IDENT", "INTEGER", "STRING", "WS" ]
+                      "IDENT", "INTEGER", "STRING", "WS", "COMMENT", "LINE_COMMENT" ]
 
     RULE_program = 0
     RULE_statement = 1
@@ -220,6 +220,8 @@ class monkeyParser ( Parser ):
     INTEGER=44
     STRING=45
     WS=46
+    COMMENT=47
+    LINE_COMMENT=48
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -258,14 +260,6 @@ class monkeyParser ( Parser ):
             else:
                 return self.getTypedRuleContext(monkeyParser.StatementContext,i)
 
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterProgramAST" ):
-                listener.enterProgramAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitProgramAST" ):
-                listener.exitProgramAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitProgramAST" ):
@@ -330,14 +324,6 @@ class monkeyParser ( Parser ):
             return self.getTypedRuleContext(monkeyParser.LetStatementContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterLetStatementAST" ):
-                listener.enterLetStatementAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitLetStatementAST" ):
-                listener.exitLetStatementAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitLetStatementAST" ):
                 return visitor.visitLetStatementAST(self)
@@ -357,14 +343,6 @@ class monkeyParser ( Parser ):
             return self.getTypedRuleContext(monkeyParser.ReturnStatementContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterReturnStatementAST" ):
-                listener.enterReturnStatementAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitReturnStatementAST" ):
-                listener.exitReturnStatementAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitReturnStatementAST" ):
                 return visitor.visitReturnStatementAST(self)
@@ -381,14 +359,6 @@ class monkeyParser ( Parser ):
         def expressionStatement(self):
             return self.getTypedRuleContext(monkeyParser.ExpressionStatementContext,0)
 
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpressionStatemenAST" ):
-                listener.enterExpressionStatemenAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpressionStatemenAST" ):
-                listener.exitExpressionStatemenAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitExpressionStatemenAST" ):
@@ -472,14 +442,6 @@ class monkeyParser ( Parser ):
         def PCOMA(self):
             return self.getToken(monkeyParser.PCOMA, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterLetIdentStatementAST" ):
-                listener.enterLetIdentStatementAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitLetIdentStatementAST" ):
-                listener.exitLetIdentStatementAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitLetIdentStatementAST" ):
                 return visitor.visitLetIdentStatementAST(self)
@@ -550,14 +512,6 @@ class monkeyParser ( Parser ):
         def PCOMA(self):
             return self.getToken(monkeyParser.PCOMA, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterReturnExpressionStatementAST" ):
-                listener.enterReturnExpressionStatementAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitReturnExpressionStatementAST" ):
-                listener.exitReturnExpressionStatementAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitReturnExpressionStatementAST" ):
                 return visitor.visitReturnExpressionStatementAST(self)
@@ -623,14 +577,6 @@ class monkeyParser ( Parser ):
 
         def PCOMA(self):
             return self.getToken(monkeyParser.PCOMA, 0)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpressionStatementAST" ):
-                listener.enterExpressionStatementAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpressionStatementAST" ):
-                listener.exitExpressionStatementAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitExpressionStatementAST" ):
@@ -698,14 +644,6 @@ class monkeyParser ( Parser ):
         def comparison(self):
             return self.getTypedRuleContext(monkeyParser.ComparisonContext,0)
 
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpressionAST" ):
-                listener.enterExpressionAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpressionAST" ):
-                listener.exitExpressionAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitExpressionAST" ):
@@ -789,14 +727,6 @@ class monkeyParser ( Parser ):
             else:
                 return self.getToken(monkeyParser.EQUAL, i)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterComparisonAST" ):
-                listener.enterComparisonAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitComparisonAST" ):
-                listener.exitComparisonAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitComparisonAST" ):
                 return visitor.visitComparisonAST(self)
@@ -868,14 +798,6 @@ class monkeyParser ( Parser ):
             return self.getTypedRuleContext(monkeyParser.AdditionFactorContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterAdditionExpressionAST" ):
-                listener.enterAdditionExpressionAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitAdditionExpressionAST" ):
-                listener.exitAdditionExpressionAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitAdditionExpressionAST" ):
                 return visitor.visitAdditionExpressionAST(self)
@@ -942,14 +864,6 @@ class monkeyParser ( Parser ):
                 return self.getTokens(monkeyParser.RESTA)
             else:
                 return self.getToken(monkeyParser.RESTA, i)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterAdditionFactorAST" ):
-                listener.enterAdditionFactorAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitAdditionFactorAST" ):
-                listener.exitAdditionFactorAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitAdditionFactorAST" ):
@@ -1022,14 +936,6 @@ class monkeyParser ( Parser ):
             return self.getTypedRuleContext(monkeyParser.MultiplicationFactorContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMultiplicationExpressionAST" ):
-                listener.enterMultiplicationExpressionAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMultiplicationExpressionAST" ):
-                listener.exitMultiplicationExpressionAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitMultiplicationExpressionAST" ):
                 return visitor.visitMultiplicationExpressionAST(self)
@@ -1096,14 +1002,6 @@ class monkeyParser ( Parser ):
                 return self.getTokens(monkeyParser.DIV)
             else:
                 return self.getToken(monkeyParser.DIV, i)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMultiplicationFactorAST" ):
-                listener.enterMultiplicationFactorAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMultiplicationFactorAST" ):
-                listener.exitMultiplicationFactorAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitMultiplicationFactorAST" ):
@@ -1179,14 +1077,6 @@ class monkeyParser ( Parser ):
             return self.getTypedRuleContext(monkeyParser.CallExpressionContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterElementExpressionAST" ):
-                listener.enterElementExpressionAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitElementExpressionAST" ):
-                listener.exitElementExpressionAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitElementExpressionAST" ):
                 return visitor.visitElementExpressionAST(self)
@@ -1260,14 +1150,6 @@ class monkeyParser ( Parser ):
         def PCDER(self):
             return self.getToken(monkeyParser.PCDER, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterElementAccessAST" ):
-                listener.enterElementAccessAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitElementAccessAST" ):
-                listener.exitElementAccessAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitElementAccessAST" ):
                 return visitor.visitElementAccessAST(self)
@@ -1328,14 +1210,6 @@ class monkeyParser ( Parser ):
         def PDER(self):
             return self.getToken(monkeyParser.PDER, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCallExpressionAST" ):
-                listener.enterCallExpressionAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCallExpressionAST" ):
-                listener.exitCallExpressionAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitCallExpressionAST" ):
                 return visitor.visitCallExpressionAST(self)
@@ -1391,14 +1265,6 @@ class monkeyParser ( Parser ):
         def STRING(self):
             return self.getToken(monkeyParser.STRING, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionStringAST" ):
-                listener.enterPrimitiveExpressionStringAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionStringAST" ):
-                listener.exitPrimitiveExpressionStringAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionStringAST" ):
                 return visitor.visitPrimitiveExpressionStringAST(self)
@@ -1415,14 +1281,6 @@ class monkeyParser ( Parser ):
         def hashLiteral(self):
             return self.getTypedRuleContext(monkeyParser.HashLiteralContext,0)
 
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionhashLiteralAST" ):
-                listener.enterPrimitiveExpressionhashLiteralAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionhashLiteralAST" ):
-                listener.exitPrimitiveExpressionhashLiteralAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionhashLiteralAST" ):
@@ -1441,14 +1299,6 @@ class monkeyParser ( Parser ):
             return self.getTypedRuleContext(monkeyParser.PrintExpressionContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionprintExpressionAST" ):
-                listener.enterPrimitiveExpressionprintExpressionAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionprintExpressionAST" ):
-                listener.exitPrimitiveExpressionprintExpressionAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionprintExpressionAST" ):
                 return visitor.visitPrimitiveExpressionprintExpressionAST(self)
@@ -1464,14 +1314,6 @@ class monkeyParser ( Parser ):
 
         def TRUE(self):
             return self.getToken(monkeyParser.TRUE, 0)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionTrueAST" ):
-                listener.enterPrimitiveExpressionTrueAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionTrueAST" ):
-                listener.exitPrimitiveExpressionTrueAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionTrueAST" ):
@@ -1494,14 +1336,6 @@ class monkeyParser ( Parser ):
         def PDER(self):
             return self.getToken(monkeyParser.PDER, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionExpressionAST" ):
-                listener.enterPrimitiveExpressionExpressionAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionExpressionAST" ):
-                listener.exitPrimitiveExpressionExpressionAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionExpressionAST" ):
                 return visitor.visitPrimitiveExpressionExpressionAST(self)
@@ -1518,14 +1352,6 @@ class monkeyParser ( Parser ):
         def IDENT(self):
             return self.getToken(monkeyParser.IDENT, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionIdentAST" ):
-                listener.enterPrimitiveExpressionIdentAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionIdentAST" ):
-                listener.exitPrimitiveExpressionIdentAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionIdentAST" ):
                 return visitor.visitPrimitiveExpressionIdentAST(self)
@@ -1541,14 +1367,6 @@ class monkeyParser ( Parser ):
 
         def INTEGER(self):
             return self.getToken(monkeyParser.INTEGER, 0)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionIntegerAST" ):
-                listener.enterPrimitiveExpressionIntegerAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionIntegerAST" ):
-                listener.exitPrimitiveExpressionIntegerAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionIntegerAST" ):
@@ -1574,14 +1392,6 @@ class monkeyParser ( Parser ):
         def PDER(self):
             return self.getToken(monkeyParser.PDER, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionarrayFunctionsAST" ):
-                listener.enterPrimitiveExpressionarrayFunctionsAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionarrayFunctionsAST" ):
-                listener.exitPrimitiveExpressionarrayFunctionsAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionarrayFunctionsAST" ):
                 return visitor.visitPrimitiveExpressionarrayFunctionsAST(self)
@@ -1599,14 +1409,6 @@ class monkeyParser ( Parser ):
             return self.getTypedRuleContext(monkeyParser.IfExpressionContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionifExpressionAST" ):
-                listener.enterPrimitiveExpressionifExpressionAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionifExpressionAST" ):
-                listener.exitPrimitiveExpressionifExpressionAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionifExpressionAST" ):
                 return visitor.visitPrimitiveExpressionifExpressionAST(self)
@@ -1622,14 +1424,6 @@ class monkeyParser ( Parser ):
 
         def FALSE(self):
             return self.getToken(monkeyParser.FALSE, 0)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionFalseAST" ):
-                listener.enterPrimitiveExpressionFalseAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionFalseAST" ):
-                listener.exitPrimitiveExpressionFalseAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionFalseAST" ):
@@ -1648,14 +1442,6 @@ class monkeyParser ( Parser ):
             return self.getTypedRuleContext(monkeyParser.ArrayLiteralContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionarrayLiteralast" ):
-                listener.enterPrimitiveExpressionarrayLiteralast(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionarrayLiteralast" ):
-                listener.exitPrimitiveExpressionarrayLiteralast(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionarrayLiteralast" ):
                 return visitor.visitPrimitiveExpressionarrayLiteralast(self)
@@ -1672,14 +1458,6 @@ class monkeyParser ( Parser ):
         def functionLiteral(self):
             return self.getTypedRuleContext(monkeyParser.FunctionLiteralContext,0)
 
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpressionfunctionLiteralAST" ):
-                listener.enterPrimitiveExpressionfunctionLiteralAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpressionfunctionLiteralAST" ):
-                listener.exitPrimitiveExpressionfunctionLiteralAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionfunctionLiteralAST" ):
@@ -1816,14 +1594,6 @@ class monkeyParser ( Parser ):
         def REST(self):
             return self.getToken(monkeyParser.REST, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArrayFunctionsRestAST" ):
-                listener.enterArrayFunctionsRestAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArrayFunctionsRestAST" ):
-                listener.exitArrayFunctionsRestAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitArrayFunctionsRestAST" ):
                 return visitor.visitArrayFunctionsRestAST(self)
@@ -1839,14 +1609,6 @@ class monkeyParser ( Parser ):
 
         def FIRST(self):
             return self.getToken(monkeyParser.FIRST, 0)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArrayFunctionsFirstAST" ):
-                listener.enterArrayFunctionsFirstAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArrayFunctionsFirstAST" ):
-                listener.exitArrayFunctionsFirstAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitArrayFunctionsFirstAST" ):
@@ -1864,14 +1626,6 @@ class monkeyParser ( Parser ):
         def LAST(self):
             return self.getToken(monkeyParser.LAST, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArrayFunctionsLastAST" ):
-                listener.enterArrayFunctionsLastAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArrayFunctionsLastAST" ):
-                listener.exitArrayFunctionsLastAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitArrayFunctionsLastAST" ):
                 return visitor.visitArrayFunctionsLastAST(self)
@@ -1888,14 +1642,6 @@ class monkeyParser ( Parser ):
         def PUSH(self):
             return self.getToken(monkeyParser.PUSH, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArrayFunctionsPushAST" ):
-                listener.enterArrayFunctionsPushAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArrayFunctionsPushAST" ):
-                listener.exitArrayFunctionsPushAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitArrayFunctionsPushAST" ):
                 return visitor.visitArrayFunctionsPushAST(self)
@@ -1911,14 +1657,6 @@ class monkeyParser ( Parser ):
 
         def LEN(self):
             return self.getToken(monkeyParser.LEN, 0)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArrayFunctionsLenAST" ):
-                listener.enterArrayFunctionsLenAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArrayFunctionsLenAST" ):
-                listener.exitArrayFunctionsLenAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitArrayFunctionsLenAST" ):
@@ -2008,14 +1746,6 @@ class monkeyParser ( Parser ):
         def PCDER(self):
             return self.getToken(monkeyParser.PCDER, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArrayLiteralAST" ):
-                listener.enterArrayLiteralAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArrayLiteralAST" ):
-                listener.exitArrayLiteralAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitArrayLiteralAST" ):
                 return visitor.visitArrayLiteralAST(self)
@@ -2081,14 +1811,6 @@ class monkeyParser ( Parser ):
             return self.getTypedRuleContext(monkeyParser.BlockStatementContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterFunctionLiteralAST" ):
-                listener.enterFunctionLiteralAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitFunctionLiteralAST" ):
-                listener.exitFunctionLiteralAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitFunctionLiteralAST" ):
                 return visitor.visitFunctionLiteralAST(self)
@@ -2151,14 +1873,6 @@ class monkeyParser ( Parser ):
             return self.getTypedRuleContext(monkeyParser.MoreIdentifiersContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterFunctionParametersAST" ):
-                listener.enterFunctionParametersAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitFunctionParametersAST" ):
-                listener.exitFunctionParametersAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitFunctionParametersAST" ):
                 return visitor.visitFunctionParametersAST(self)
@@ -2219,14 +1933,6 @@ class monkeyParser ( Parser ):
                 return self.getTokens(monkeyParser.IDENT)
             else:
                 return self.getToken(monkeyParser.IDENT, i)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMoreIdentifiersAST" ):
-                listener.enterMoreIdentifiersAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMoreIdentifiersAST" ):
-                listener.exitMoreIdentifiersAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitMoreIdentifiersAST" ):
@@ -2298,14 +2004,6 @@ class monkeyParser ( Parser ):
         def LDER(self):
             return self.getToken(monkeyParser.LDER, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterHashLiteralAST" ):
-                listener.enterHashLiteralAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitHashLiteralAST" ):
-                listener.exitHashLiteralAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitHashLiteralAST" ):
                 return visitor.visitHashLiteralAST(self)
@@ -2368,14 +2066,6 @@ class monkeyParser ( Parser ):
 
         def DOSPUNTOS(self):
             return self.getToken(monkeyParser.DOSPUNTOS, 0)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterHashContentAST" ):
-                listener.enterHashContentAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitHashContentAST" ):
-                listener.exitHashContentAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitHashContentAST" ):
@@ -2440,14 +2130,6 @@ class monkeyParser ( Parser ):
             else:
                 return self.getTypedRuleContext(monkeyParser.HashContentContext,i)
 
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMoreHashContentAST" ):
-                listener.enterMoreHashContentAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMoreHashContentAST" ):
-                listener.exitMoreHashContentAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitMoreHashContentAST" ):
@@ -2514,14 +2196,6 @@ class monkeyParser ( Parser ):
         def moreExpressions(self):
             return self.getTypedRuleContext(monkeyParser.MoreExpressionsContext,0)
 
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpressionListAST" ):
-                listener.enterExpressionListAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpressionListAST" ):
-                listener.exitExpressionListAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitExpressionListAST" ):
@@ -2595,14 +2269,6 @@ class monkeyParser ( Parser ):
                 return self.getTypedRuleContext(monkeyParser.ExpressionContext,i)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMoreExpressionsAST" ):
-                listener.enterMoreExpressionsAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMoreExpressionsAST" ):
-                listener.exitMoreExpressionsAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitMoreExpressionsAST" ):
                 return visitor.visitMoreExpressionsAST(self)
@@ -2672,14 +2338,6 @@ class monkeyParser ( Parser ):
         def PDER(self):
             return self.getToken(monkeyParser.PDER, 0)
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrintExpressionAST" ):
-                listener.enterPrintExpressionAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrintExpressionAST" ):
-                listener.exitPrintExpressionAST(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrintExpressionAST" ):
                 return visitor.visitPrintExpressionAST(self)
@@ -2747,14 +2405,6 @@ class monkeyParser ( Parser ):
 
         def ELSE(self):
             return self.getToken(monkeyParser.ELSE, 0)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterIfExpressionAST" ):
-                listener.enterIfExpressionAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitIfExpressionAST" ):
-                listener.exitIfExpressionAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitIfExpressionAST" ):
@@ -2832,14 +2482,6 @@ class monkeyParser ( Parser ):
             else:
                 return self.getTypedRuleContext(monkeyParser.StatementContext,i)
 
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterBlockStatementAST" ):
-                listener.enterBlockStatementAST(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitBlockStatementAST" ):
-                listener.exitBlockStatementAST(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitBlockStatementAST" ):

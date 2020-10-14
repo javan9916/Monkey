@@ -6,7 +6,7 @@ let result = 10 * (20 / 2);
 
 let myArray = [1, 2, 3, 4, 5];
 
-let thorsten = {"name": "Thorsten", "age": 28};
+let thorsten * {"name": "Thorsten", "age": 28};
 
 myArray[0] // => 1
 
