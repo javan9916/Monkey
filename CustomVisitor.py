@@ -44,6 +44,7 @@ class CustomVisitor(monkeyParserVisitor):
                 self.output += (self.addTabs(self.cantTabs - 1) + "- PCOMA: \"" + ctx.PCOMA().__str__() + "\"\n")
             else:
                 self.output += (self.addTabs(self.cantTabs + 1) + "- PCOMA: \"" + ctx.PCOMA().__str__() + "\"\n")
+
         self.cantTabs -= 1
         return None
 
@@ -58,6 +59,7 @@ class CustomVisitor(monkeyParserVisitor):
                 self.output += (self.addTabs(self.cantTabs - 1) + "- PCOMA: \"" + ctx.PCOMA().__str__() + "\"\n")
             else:
                 self.output += (self.addTabs(self.cantTabs + 1) + "- PCOMA: \"" + ctx.PCOMA().__str__() + "\"\n")
+
         self.cantTabs -= 1
         return None
 
@@ -159,6 +161,7 @@ class CustomVisitor(monkeyParserVisitor):
         self.output += (self.addTabs(self.cantTabs) + "- PIZQ: \"" + ctx.PIZQ().__str__() + "\"\n")
         self.cantTabs += 1
         self.visit(ctx.expressionList())
+        self.cantTabs += 2
         self.output += (self.addTabs(self.cantTabs) + "- PDER: \"" + ctx.PDER().__str__() + "\"\n")
         return None
 
@@ -320,11 +323,12 @@ class CustomVisitor(monkeyParserVisitor):
                 self.fromFunc = True
                 self.visit(ctx.statement()[i])
                 self.fromFunc = False
-                self.cantTabs -= 1
             else:
                 break
             i += 1
-        self.output += (self.addTabs(self.cantTabs + 2) + "- LDER: \"" + ctx.LDER().__str__() + "\"\n")
+
+        self.output += (self.addTabs(self.cantTabs) + "- LDER: \"" + ctx.LDER().__str__() + "\"\n")
+        self.cantTabs -= 1
         return None
 
     def visitFunctionParametersAST(self, ctx: monkeyParser.FunctionParametersASTContext):
@@ -424,9 +428,7 @@ class CustomVisitor(monkeyParserVisitor):
         self.output += (self.addTabs(self.cantTabs) + "- LDER: \"" + ctx.LDER().__str__() + "\"\n")
 
         if not (ctx.elseExpression() is None):
-            self.cantTabs += 1
             self.visit(ctx.elseExpression())
-            self.cantTabs -= 1
 
         self.cantTabs -= 1
         return None
