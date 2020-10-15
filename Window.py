@@ -700,6 +700,7 @@ class Output(wx.Frame):
 
         self.control.Bind(stc.EVT_STC_UPDATEUI, self.Scroll)
         self.control.SetValue(output)
+        self.control.SetEditable(False)
 
     def Margins(self):
         self.control.SetViewWhiteSpace(False)
