@@ -684,14 +684,13 @@ class Window(wx.Frame):
 class Output(wx.Frame):
 
     def __init__(self, parent, title, output):
-        wx.Frame.__init__(self, parent, title=title, size=(1000, 645), style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
-
+        wx.Frame.__init__(self, parent, title=title, size=(1600, 645), style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
         icon = wx.Icon()
         icon.CopyFromBitmap(wx.Bitmap("icons/favicon.png", wx.BITMAP_TYPE_ANY))
         self.ShowFullScreen(False)
         self.SetIcon(icon)
 
-        panel2 = wx.lib.scrolledpanel.ScrolledPanel(self, -1, size=(1000, 617), pos=(0, 28),
+        panel2 = wx.lib.scrolledpanel.ScrolledPanel(self, -1, size=(1600, 617), pos=(0, 28),
                                                     style=wx.SIMPLE_BORDER)
         panel2.SetupScrolling()
         panel2.SetBackgroundColour('#FFFFFF')
@@ -709,6 +708,7 @@ class Output(wx.Frame):
 
         self.SetBackgroundColour('#FDDF99')
         self.Center()
+        self.CreateStatusBar()
         self.Show()
 
 

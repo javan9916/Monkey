@@ -92,8 +92,11 @@ printExpression
     ;
 
 ifExpression
-    : IF expression LIZQ statement* LDER
-    (ELSE LIZQ statement* LDER | )                                  #ifExpressionAST
+    : IF expression LIZQ statement* LDER ( elseExpression | )       #ifExpressionAST
+    ;
+
+elseExpression
+    : ELSE LIZQ statement* LDER                                     #elseExpressionAST
     ;
 
 multOperators

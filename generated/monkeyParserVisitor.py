@@ -184,6 +184,11 @@ class monkeyParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by monkeyParser#elseExpressionAST.
+    def visitElseExpressionAST(self, ctx:monkeyParser.ElseExpressionASTContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by monkeyParser#multOperators.
     def visitMultOperators(self, ctx:monkeyParser.MultOperatorsContext):
         return self.visitChildren(ctx)
