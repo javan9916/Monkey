@@ -1,18 +1,22 @@
 from generated.monkeyParserVisitor import monkeyParserVisitor
 from generated.monkeyParser import monkeyParser
 
+
 class CustomVisitor(monkeyParserVisitor):
     cantTabs = 0
+    output = ""
 
-    def printTabs(self, cantTabs):
+    def getOutput(self):
+        return self.output
+
+    def addTabs(self, cantTabs):
         res = ""
         for i in range(cantTabs):
             res += "|\t"
         return res
 
     def visitProgramAST(self, ctx: monkeyParser.ProgramASTContext):
-        print(self.printTabs(self.cantTabs) + "- Program")
-        self.cantTabs += 1
+        self.output += self.addTabs(self.cantTabs) + "- Program\n"
         i = 0
         while True:
             if i < len(ctx.statement()) - 1:
@@ -27,59 +31,36 @@ class CustomVisitor(monkeyParserVisitor):
         return None
 
     def visitLetStatementAST(self, ctx: monkeyParser.LetStatementASTContext):
-        print(self.printTabs(self.cantTabs) + "- Let Statement")
+        self.output += (self.addTabs(self.cantTabs) + "- Let Statement: \"" +
+                        ctx.LET().__str__() + "\"\n")
         self.cantTabs += 1
-        self.visit(ctx.letStatement())
+        self.visit(ctx.expression())
         self.cantTabs -= 1
         return None
 
     def visitReturnStatementAST(self, ctx: monkeyParser.ReturnStatementASTContext):
-        print(self.printTabs(self.cantTabs) + "- Return Statement")
-        self.cantTabs += 1
-        self.visit(ctx.returnStatement())
-        self.cantTabs -= 1
-        return None
-
-    def visitExpressionStatemenAST(self, ctx: monkeyParser.ExpressionStatemenASTContext):
-        print(self.printTabs(self.cantTabs) + "- Expression Statement")
-        self.cantTabs += 1
-        self.visit(ctx.expressionStatement())
-        self.cantTabs -= 1
-        return None
-
-    def visitLetIdentStatementAST(self, ctx: monkeyParser.LetIdentStatementASTContext):
-        print(self.printTabs(self.cantTabs) + "- Let Identification Statement")
+        self.output += (self.addTabs(self.cantTabs) + "- Return Statement\"" +
+                        ctx.RETURN().__str__() + "\"\n")
         self.cantTabs += 1
         self.visit(ctx.expression())
         self.cantTabs -= 1
-        return None
 
-    def visitReturnExpressionStatementAST(self, ctx: monkeyParser.ReturnExpressionStatementASTContext):
-        print(self.printTabs(self.cantTabs) + "- Return Expression Statement")
-        self.cantTabs += 1
-        self.visit(ctx.expression())
-        self.cantTabs -= 1
         return None
 
     def visitExpressionStatementAST(self, ctx: monkeyParser.ExpressionStatementASTContext):
-        print(self.printTabs(self.cantTabs) + "- Expression Statement")
+        self.output += (self.addTabs(self.cantTabs) + "- Expression Statement\n")
         self.cantTabs += 1
         self.visit(ctx.expression())
         self.cantTabs -= 1
         return None
 
     def visitExpressionAST(self, ctx: monkeyParser.ExpressionASTContext):
-        print(self.printTabs(self.cantTabs) + "- Expression")
+        if self.getExpression(ctx) == "[]":
+            self.output += (self.addTabs(self.cantTabs) + "- Expression: \"" +
+                            self.getExpression(ctx) + "\"\n")
         self.cantTabs += 1
-        self.visit(ctx.additionExpression())
-        self.visit(ctx.comparison())
-        self.cantTabs -= 1
-        return None
-
-    def visitComparisonAST(self, ctx: monkeyParser.ComparisonASTContext):
-        print(self.printTabs(self.cantTabs) + "- Comparison")
-        self.cantTabs += 1
-        i = 1
+        self.visit(ctx.additionExpression(0))
+        i = 0
         while True:
             if i < len(ctx.additionExpression()) - 1:
                 self.cantTabs += 1
@@ -93,17 +74,10 @@ class CustomVisitor(monkeyParserVisitor):
         return None
 
     def visitAdditionExpressionAST(self, ctx: monkeyParser.AdditionExpressionASTContext):
-        print(self.printTabs(self.cantTabs) + "- Addition Expression")
+        self.output += self.addTabs(self.cantTabs) + "- Addition Expression\n"
         self.cantTabs += 1
-        self.visit(ctx.multiplicationExpression())
-        self.visit(ctx.additionFactor())
-        self.cantTabs -= 1
-        return None
-
-    def visitAdditionFactorAST(self, ctx: monkeyParser.AdditionFactorASTContext):
-        print(self.printTabs(self.cantTabs) + "- Addition Factor")
-        self.cantTabs += 1
-        i = 1
+        self.visit(ctx.multiplicationExpression(0))
+        i = 0
         while True:
             if i < len(ctx.multiplicationExpression()) - 1:
                 self.cantTabs += 1
@@ -117,17 +91,10 @@ class CustomVisitor(monkeyParserVisitor):
         return None
 
     def visitMultiplicationExpressionAST(self, ctx: monkeyParser.MultiplicationExpressionASTContext):
-        print(self.printTabs(self.cantTabs) + "- Multiplication Expression")
+        self.output += self.addTabs(self.cantTabs) + "- Multiplication Expression\n"
         self.cantTabs += 1
-        self.visit(ctx.elementExpression())
-        self.visit(ctx.multiplicationFactor())
-        self.cantTabs -= 1
-        return None
-
-    def visitMultiplicationFactorAST(self, ctx: monkeyParser.MultiplicationFactorASTContext):
-        print(self.printTabs(self.cantTabs) + "- Multiplication Factor")
-        self.cantTabs += 1
-        i = 1
+        self.visit(ctx.elementExpression(0))
+        i = 0
         while True:
             if i < len(ctx.elementExpression()) - 1:
                 self.cantTabs += 1
@@ -141,129 +108,131 @@ class CustomVisitor(monkeyParserVisitor):
         return None
 
     def visitElementExpressionAST(self, ctx: monkeyParser.ElementExpressionASTContext):
-        print(self.printTabs(self.cantTabs) + "- Element Expression")
+        self.output += self.addTabs(self.cantTabs) + "- Element Expression\n"
         self.cantTabs += 1
         self.visit(ctx.primitiveExpression())
-        if not(ctx.elementAccess() is None):
+        if not (ctx.elementAccess() is None):
             self.visit(ctx.elementAccess())
-        elif not(ctx.callExpression() is None):
+        elif not (ctx.callExpression() is None):
             self.visit(ctx.callExpression())
         self.cantTabs -= 1
         return None
 
     def visitElementAccessAST(self, ctx: monkeyParser.ElementAccessASTContext):
-        print(self.printTabs(self.cantTabs) + "- Element Access")
+        self.output += self.addTabs(self.cantTabs) + "- Element Access\n"
         self.cantTabs += 1
         self.visit(ctx.expression())
         self.cantTabs -= 1
         return None
 
     def visitCallExpressionAST(self, ctx: monkeyParser.CallExpressionASTContext):
-        print(self.printTabs(self.cantTabs) + "- Call Expression")
+        self.output += self.addTabs(self.cantTabs) + "- Call Expression\n"
         self.cantTabs += 1
         self.visit(ctx.expressionList())
         self.cantTabs -= 1
         return None
 
     def visitPrimitiveExpressionIntegerAST(self, ctx: monkeyParser.PrimitiveExpressionIntegerASTContext):
-        print(self.printTabs(self.cantTabs) + "- Integer")
+        self.output += self.addTabs(self.cantTabs) + "- Integer\n"
         return None
 
     def visitPrimitiveExpressionStringAST(self, ctx: monkeyParser.PrimitiveExpressionStringASTContext):
-        print(self.printTabs(self.cantTabs) + "- String")
+        self.output += self.addTabs(self.cantTabs) + "- String\n"
         return None
 
     def visitPrimitiveExpressionIdentAST(self, ctx: monkeyParser.PrimitiveExpressionIdentASTContext):
-        print(self.printTabs(self.cantTabs) + "- Identifier")
+        self.output += self.addTabs(self.cantTabs) + "- Identifier\n"
         return None
 
     def visitPrimitiveExpressionTrueAST(self, ctx: monkeyParser.PrimitiveExpressionTrueASTContext):
-        print(self.printTabs(self.cantTabs) + "- True")
+        self.output += self.addTabs(self.cantTabs) + "- True\n"
         return None
 
     def visitPrimitiveExpressionFalseAST(self, ctx: monkeyParser.PrimitiveExpressionFalseASTContext):
-        print(self.printTabs(self.cantTabs) + "- False")
+        self.output += self.addTabs(self.cantTabs) + "- False\n"
         return None
 
     def visitPrimitiveExpressionExpressionAST(self, ctx: monkeyParser.PrimitiveExpressionExpressionASTContext):
-        print(self.printTabs(self.cantTabs) + "- Primitive Expression Expression")
+        self.output += self.addTabs(self.cantTabs) + "- Primitive Expression Expression\n"
         self.cantTabs += 1
         self.visit(ctx.expression())
         self.cantTabs -= 1
         return None
 
     def visitPrimitiveExpressionarrayLiteralast(self, ctx: monkeyParser.PrimitiveExpressionarrayLiteralastContext):
-        print(self.printTabs(self.cantTabs) + "- Primitive Expression Array Literal")
+        self.output += self.addTabs(self.cantTabs) + "- Primitive Expression Array Literal\n"
         self.cantTabs += 1
         self.visit(ctx.arrayLiteral())
         self.cantTabs -= 1
         return None
 
     def visitPrimitiveExpressionarrayFunctionsAST(self, ctx: monkeyParser.PrimitiveExpressionarrayFunctionsASTContext):
-        print(self.printTabs(self.cantTabs) + "- Primitive Expression Array Function")
+        self.output += self.addTabs(self.cantTabs) + "- Primitive Expression Array Function\n"
         self.cantTabs += 1
         self.visit(ctx.arrayFunctions())
         self.visit(ctx.expressionList())
         self.cantTabs -= 1
         return None
 
-    def visitPrimitiveExpressionfunctionLiteralAST(self, ctx: monkeyParser.PrimitiveExpressionfunctionLiteralASTContext):
-        print(self.printTabs(self.cantTabs) + "- Primitive Expression Function Literal")
+    def visitPrimitiveExpressionfunctionLiteralAST(self,
+                                                   ctx: monkeyParser.PrimitiveExpressionfunctionLiteralASTContext):
+        self.output += self.addTabs(self.cantTabs) + "- Primitive Expression Function Literal\n"
         self.cantTabs += 1
         self.visit(ctx.functionLiteral())
         self.cantTabs -= 1
         return None
 
     def visitPrimitiveExpressionhashLiteralAST(self, ctx: monkeyParser.PrimitiveExpressionhashLiteralASTContext):
-        print(self.printTabs(self.cantTabs) + "- Primitive Expression Hash Literal")
+        self.output += self.addTabs(self.cantTabs) + "- Primitive Expression Hash Literal\n"
         self.cantTabs += 1
         self.visit(ctx.hashLiteral())
         self.cantTabs -= 1
         return None
 
-    def visitPrimitiveExpressionprintExpressionAST(self, ctx: monkeyParser.PrimitiveExpressionprintExpressionASTContext):
-        print(self.printTabs(self.cantTabs) + "- Primitive Expression Print Expression")
+    def visitPrimitiveExpressionprintExpressionAST(self,
+                                                   ctx: monkeyParser.PrimitiveExpressionprintExpressionASTContext):
+        self.output += self.addTabs(self.cantTabs) + "- Primitive Expression Print Expression\n"
         self.cantTabs += 1
         self.visit(ctx.printExpression())
         self.cantTabs -= 1
         return None
 
     def visitPrimitiveExpressionifExpressionAST(self, ctx: monkeyParser.PrimitiveExpressionifExpressionASTContext):
-        print(self.printTabs(self.cantTabs) + "- Primitive Expression If Expression")
+        self.output += self.addTabs(self.cantTabs) + "- Primitive Expression If Expression\n"
         self.cantTabs += 1
         self.visit(ctx.ifExpression())
         self.cantTabs -= 1
         return None
 
     def visitArrayFunctionsLenAST(self, ctx: monkeyParser.ArrayFunctionsLenASTContext):
-        print(self.printTabs(self.cantTabs) + "- Len")
+        self.output += self.addTabs(self.cantTabs) + "- Len\n"
         return None
 
     def visitArrayFunctionsFirstAST(self, ctx: monkeyParser.ArrayFunctionsFirstASTContext):
-        print(self.printTabs(self.cantTabs) + "- First")
+        self.output += self.addTabs(self.cantTabs) + "- First\n"
         return None
 
     def visitArrayFunctionsLastAST(self, ctx: monkeyParser.ArrayFunctionsLastASTContext):
-        print(self.printTabs(self.cantTabs) + "- Last")
+        self.output += self.addTabs(self.cantTabs) + "- Last\n"
         return None
 
     def visitArrayFunctionsRestAST(self, ctx: monkeyParser.ArrayFunctionsRestASTContext):
-        print(self.printTabs(self.cantTabs) + "- Rest")
+        self.output += self.addTabs(self.cantTabs) + "- Rest\n"
         return None
 
     def visitArrayFunctionsPushAST(self, ctx: monkeyParser.ArrayFunctionsPushASTContext):
-        print(self.printTabs(self.cantTabs) + "- Push")
+        self.output += self.addTabs(self.cantTabs) + "- Push\n"
         return None
 
     def visitArrayLiteralAST(self, ctx: monkeyParser.ArrayLiteralASTContext):
-        print(self.printTabs(self.cantTabs) + "- Array Literal")
+        self.output += self.addTabs(self.cantTabs) + "- Array Literal\n"
         self.cantTabs += 1
         self.visit(ctx.expressionList())
         self.cantTabs -= 1
         return None
 
     def visitFunctionLiteralAST(self, ctx: monkeyParser.FunctionLiteralASTContext):
-        print(self.printTabs(self.cantTabs) + "- Function Literal")
+        self.output += self.addTabs(self.cantTabs) + "- Function Literal\n"
         self.cantTabs += 1
         self.visit(ctx.functionParameters())
         self.visit(ctx.blockStatement())
@@ -271,56 +240,14 @@ class CustomVisitor(monkeyParserVisitor):
         return None
 
     def visitFunctionParametersAST(self, ctx: monkeyParser.FunctionParametersASTContext):
-        print(self.printTabs(self.cantTabs) + "- Function Parameters")
-        self.cantTabs += 1
-        self.visit(ctx.moreIdentifiers())
-        self.cantTabs -= 1
-        return None
-
-    def visitMoreIdentifiersAST(self, ctx: monkeyParser.MoreIdentifiersASTContext):
-        print(self.printTabs(self.cantTabs) + "- More Identifiers")
+        self.output += self.addTabs(self.cantTabs) + "- Function Parameters\n"
         return None
 
     def visitHashLiteralAST(self, ctx: monkeyParser.HashLiteralASTContext):
-        print(self.printTabs(self.cantTabs) + "- Hash Literal")
+        self.output += self.addTabs(self.cantTabs) + "- Hash Literal\n"
         self.cantTabs += 1
-        self.visit(ctx.hashContent())
-        self.visit(ctx.moreHashContent())
-        self.cantTabs -= 1
-        return None
-
-    def visitHashContentAST(self, ctx: monkeyParser.HashContentASTContext):
-        print(self.printTabs(self.cantTabs) + "- Hash Content")
-        self.cantTabs += 1
-        self.visit(ctx.expression(0))
-        i = 1
-        while True:
-            if i < len(ctx.expression()) - 1:
-                self.cantTabs += 1
-                self.visit(ctx.expression(i))
-                self.cantTabs -= 1
-            else:
-                break
-            i += 1
-
-        self.visit(ctx.expression(0))
-        i = 1
-        while True:
-            if i < len(ctx.expression()) - 1:
-                self.cantTabs += 1
-                self.visit(ctx.expression(i))
-                self.cantTabs -= 1
-            else:
-                break
-            i += 1
-
-        self.cantTabs -= 1
-        return None
-
-    def visitMoreHashContentAST(self, ctx: monkeyParser.MoreHashContentASTContext):
-        print(self.printTabs(self.cantTabs) + "- More Hash Content")
-        self.cantTabs += 1
-        i = 1
+        self.visit(ctx.hashContent(0))
+        i = 0
         while True:
             if i < len(ctx.hashContent()) - 1:
                 self.cantTabs += 1
@@ -333,18 +260,39 @@ class CustomVisitor(monkeyParserVisitor):
         self.cantTabs -= 1
         return None
 
-    def visitExpressionListAST(self, ctx: monkeyParser.ExpressionListASTContext):
-        print(self.printTabs(self.cantTabs) + "- Expression List")
+    def visitHashContentAST(self, ctx: monkeyParser.HashContentASTContext):
+        self.output += self.addTabs(self.cantTabs) + "- Hash Content\n"
         self.cantTabs += 1
-        self.visit(ctx.expression())
-        self.visit(ctx.moreExpressions())
+        self.visit(ctx.expression(0))
+        i = 1
+        while True:
+            if i < len(ctx.expression()) - 1:
+                self.cantTabs += 1
+                self.visit(ctx.expression(i))
+                self.cantTabs -= 1
+            else:
+                break
+            i += 1
+
+        self.visit(ctx.expression(0))
+        i = 1
+        while True:
+            if i < len(ctx.expression()) - 1:
+                self.cantTabs += 1
+                self.visit(ctx.expression(i))
+                self.cantTabs -= 1
+            else:
+                break
+            i += 1
+
         self.cantTabs -= 1
         return None
 
-    def visitMoreExpressionsAST(self, ctx: monkeyParser.MoreExpressionsASTContext):
-        print(self.printTabs(self.cantTabs) + "- More Expression Content")
+    def visitExpressionListAST(self, ctx: monkeyParser.ExpressionListASTContext):
+        self.output += self.addTabs(self.cantTabs) + "- Expression List\n"
         self.cantTabs += 1
-        i = 1
+        self.visit(ctx.expression(0))
+        i = 0
         while True:
             if i < len(ctx.expression()) - 1:
                 self.cantTabs += 1
@@ -358,25 +306,17 @@ class CustomVisitor(monkeyParserVisitor):
         return None
 
     def visitPrintExpressionAST(self, ctx: monkeyParser.PrintExpressionASTContext):
-        print(self.printTabs(self.cantTabs) + "- Print Expression")
+        self.output += self.addTabs(self.cantTabs) + "- Print Expression\n"
         self.cantTabs += 1
         self.visit(ctx.expression())
         self.cantTabs -= 1
         return None
 
     def visitIfExpressionAST(self, ctx: monkeyParser.IfExpressionASTContext):
-        print(self.printTabs(self.cantTabs) + "- If Expression")
+        self.output += self.addTabs(self.cantTabs) + "- If Expression\n"
         self.cantTabs += 1
         self.visit(ctx.expression())
-        self.visit(ctx.blockStatement())
-        if not(ctx.blockStatement() is None):
-            self.visit(ctx.blockStatement())
-        self.cantTabs -= 1
-        return None
 
-    def visitBlockStatementAST(self, ctx: monkeyParser.BlockStatementASTContext):
-        print(self.printTabs(self.cantTabs) + "- Block Statement")
-        self.cantTabs += 1
         self.visit(ctx.statement(0))
         i = 1
         while True:
@@ -388,5 +328,32 @@ class CustomVisitor(monkeyParserVisitor):
                 break
             i += 1
 
+        if not (ctx.statement() is None):
+            self.visit(ctx.statement(0))
+
+            i = 1
+            while True:
+                if i < len(ctx.statement()) - 1:
+                    self.cantTabs += 1
+                    self.visit(ctx.statement(i))
+                    self.cantTabs -= 1
+                else:
+                    break
+                i += 1
+
         self.cantTabs -= 1
         return None
+
+    def getExpression(self, ctx: monkeyParser.ExpressionASTContext):
+        if not (ctx.MENOR() is None):
+            expr = ctx.MENOR().__str__()
+        elif not (ctx.MAYOR() is None):
+            expr = ctx.MAYOR().__str__()
+        elif not (ctx.MENOREQUAL() is None):
+            expr = ctx.MENOREQUAL().__str__()
+        elif not (ctx.MAYOREQUAL() is None):
+            expr = ctx.MAYOREQUAL().__str__()
+        else:
+            expr = ctx.EQUAL().__str__()
+
+        return expr

@@ -9,45 +9,22 @@ program
     ;
 
 statement
-    : LET letStatement                                                      #letStatementAST
-    | RETURN returnStatement                                                #returnStatementAST
-    | expressionStatement                                                   #expressionStatemenAST
-    ;
-
-letStatement
-    : IDENT ASSIGN expression ( PCOMA | )                                   #letIdentStatementAST
-    ;
-
-returnStatement
-    : expression ( PCOMA | )                                                #returnExpressionStatementAST
-    ;
-
-expressionStatement
-    : expression ( PCOMA | )                                                #expressionStatementAST
+    : LET IDENT ASSIGN expression ( PCOMA | )                               #letStatementAST
+    | RETURN expression ( PCOMA | )                                         #returnStatementAST
+    | expression ( PCOMA | )                                                #expressionStatementAST
     ;
 
 expression
-    : additionExpression comparison                                         #expressionAST
-    ;
-
-comparison
-    : ((MENOR|MAYOR|MENOREQUAL|MAYOREQUAL|EQUAL) additionExpression)*       #comparisonAST
+    : additionExpression (
+    (MENOR|MAYOR|MENOREQUAL|MAYOREQUAL|EQUAL) additionExpression)*          #expressionAST
     ;
 
 additionExpression
-    : multiplicationExpression additionFactor                               #additionExpressionAST
-    ;
-
-additionFactor
-    : ((SUMA|RESTA) multiplicationExpression)*                              #additionFactorAST
+    : multiplicationExpression ((SUMA|RESTA) multiplicationExpression)*     #additionExpressionAST
     ;
 
 multiplicationExpression
-    : elementExpression multiplicationFactor                                #multiplicationExpressionAST
-    ;
-
-multiplicationFactor
-    : ((MULT|DIV) elementExpression)*                                       #multiplicationFactorAST
+    : elementExpression ((MULT|DIV) elementExpression)*                     #multiplicationExpressionAST
     ;
 
 elementExpression
@@ -90,35 +67,23 @@ arrayLiteral
     ;
 
 functionLiteral
-    :FN PIZQ functionParameters PDER blockStatement                         #functionLiteralAST
+    :FN PIZQ functionParameters PDER LIZQ statement* LDER                   #functionLiteralAST
     ;
 
 functionParameters
-    : IDENT moreIdentifiers                                                 #functionParametersAST
-    ;
-
-moreIdentifiers
-    : (COMA IDENT)*                                                         #moreIdentifiersAST
+    : IDENT (COMA IDENT)*                                                   #functionParametersAST
     ;
 
 hashLiteral
-    : LIZQ hashContent moreHashContent LDER                                 #hashLiteralAST
+    : LIZQ hashContent (COMA hashContent)* LDER                             #hashLiteralAST
     ;
 
 hashContent
     : expression DOSPUNTOS expression                                       #hashContentAST
     ;
 
-moreHashContent
-    : (COMA hashContent)*                                                   #moreHashContentAST
-    ;
-
 expressionList
-    : expression (moreExpressions | )                                       #expressionListAST
-    ;
-
-moreExpressions
-    : (COMA expression)*                                                    #moreExpressionsAST
+    : expression ((COMA expression)* | )                                    #expressionListAST
     ;
 
 printExpression
@@ -126,9 +91,6 @@ printExpression
     ;
 
 ifExpression
-    : IF expression blockStatement (ELSE blockStatement | )                 #ifExpressionAST
-    ;
-
-blockStatement
-    : LIZQ statement* LDER                                                  #blockStatementAST
+    : IF expression LIZQ statement* LDER
+    (ELSE LIZQ statement* LDER | )                                          #ifExpressionAST
     ;

@@ -15,7 +15,7 @@ class CustomErrorListener(ErrorListener):
         elif isinstance(recognizer, monkeyLexer):
             self.errorMsgs.append("LEXER ERROR - line " + str(line) + ":" + str(column) + " " + msg)
         else:
-            self.errorMsgs.append("Other Error...")
+            self.errorMsgs.append("Other Error - line " + str(line) + ":" + str(column) + " " + msg)
 
     def HasErrors(self):
         return len(self.errorMsgs) > 0

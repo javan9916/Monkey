@@ -1,6 +1,9 @@
 # Generated from C:/Users/Javier/PycharmProjects/Monkey\monkeyParser.g4 by ANTLR 4.8
 from antlr4 import *
-from .monkeyParser import monkeyParser
+if __name__ is not None and "." in __name__:
+    from .monkeyParser import monkeyParser
+else:
+    from monkeyParser import monkeyParser
 
 # This class defines a complete generic visitor for a parse tree produced by monkeyParser.
 
@@ -21,21 +24,6 @@ class monkeyParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by monkeyParser#expressionStatemenAST.
-    def visitExpressionStatemenAST(self, ctx:monkeyParser.ExpressionStatemenASTContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by monkeyParser#letIdentStatementAST.
-    def visitLetIdentStatementAST(self, ctx:monkeyParser.LetIdentStatementASTContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by monkeyParser#returnExpressionStatementAST.
-    def visitReturnExpressionStatementAST(self, ctx:monkeyParser.ReturnExpressionStatementASTContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by monkeyParser#expressionStatementAST.
     def visitExpressionStatementAST(self, ctx:monkeyParser.ExpressionStatementASTContext):
         return self.visitChildren(ctx)
@@ -46,28 +34,13 @@ class monkeyParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by monkeyParser#comparisonAST.
-    def visitComparisonAST(self, ctx:monkeyParser.ComparisonASTContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by monkeyParser#additionExpressionAST.
     def visitAdditionExpressionAST(self, ctx:monkeyParser.AdditionExpressionASTContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by monkeyParser#additionFactorAST.
-    def visitAdditionFactorAST(self, ctx:monkeyParser.AdditionFactorASTContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by monkeyParser#multiplicationExpressionAST.
     def visitMultiplicationExpressionAST(self, ctx:monkeyParser.MultiplicationExpressionASTContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by monkeyParser#multiplicationFactorAST.
-    def visitMultiplicationFactorAST(self, ctx:monkeyParser.MultiplicationFactorASTContext):
         return self.visitChildren(ctx)
 
 
@@ -186,11 +159,6 @@ class monkeyParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by monkeyParser#moreIdentifiersAST.
-    def visitMoreIdentifiersAST(self, ctx:monkeyParser.MoreIdentifiersASTContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by monkeyParser#hashLiteralAST.
     def visitHashLiteralAST(self, ctx:monkeyParser.HashLiteralASTContext):
         return self.visitChildren(ctx)
@@ -201,18 +169,8 @@ class monkeyParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by monkeyParser#moreHashContentAST.
-    def visitMoreHashContentAST(self, ctx:monkeyParser.MoreHashContentASTContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by monkeyParser#expressionListAST.
     def visitExpressionListAST(self, ctx:monkeyParser.ExpressionListASTContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by monkeyParser#moreExpressionsAST.
-    def visitMoreExpressionsAST(self, ctx:monkeyParser.MoreExpressionsASTContext):
         return self.visitChildren(ctx)
 
 
@@ -223,11 +181,6 @@ class monkeyParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by monkeyParser#ifExpressionAST.
     def visitIfExpressionAST(self, ctx:monkeyParser.IfExpressionASTContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by monkeyParser#blockStatementAST.
-    def visitBlockStatementAST(self, ctx:monkeyParser.BlockStatementASTContext):
         return self.visitChildren(ctx)
 
 
