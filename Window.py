@@ -684,31 +684,33 @@ class Window(wx.Frame):
 class Output(wx.Frame):
 
     def __init__(self, parent, title, output):
-        wx.Frame.__init__(self, parent, title=title, size=(1600, 645), style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
+        wx.Frame.__init__(self, parent, title=title, size=(805, 645))
+        self.control = stc.StyledTextCtrl(self, -1)
         icon = wx.Icon()
         icon.CopyFromBitmap(wx.Bitmap("icons/favicon.png", wx.BITMAP_TYPE_ANY))
         self.ShowFullScreen(False)
         self.SetIcon(icon)
+        self.Margins()
 
-        panel2 = wx.lib.scrolledpanel.ScrolledPanel(self, -1, size=(1600, 617), pos=(0, 28),
-                                                    style=wx.SIMPLE_BORDER)
-        panel2.SetupScrolling()
-        panel2.SetBackgroundColour('#FFFFFF')
+        #self.control.StyleSetSpec(stc.STC_STYLE_DEFAULT, "face:Courier New")
+        self.control.SetZoom(2)
 
-        mainSizer = wx.BoxSizer(wx.VERTICAL)
-        panelSizer = wx.BoxSizer(wx.VERTICAL)
+        self.control.SetCaretLineBackground((241, 246, 250))
+        self.control.SetCaretLineVisible(True)
 
-        out = wx.StaticText(panel2, label=output)
+        self.control.Bind(stc.EVT_STC_UPDATEUI, self.Scroll)
+        self.control.SetValue(output)
 
-        panelSizer.Add(out, 1, wx.EXPAND | wx.ALL, 10)
-        mainSizer.Add(panel2, 1, wx.EXPAND | wx.ALL, 10)
+    def Margins(self):
+        self.control.SetViewWhiteSpace(False)
+        self.control.SetMargins(5, 0)
+        self.control.SetMarginType(1, stc.STC_MARGIN_NUMBER)
 
-        panel2.SetSizer(panelSizer)
-        self.SetSizer(mainSizer)
-
-        self.SetBackgroundColour('#FDDF99')
-        self.Center()
-        self.CreateStatusBar()
-        self.Show()
+    def Scroll(self, e):
+        x = self.control.GetFirstVisibleLine()
+        y = self.control.LinesOnScreen()
+        x = x + y
+        x = len(str(x))
+        self.control.SetMarginWidth(1, x * 16)
 
 
