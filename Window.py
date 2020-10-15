@@ -616,21 +616,19 @@ class Window(wx.Frame):
         tree = parser.program()
 
         if not (errorListener.HasErrors()):
-            print("Compilación Exitosa!!\n")
             visitor = CustomVisitor()
             visitor.visit(tree)
-            output = visitor.getOutput()
+            output = self.dirname + "\\" + self.filename + \
+                     ">\nCompilación Exitosa!!\n\n" + "Output: \n" + visitor.getOutput()
 
             newFrame = Output(None, "Output Code", output)
             newFrame.Show()
         else:
-            print("Compilación Fallida!!\n")
-            print(errorListener.toString())
+            output = self.dirname + "\\" + self.filename + \
+                     ">\nCompilación Fallida!!\n\n" + errorListener.toString()
 
-            newFrame = Output(None, "Output Code", "Error")
+            newFrame = Output(None, "Output Code", output)
             newFrame.Show()
-
-        print("Compilación terminada")
 
     def Bypass(self, e):
         pass
@@ -692,7 +690,7 @@ class Output(wx.Frame):
         self.SetIcon(icon)
         self.Margins()
 
-        #self.control.StyleSetSpec(stc.STC_STYLE_DEFAULT, "face:Courier New")
+        # self.control.StyleSetSpec(stc.STC_STYLE_DEFAULT, "face:Courier New")
         self.control.SetZoom(2)
 
         self.control.SetCaretLineBackground((241, 246, 250))
@@ -713,5 +711,3 @@ class Output(wx.Frame):
         x = x + y
         x = len(str(x))
         self.control.SetMarginWidth(1, x * 16)
-
-
