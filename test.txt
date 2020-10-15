@@ -1,12 +1,8 @@
-if (x == 0) {
-    0
-}
-
 let age = 1;
 
 let name = "Monkey";
 
-let result = 10 * (20 / 2);
+let result = 5 * (30 / 2);
 
 let myArray = [1, 2, 3, 4, 5];
 
@@ -16,3 +12,8 @@ myArray[0] // => 1
 
 thorsten["name"] // => "Thorsten
 comentario"
+
+if (x == 0) {
+    0
+}
+

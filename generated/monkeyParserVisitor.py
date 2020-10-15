@@ -184,5 +184,20 @@ class monkeyParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by monkeyParser#multOperators.
+    def visitMultOperators(self, ctx:monkeyParser.MultOperatorsContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#addOperators.
+    def visitAddOperators(self, ctx:monkeyParser.AddOperatorsContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#equalOperators.
+    def visitEqualOperators(self, ctx:monkeyParser.EqualOperatorsContext):
+        return self.visitChildren(ctx)
+
+
 
 del monkeyParser
