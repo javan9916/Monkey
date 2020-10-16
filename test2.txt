@@ -2,15 +2,15 @@
 /* ESTE ES UN COMENTARIO NORMAL */
 /* este es/* un comentario */
 anidado */
-
+
 
 let age = 1;
 
-let name = "Pablo";
+let name = "Pablo123";
 
 let result = 20 * (20 / 4);
 
-let myArray = [10, 2, 3, 4, 5];
+let my_Array = [10, 2, 3, 4, 5];
 
 let listNew = [
                 {"name": "Luis", "age": 18},
@@ -30,6 +30,5 @@ myArray[0] // => 1
 if (x == 1) {
     1
 } else {
-
     2
 }

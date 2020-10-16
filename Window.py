@@ -48,7 +48,7 @@ class Window(wx.Frame):
 
         # Window
         wx.Frame.__init__(self, parent, title=title, size=(805, 645))
-        self.control = stc.StyledTextCtrl(self, style=wx.TE_MULTILINE | wx.TE_WORDWRAP)
+        self.control = stc.StyledTextCtrl(self, style=wx.TE_MULTILINE | wx.TE_WORDWRAP | wx.TE_RICH2)
         icon = wx.Icon()
         icon.CopyFromBitmap(wx.Bitmap("icons/favicon.png", wx.BITMAP_TYPE_ANY))
         self.ShowFullScreen(False)
