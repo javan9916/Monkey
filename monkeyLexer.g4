@@ -60,8 +60,12 @@ fragment LETRA  : 'a'..'z' | 'A'..'Z';
 fragment DIGITO : '0'..'9';
 
 WS  : [ \t\n\r]+ -> skip;
+
 COMMENT
-: '// => "' .*? '"' -> skip
+: '/*' .*? '*/' -> skip
+;
+COMMENTANI
+: '/*' .*? '/*' .*? '*/' .*?  '*/' -> skip
 ;
 LINE_COMMENT
 : '// =>' ~[\r\n]* -> skip
