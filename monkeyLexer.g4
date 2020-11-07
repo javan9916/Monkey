@@ -42,7 +42,6 @@ RETURN  : 'return';
 TRUE    : 'true';
 FALSE   : 'false';
 PUTS    : 'puts';
-
 LEN     : 'len';
 FIRST   : 'first';
 LAST    : 'last';
@@ -56,7 +55,7 @@ IDENT   : LETRA (LETRA|DIGITO)*;
 INTEGER : DIGITO DIGITO*;
 STRING  : '"'LETRA(LETRA|DIGITO)*'"';
 
-fragment LETRA  : 'a'..'z' | 'A'..'Z';
+fragment LETRA  : 'a'..'z' | 'A'..'Z' |'_';
 fragment DIGITO : '0'..'9';
 
 WS  : [ \t\n\r]+ -> skip;

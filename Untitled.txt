@@ -1,0 +1,10 @@
+// => sa
+/* ESTE ES UN COMENTARIO NORMAL */
+/* este es/* un comentario */
+anidado */
+
+let age = 1;
+
+let name = "Monkey";
+
+

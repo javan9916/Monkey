@@ -204,5 +204,10 @@ class monkeyParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by monkeyParser#identAST.
+    def visitIdentAST(self, ctx:monkeyParser.IdentASTContext):
+        return self.visitChildren(ctx)
+
+
 
 del monkeyParser

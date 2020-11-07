@@ -2,6 +2,7 @@ from generated.monkeyParserVisitor import monkeyParserVisitor
 from generated.monkeyParser import monkeyParser
 from TableSymbols import TablaSimbolos
 
+
 class CustomVisitor(monkeyParserVisitor):
     cantTabs = 0
     output = ""
@@ -50,10 +51,10 @@ class CustomVisitor(monkeyParserVisitor):
                 self.output += (self.addTabs(self.cantTabs + 1) + "- PCOMA: \"" + ctx.PCOMA().__str__() + "\"\n")
 
         self.cantTabs -= 1
-        # IF int=0 or string=1
-        self.tabla.insertar(ctx.IDENT().getSymbol(), 0, ctx)
+        #IF int=0 or string=1
+        self.tabla.insertar(ctx.IDENT().getSymbol() , 0, ctx)
 
-        #self.tabla.imprimir();
+        self.tabla.imprimir();
         return None
 
     def visitReturnStatementAST(self, ctx: monkeyParser.ReturnStatementASTContext):

@@ -627,6 +627,7 @@ class Window(wx.Frame):
             output = self.dirname + "\\" + self.filename + \
                      ">\nCompilación Fallida!!\n\n" + errorListener.toString()
 
+            self.control.SetCaretLineBackground()
             newFrame = Output(None, "Output Code", output)
             newFrame.Show()
 
