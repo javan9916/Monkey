@@ -1,4 +1,4 @@
-# Generated from C:/Users/Javier/PycharmProjects/Monkey\monkeyParser.g4 by ANTLR 4.8
+# Generated from C:/Users/Javier/PycharmProjects/ProyectoCompi\monkeyParser.g4 by ANTLR 4.8
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -12,99 +12,101 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\63")
-        buf.write("\u00e5\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\u00e9\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
-        buf.write("\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\3\2\7\2\60\n")
-        buf.write("\2\f\2\16\2\63\13\2\3\3\3\3\3\3\3\3\3\3\3\3\5\3;\n\3\3")
-        buf.write("\3\3\3\3\3\3\3\5\3A\n\3\3\3\3\3\3\3\5\3F\n\3\5\3H\n\3")
-        buf.write("\3\4\3\4\3\4\3\4\7\4N\n\4\f\4\16\4Q\13\4\3\5\3\5\3\5\3")
-        buf.write("\5\7\5W\n\5\f\5\16\5Z\13\5\3\6\3\6\3\6\3\6\7\6`\n\6\f")
-        buf.write("\6\16\6c\13\6\3\7\3\7\3\7\3\7\5\7i\n\7\3\b\3\b\3\b\3\b")
-        buf.write("\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3")
-        buf.write("\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n\u0086\n\n\3")
-        buf.write("\13\3\13\3\13\3\13\3\13\5\13\u008d\n\13\3\f\3\f\3\f\3")
-        buf.write("\f\3\r\3\r\3\r\3\r\3\r\3\r\7\r\u0099\n\r\f\r\16\r\u009c")
-        buf.write("\13\r\3\r\3\r\3\16\3\16\3\16\7\16\u00a3\n\16\f\16\16\16")
-        buf.write("\u00a6\13\16\3\17\3\17\3\17\3\17\7\17\u00ac\n\17\f\17")
-        buf.write("\16\17\u00af\13\17\3\17\3\17\3\20\3\20\3\20\3\20\3\21")
-        buf.write("\3\21\3\21\7\21\u00ba\n\21\f\21\16\21\u00bd\13\21\3\21")
-        buf.write("\5\21\u00c0\n\21\3\22\3\22\3\22\3\22\3\22\3\23\3\23\3")
-        buf.write("\23\3\23\7\23\u00cb\n\23\f\23\16\23\u00ce\13\23\3\23\3")
-        buf.write("\23\3\23\5\23\u00d3\n\23\3\24\3\24\3\24\7\24\u00d8\n\24")
-        buf.write("\f\24\16\24\u00db\13\24\3\24\3\24\3\25\3\25\3\26\3\26")
-        buf.write("\3\27\3\27\3\27\2\2\30\2\4\6\b\n\f\16\20\22\24\26\30\32")
-        buf.write("\34\36 \"$&(*,\2\5\3\2\26\27\3\2\24\25\4\2\6\6\20\23\2")
-        buf.write("\u00f0\2\61\3\2\2\2\4G\3\2\2\2\6I\3\2\2\2\bR\3\2\2\2\n")
-        buf.write("[\3\2\2\2\fd\3\2\2\2\16j\3\2\2\2\20n\3\2\2\2\22\u0085")
-        buf.write("\3\2\2\2\24\u008c\3\2\2\2\26\u008e\3\2\2\2\30\u0092\3")
-        buf.write("\2\2\2\32\u009f\3\2\2\2\34\u00a7\3\2\2\2\36\u00b2\3\2")
-        buf.write("\2\2 \u00b6\3\2\2\2\"\u00c1\3\2\2\2$\u00c6\3\2\2\2&\u00d4")
-        buf.write("\3\2\2\2(\u00de\3\2\2\2*\u00e0\3\2\2\2,\u00e2\3\2\2\2")
-        buf.write(".\60\5\4\3\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62")
-        buf.write("\3\2\2\2\62\3\3\2\2\2\63\61\3\2\2\2\64\65\7\36\2\2\65")
-        buf.write("\66\7-\2\2\66\67\7\5\2\2\67:\5\6\4\28;\7\3\2\29;\3\2\2")
-        buf.write("\2:8\3\2\2\2:9\3\2\2\2;H\3\2\2\2<=\7$\2\2=@\5\6\4\2>A")
-        buf.write("\7\3\2\2?A\3\2\2\2@>\3\2\2\2@?\3\2\2\2AH\3\2\2\2BE\5\6")
-        buf.write("\4\2CF\7\3\2\2DF\3\2\2\2EC\3\2\2\2ED\3\2\2\2FH\3\2\2\2")
-        buf.write("G\64\3\2\2\2G<\3\2\2\2GB\3\2\2\2H\5\3\2\2\2IO\5\b\5\2")
-        buf.write("JK\5,\27\2KL\5\b\5\2LN\3\2\2\2MJ\3\2\2\2NQ\3\2\2\2OM\3")
-        buf.write("\2\2\2OP\3\2\2\2P\7\3\2\2\2QO\3\2\2\2RX\5\n\6\2ST\5*\26")
-        buf.write("\2TU\5\n\6\2UW\3\2\2\2VS\3\2\2\2WZ\3\2\2\2XV\3\2\2\2X")
-        buf.write("Y\3\2\2\2Y\t\3\2\2\2ZX\3\2\2\2[a\5\f\7\2\\]\5(\25\2]^")
-        buf.write("\5\f\7\2^`\3\2\2\2_\\\3\2\2\2`c\3\2\2\2a_\3\2\2\2ab\3")
-        buf.write("\2\2\2b\13\3\2\2\2ca\3\2\2\2dh\5\22\n\2ei\5\16\b\2fi\5")
-        buf.write("\20\t\2gi\3\2\2\2he\3\2\2\2hf\3\2\2\2hg\3\2\2\2i\r\3\2")
-        buf.write("\2\2jk\7\13\2\2kl\5\6\4\2lm\7\f\2\2m\17\3\2\2\2no\7\t")
-        buf.write("\2\2op\5 \21\2pq\7\n\2\2q\21\3\2\2\2r\u0086\7.\2\2s\u0086")
-        buf.write("\7/\2\2t\u0086\7-\2\2u\u0086\7%\2\2v\u0086\7&\2\2wx\7")
-        buf.write("\t\2\2xy\5\6\4\2yz\7\n\2\2z\u0086\3\2\2\2{\u0086\5\26")
-        buf.write("\f\2|}\5\24\13\2}~\7\t\2\2~\177\5 \21\2\177\u0080\7\n")
-        buf.write("\2\2\u0080\u0086\3\2\2\2\u0081\u0086\5\30\r\2\u0082\u0086")
-        buf.write("\5\34\17\2\u0083\u0086\5\"\22\2\u0084\u0086\5$\23\2\u0085")
-        buf.write("r\3\2\2\2\u0085s\3\2\2\2\u0085t\3\2\2\2\u0085u\3\2\2\2")
-        buf.write("\u0085v\3\2\2\2\u0085w\3\2\2\2\u0085{\3\2\2\2\u0085|\3")
-        buf.write("\2\2\2\u0085\u0081\3\2\2\2\u0085\u0082\3\2\2\2\u0085\u0083")
-        buf.write("\3\2\2\2\u0085\u0084\3\2\2\2\u0086\23\3\2\2\2\u0087\u008d")
-        buf.write("\7(\2\2\u0088\u008d\7)\2\2\u0089\u008d\7*\2\2\u008a\u008d")
-        buf.write("\7+\2\2\u008b\u008d\7,\2\2\u008c\u0087\3\2\2\2\u008c\u0088")
-        buf.write("\3\2\2\2\u008c\u0089\3\2\2\2\u008c\u008a\3\2\2\2\u008c")
-        buf.write("\u008b\3\2\2\2\u008d\25\3\2\2\2\u008e\u008f\7\13\2\2\u008f")
-        buf.write("\u0090\5 \21\2\u0090\u0091\7\f\2\2\u0091\27\3\2\2\2\u0092")
-        buf.write("\u0093\7\30\2\2\u0093\u0094\7\t\2\2\u0094\u0095\5\32\16")
-        buf.write("\2\u0095\u0096\7\n\2\2\u0096\u009a\7\7\2\2\u0097\u0099")
-        buf.write("\5\4\3\2\u0098\u0097\3\2\2\2\u0099\u009c\3\2\2\2\u009a")
-        buf.write("\u0098\3\2\2\2\u009a\u009b\3\2\2\2\u009b\u009d\3\2\2\2")
-        buf.write("\u009c\u009a\3\2\2\2\u009d\u009e\7\b\2\2\u009e\31\3\2")
-        buf.write("\2\2\u009f\u00a4\7-\2\2\u00a0\u00a1\7\17\2\2\u00a1\u00a3")
-        buf.write("\7-\2\2\u00a2\u00a0\3\2\2\2\u00a3\u00a6\3\2\2\2\u00a4")
-        buf.write("\u00a2\3\2\2\2\u00a4\u00a5\3\2\2\2\u00a5\33\3\2\2\2\u00a6")
-        buf.write("\u00a4\3\2\2\2\u00a7\u00a8\7\7\2\2\u00a8\u00ad\5\36\20")
-        buf.write("\2\u00a9\u00aa\7\17\2\2\u00aa\u00ac\5\36\20\2\u00ab\u00a9")
-        buf.write("\3\2\2\2\u00ac\u00af\3\2\2\2\u00ad\u00ab\3\2\2\2\u00ad")
-        buf.write("\u00ae\3\2\2\2\u00ae\u00b0\3\2\2\2\u00af\u00ad\3\2\2\2")
-        buf.write("\u00b0\u00b1\7\b\2\2\u00b1\35\3\2\2\2\u00b2\u00b3\5\6")
-        buf.write("\4\2\u00b3\u00b4\7\4\2\2\u00b4\u00b5\5\6\4\2\u00b5\37")
-        buf.write("\3\2\2\2\u00b6\u00bf\5\6\4\2\u00b7\u00b8\7\17\2\2\u00b8")
-        buf.write("\u00ba\5\6\4\2\u00b9\u00b7\3\2\2\2\u00ba\u00bd\3\2\2\2")
-        buf.write("\u00bb\u00b9\3\2\2\2\u00bb\u00bc\3\2\2\2\u00bc\u00c0\3")
-        buf.write("\2\2\2\u00bd\u00bb\3\2\2\2\u00be\u00c0\3\2\2\2\u00bf\u00bb")
-        buf.write("\3\2\2\2\u00bf\u00be\3\2\2\2\u00c0!\3\2\2\2\u00c1\u00c2")
-        buf.write("\7\'\2\2\u00c2\u00c3\7\t\2\2\u00c3\u00c4\5\6\4\2\u00c4")
-        buf.write("\u00c5\7\n\2\2\u00c5#\3\2\2\2\u00c6\u00c7\7\31\2\2\u00c7")
-        buf.write("\u00c8\5\6\4\2\u00c8\u00cc\7\7\2\2\u00c9\u00cb\5\4\3\2")
-        buf.write("\u00ca\u00c9\3\2\2\2\u00cb\u00ce\3\2\2\2\u00cc\u00ca\3")
-        buf.write("\2\2\2\u00cc\u00cd\3\2\2\2\u00cd\u00cf\3\2\2\2\u00ce\u00cc")
-        buf.write("\3\2\2\2\u00cf\u00d2\7\b\2\2\u00d0\u00d3\5&\24\2\u00d1")
-        buf.write("\u00d3\3\2\2\2\u00d2\u00d0\3\2\2\2\u00d2\u00d1\3\2\2\2")
-        buf.write("\u00d3%\3\2\2\2\u00d4\u00d5\7\33\2\2\u00d5\u00d9\7\7\2")
-        buf.write("\2\u00d6\u00d8\5\4\3\2\u00d7\u00d6\3\2\2\2\u00d8\u00db")
-        buf.write("\3\2\2\2\u00d9\u00d7\3\2\2\2\u00d9\u00da\3\2\2\2\u00da")
-        buf.write("\u00dc\3\2\2\2\u00db\u00d9\3\2\2\2\u00dc\u00dd\7\b\2\2")
-        buf.write("\u00dd\'\3\2\2\2\u00de\u00df\t\2\2\2\u00df)\3\2\2\2\u00e0")
-        buf.write("\u00e1\t\3\2\2\u00e1+\3\2\2\2\u00e2\u00e3\t\4\2\2\u00e3")
-        buf.write("-\3\2\2\2\25\61:@EGOXah\u0085\u008c\u009a\u00a4\u00ad")
-        buf.write("\u00bb\u00bf\u00cc\u00d2\u00d9")
+        buf.write("\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\3\2")
+        buf.write("\7\2\62\n\2\f\2\16\2\65\13\2\3\3\3\3\3\3\3\3\3\3\3\3\5")
+        buf.write("\3=\n\3\3\3\3\3\3\3\3\3\5\3C\n\3\3\3\3\3\3\3\5\3H\n\3")
+        buf.write("\5\3J\n\3\3\4\3\4\3\4\3\4\7\4P\n\4\f\4\16\4S\13\4\3\5")
+        buf.write("\3\5\3\5\3\5\7\5Y\n\5\f\5\16\5\\\13\5\3\6\3\6\3\6\3\6")
+        buf.write("\7\6b\n\6\f\6\16\6e\13\6\3\7\3\7\3\7\3\7\5\7k\n\7\3\b")
+        buf.write("\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3")
+        buf.write("\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n")
+        buf.write("\u0088\n\n\3\13\3\13\3\13\3\13\3\13\5\13\u008f\n\13\3")
+        buf.write("\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\7\r\u009b\n\r\f")
+        buf.write("\r\16\r\u009e\13\r\3\r\3\r\3\16\3\16\3\16\7\16\u00a5\n")
+        buf.write("\16\f\16\16\16\u00a8\13\16\3\17\3\17\3\17\3\17\7\17\u00ae")
+        buf.write("\n\17\f\17\16\17\u00b1\13\17\3\17\3\17\3\20\3\20\3\20")
+        buf.write("\3\20\3\21\3\21\3\21\7\21\u00bc\n\21\f\21\16\21\u00bf")
+        buf.write("\13\21\3\21\5\21\u00c2\n\21\3\22\3\22\3\22\3\22\3\22\3")
+        buf.write("\23\3\23\3\23\3\23\7\23\u00cd\n\23\f\23\16\23\u00d0\13")
+        buf.write("\23\3\23\3\23\3\23\5\23\u00d5\n\23\3\24\3\24\3\24\7\24")
+        buf.write("\u00da\n\24\f\24\16\24\u00dd\13\24\3\24\3\24\3\25\3\25")
+        buf.write("\3\26\3\26\3\27\3\27\3\30\3\30\3\30\2\2\31\2\4\6\b\n\f")
+        buf.write("\16\20\22\24\26\30\32\34\36 \"$&(*,.\2\5\3\2\26\27\3\2")
+        buf.write("\24\25\4\2\6\6\20\23\2\u00f3\2\63\3\2\2\2\4I\3\2\2\2\6")
+        buf.write("K\3\2\2\2\bT\3\2\2\2\n]\3\2\2\2\ff\3\2\2\2\16l\3\2\2\2")
+        buf.write("\20p\3\2\2\2\22\u0087\3\2\2\2\24\u008e\3\2\2\2\26\u0090")
+        buf.write("\3\2\2\2\30\u0094\3\2\2\2\32\u00a1\3\2\2\2\34\u00a9\3")
+        buf.write("\2\2\2\36\u00b4\3\2\2\2 \u00b8\3\2\2\2\"\u00c3\3\2\2\2")
+        buf.write("$\u00c8\3\2\2\2&\u00d6\3\2\2\2(\u00e0\3\2\2\2*\u00e2\3")
+        buf.write("\2\2\2,\u00e4\3\2\2\2.\u00e6\3\2\2\2\60\62\5\4\3\2\61")
+        buf.write("\60\3\2\2\2\62\65\3\2\2\2\63\61\3\2\2\2\63\64\3\2\2\2")
+        buf.write("\64\3\3\2\2\2\65\63\3\2\2\2\66\67\7\36\2\2\678\5.\30\2")
+        buf.write("89\7\5\2\29<\5\6\4\2:=\7\3\2\2;=\3\2\2\2<:\3\2\2\2<;\3")
+        buf.write("\2\2\2=J\3\2\2\2>?\7$\2\2?B\5\6\4\2@C\7\3\2\2AC\3\2\2")
+        buf.write("\2B@\3\2\2\2BA\3\2\2\2CJ\3\2\2\2DG\5\6\4\2EH\7\3\2\2F")
+        buf.write("H\3\2\2\2GE\3\2\2\2GF\3\2\2\2HJ\3\2\2\2I\66\3\2\2\2I>")
+        buf.write("\3\2\2\2ID\3\2\2\2J\5\3\2\2\2KQ\5\b\5\2LM\5,\27\2MN\5")
+        buf.write("\b\5\2NP\3\2\2\2OL\3\2\2\2PS\3\2\2\2QO\3\2\2\2QR\3\2\2")
+        buf.write("\2R\7\3\2\2\2SQ\3\2\2\2TZ\5\n\6\2UV\5*\26\2VW\5\n\6\2")
+        buf.write("WY\3\2\2\2XU\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2Z[\3\2\2\2[\t")
+        buf.write("\3\2\2\2\\Z\3\2\2\2]c\5\f\7\2^_\5(\25\2_`\5\f\7\2`b\3")
+        buf.write("\2\2\2a^\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2\2d\13\3\2")
+        buf.write("\2\2ec\3\2\2\2fj\5\22\n\2gk\5\16\b\2hk\5\20\t\2ik\3\2")
+        buf.write("\2\2jg\3\2\2\2jh\3\2\2\2ji\3\2\2\2k\r\3\2\2\2lm\7\13\2")
+        buf.write("\2mn\5\6\4\2no\7\f\2\2o\17\3\2\2\2pq\7\t\2\2qr\5 \21\2")
+        buf.write("rs\7\n\2\2s\21\3\2\2\2t\u0088\7.\2\2u\u0088\7/\2\2v\u0088")
+        buf.write("\5.\30\2w\u0088\7%\2\2x\u0088\7&\2\2yz\7\t\2\2z{\5\6\4")
+        buf.write("\2{|\7\n\2\2|\u0088\3\2\2\2}\u0088\5\26\f\2~\177\5\24")
+        buf.write("\13\2\177\u0080\7\t\2\2\u0080\u0081\5 \21\2\u0081\u0082")
+        buf.write("\7\n\2\2\u0082\u0088\3\2\2\2\u0083\u0088\5\30\r\2\u0084")
+        buf.write("\u0088\5\34\17\2\u0085\u0088\5\"\22\2\u0086\u0088\5$\23")
+        buf.write("\2\u0087t\3\2\2\2\u0087u\3\2\2\2\u0087v\3\2\2\2\u0087")
+        buf.write("w\3\2\2\2\u0087x\3\2\2\2\u0087y\3\2\2\2\u0087}\3\2\2\2")
+        buf.write("\u0087~\3\2\2\2\u0087\u0083\3\2\2\2\u0087\u0084\3\2\2")
+        buf.write("\2\u0087\u0085\3\2\2\2\u0087\u0086\3\2\2\2\u0088\23\3")
+        buf.write("\2\2\2\u0089\u008f\7(\2\2\u008a\u008f\7)\2\2\u008b\u008f")
+        buf.write("\7*\2\2\u008c\u008f\7+\2\2\u008d\u008f\7,\2\2\u008e\u0089")
+        buf.write("\3\2\2\2\u008e\u008a\3\2\2\2\u008e\u008b\3\2\2\2\u008e")
+        buf.write("\u008c\3\2\2\2\u008e\u008d\3\2\2\2\u008f\25\3\2\2\2\u0090")
+        buf.write("\u0091\7\13\2\2\u0091\u0092\5 \21\2\u0092\u0093\7\f\2")
+        buf.write("\2\u0093\27\3\2\2\2\u0094\u0095\7\30\2\2\u0095\u0096\7")
+        buf.write("\t\2\2\u0096\u0097\5\32\16\2\u0097\u0098\7\n\2\2\u0098")
+        buf.write("\u009c\7\7\2\2\u0099\u009b\5\4\3\2\u009a\u0099\3\2\2\2")
+        buf.write("\u009b\u009e\3\2\2\2\u009c\u009a\3\2\2\2\u009c\u009d\3")
+        buf.write("\2\2\2\u009d\u009f\3\2\2\2\u009e\u009c\3\2\2\2\u009f\u00a0")
+        buf.write("\7\b\2\2\u00a0\31\3\2\2\2\u00a1\u00a6\7-\2\2\u00a2\u00a3")
+        buf.write("\7\17\2\2\u00a3\u00a5\7-\2\2\u00a4\u00a2\3\2\2\2\u00a5")
+        buf.write("\u00a8\3\2\2\2\u00a6\u00a4\3\2\2\2\u00a6\u00a7\3\2\2\2")
+        buf.write("\u00a7\33\3\2\2\2\u00a8\u00a6\3\2\2\2\u00a9\u00aa\7\7")
+        buf.write("\2\2\u00aa\u00af\5\36\20\2\u00ab\u00ac\7\17\2\2\u00ac")
+        buf.write("\u00ae\5\36\20\2\u00ad\u00ab\3\2\2\2\u00ae\u00b1\3\2\2")
+        buf.write("\2\u00af\u00ad\3\2\2\2\u00af\u00b0\3\2\2\2\u00b0\u00b2")
+        buf.write("\3\2\2\2\u00b1\u00af\3\2\2\2\u00b2\u00b3\7\b\2\2\u00b3")
+        buf.write("\35\3\2\2\2\u00b4\u00b5\5\6\4\2\u00b5\u00b6\7\4\2\2\u00b6")
+        buf.write("\u00b7\5\6\4\2\u00b7\37\3\2\2\2\u00b8\u00c1\5\6\4\2\u00b9")
+        buf.write("\u00ba\7\17\2\2\u00ba\u00bc\5\6\4\2\u00bb\u00b9\3\2\2")
+        buf.write("\2\u00bc\u00bf\3\2\2\2\u00bd\u00bb\3\2\2\2\u00bd\u00be")
+        buf.write("\3\2\2\2\u00be\u00c2\3\2\2\2\u00bf\u00bd\3\2\2\2\u00c0")
+        buf.write("\u00c2\3\2\2\2\u00c1\u00bd\3\2\2\2\u00c1\u00c0\3\2\2\2")
+        buf.write("\u00c2!\3\2\2\2\u00c3\u00c4\7\'\2\2\u00c4\u00c5\7\t\2")
+        buf.write("\2\u00c5\u00c6\5\6\4\2\u00c6\u00c7\7\n\2\2\u00c7#\3\2")
+        buf.write("\2\2\u00c8\u00c9\7\31\2\2\u00c9\u00ca\5\6\4\2\u00ca\u00ce")
+        buf.write("\7\7\2\2\u00cb\u00cd\5\4\3\2\u00cc\u00cb\3\2\2\2\u00cd")
+        buf.write("\u00d0\3\2\2\2\u00ce\u00cc\3\2\2\2\u00ce\u00cf\3\2\2\2")
+        buf.write("\u00cf\u00d1\3\2\2\2\u00d0\u00ce\3\2\2\2\u00d1\u00d4\7")
+        buf.write("\b\2\2\u00d2\u00d5\5&\24\2\u00d3\u00d5\3\2\2\2\u00d4\u00d2")
+        buf.write("\3\2\2\2\u00d4\u00d3\3\2\2\2\u00d5%\3\2\2\2\u00d6\u00d7")
+        buf.write("\7\33\2\2\u00d7\u00db\7\7\2\2\u00d8\u00da\5\4\3\2\u00d9")
+        buf.write("\u00d8\3\2\2\2\u00da\u00dd\3\2\2\2\u00db\u00d9\3\2\2\2")
+        buf.write("\u00db\u00dc\3\2\2\2\u00dc\u00de\3\2\2\2\u00dd\u00db\3")
+        buf.write("\2\2\2\u00de\u00df\7\b\2\2\u00df\'\3\2\2\2\u00e0\u00e1")
+        buf.write("\t\2\2\2\u00e1)\3\2\2\2\u00e2\u00e3\t\3\2\2\u00e3+\3\2")
+        buf.write("\2\2\u00e4\u00e5\t\4\2\2\u00e5-\3\2\2\2\u00e6\u00e7\7")
+        buf.write("-\2\2\u00e7/\3\2\2\2\25\63<BGIQZcj\u0087\u008e\u009c\u00a6")
+        buf.write("\u00af\u00bd\u00c1\u00ce\u00d4\u00db")
         return buf.getvalue()
 
 
@@ -158,6 +160,7 @@ class monkeyParser ( Parser ):
     RULE_multOperators = 19
     RULE_addOperators = 20
     RULE_equalOperators = 21
+    RULE_ident = 22
 
     ruleNames =  [ "program", "statement", "expression", "additionExpression", 
                    "multiplicationExpression", "elementExpression", "elementAccess", 
@@ -165,7 +168,7 @@ class monkeyParser ( Parser ):
                    "arrayLiteral", "functionLiteral", "functionParameters", 
                    "hashLiteral", "hashContent", "expressionList", "printExpression", 
                    "ifExpression", "elseExpression", "multOperators", "addOperators", 
-                   "equalOperators" ]
+                   "equalOperators", "ident" ]
 
     EOF = Token.EOF
     PCOMA=1
@@ -272,13 +275,13 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.ProgramASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 47
+            self.state = 49
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << monkeyParser.LIZQ) | (1 << monkeyParser.PIZQ) | (1 << monkeyParser.PCIZQ) | (1 << monkeyParser.FN) | (1 << monkeyParser.IF) | (1 << monkeyParser.LET) | (1 << monkeyParser.RETURN) | (1 << monkeyParser.TRUE) | (1 << monkeyParser.FALSE) | (1 << monkeyParser.PUTS) | (1 << monkeyParser.LEN) | (1 << monkeyParser.FIRST) | (1 << monkeyParser.LAST) | (1 << monkeyParser.REST) | (1 << monkeyParser.PUSH) | (1 << monkeyParser.IDENT) | (1 << monkeyParser.INTEGER) | (1 << monkeyParser.STRING))) != 0):
-                self.state = 44
+                self.state = 46
                 self.statement()
-                self.state = 49
+                self.state = 51
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -315,8 +318,9 @@ class monkeyParser ( Parser ):
 
         def LET(self):
             return self.getToken(monkeyParser.LET, 0)
-        def IDENT(self):
-            return self.getToken(monkeyParser.IDENT, 0)
+        def ident(self):
+            return self.getTypedRuleContext(monkeyParser.IdentContext,0)
+
         def ASSIGN(self):
             return self.getToken(monkeyParser.ASSIGN, 0)
         def expression(self):
@@ -378,25 +382,25 @@ class monkeyParser ( Parser ):
         localctx = monkeyParser.StatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_statement)
         try:
-            self.state = 69
+            self.state = 71
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [monkeyParser.LET]:
                 localctx = monkeyParser.LetStatementASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 50
-                self.match(monkeyParser.LET)
-                self.state = 51
-                self.match(monkeyParser.IDENT)
                 self.state = 52
-                self.match(monkeyParser.ASSIGN)
+                self.match(monkeyParser.LET)
                 self.state = 53
+                self.ident()
+                self.state = 54
+                self.match(monkeyParser.ASSIGN)
+                self.state = 55
                 self.expression()
-                self.state = 56
+                self.state = 58
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
                 if token in [monkeyParser.PCOMA]:
-                    self.state = 54
+                    self.state = 56
                     self.match(monkeyParser.PCOMA)
                     pass
                 elif token in [monkeyParser.EOF, monkeyParser.LIZQ, monkeyParser.LDER, monkeyParser.PIZQ, monkeyParser.PCIZQ, monkeyParser.FN, monkeyParser.IF, monkeyParser.LET, monkeyParser.RETURN, monkeyParser.TRUE, monkeyParser.FALSE, monkeyParser.PUTS, monkeyParser.LEN, monkeyParser.FIRST, monkeyParser.LAST, monkeyParser.REST, monkeyParser.PUSH, monkeyParser.IDENT, monkeyParser.INTEGER, monkeyParser.STRING]:
@@ -408,15 +412,15 @@ class monkeyParser ( Parser ):
             elif token in [monkeyParser.RETURN]:
                 localctx = monkeyParser.ReturnStatementASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 58
+                self.state = 60
                 self.match(monkeyParser.RETURN)
-                self.state = 59
+                self.state = 61
                 self.expression()
-                self.state = 62
+                self.state = 64
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
                 if token in [monkeyParser.PCOMA]:
-                    self.state = 60
+                    self.state = 62
                     self.match(monkeyParser.PCOMA)
                     pass
                 elif token in [monkeyParser.EOF, monkeyParser.LIZQ, monkeyParser.LDER, monkeyParser.PIZQ, monkeyParser.PCIZQ, monkeyParser.FN, monkeyParser.IF, monkeyParser.LET, monkeyParser.RETURN, monkeyParser.TRUE, monkeyParser.FALSE, monkeyParser.PUTS, monkeyParser.LEN, monkeyParser.FIRST, monkeyParser.LAST, monkeyParser.REST, monkeyParser.PUSH, monkeyParser.IDENT, monkeyParser.INTEGER, monkeyParser.STRING]:
@@ -428,13 +432,13 @@ class monkeyParser ( Parser ):
             elif token in [monkeyParser.LIZQ, monkeyParser.PIZQ, monkeyParser.PCIZQ, monkeyParser.FN, monkeyParser.IF, monkeyParser.TRUE, monkeyParser.FALSE, monkeyParser.PUTS, monkeyParser.LEN, monkeyParser.FIRST, monkeyParser.LAST, monkeyParser.REST, monkeyParser.PUSH, monkeyParser.IDENT, monkeyParser.INTEGER, monkeyParser.STRING]:
                 localctx = monkeyParser.ExpressionStatementASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
-                self.state = 64
+                self.state = 66
                 self.expression()
-                self.state = 67
+                self.state = 69
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
                 if token in [monkeyParser.PCOMA]:
-                    self.state = 65
+                    self.state = 67
                     self.match(monkeyParser.PCOMA)
                     pass
                 elif token in [monkeyParser.EOF, monkeyParser.LIZQ, monkeyParser.LDER, monkeyParser.PIZQ, monkeyParser.PCIZQ, monkeyParser.FN, monkeyParser.IF, monkeyParser.LET, monkeyParser.RETURN, monkeyParser.TRUE, monkeyParser.FALSE, monkeyParser.PUTS, monkeyParser.LEN, monkeyParser.FIRST, monkeyParser.LAST, monkeyParser.REST, monkeyParser.PUSH, monkeyParser.IDENT, monkeyParser.INTEGER, monkeyParser.STRING]:
@@ -506,17 +510,17 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.ExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 71
+            self.state = 73
             self.additionExpression()
-            self.state = 77
+            self.state = 79
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << monkeyParser.EQUAL) | (1 << monkeyParser.MENOR) | (1 << monkeyParser.MAYOR) | (1 << monkeyParser.MENOREQUAL) | (1 << monkeyParser.MAYOREQUAL))) != 0):
-                self.state = 72
+                self.state = 74
                 self.equalOperators()
-                self.state = 73
+                self.state = 75
                 self.additionExpression()
-                self.state = 79
+                self.state = 81
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -580,17 +584,17 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.AdditionExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 80
+            self.state = 82
             self.multiplicationExpression()
-            self.state = 86
+            self.state = 88
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==monkeyParser.SUMA or _la==monkeyParser.RESTA:
-                self.state = 81
+                self.state = 83
                 self.addOperators()
-                self.state = 82
+                self.state = 84
                 self.multiplicationExpression()
-                self.state = 88
+                self.state = 90
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -654,17 +658,17 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.MultiplicationExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 89
+            self.state = 91
             self.elementExpression()
-            self.state = 95
+            self.state = 97
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==monkeyParser.MULT or _la==monkeyParser.DIV:
-                self.state = 90
+                self.state = 92
                 self.multOperators()
-                self.state = 91
+                self.state = 93
                 self.elementExpression()
-                self.state = 97
+                self.state = 99
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -724,18 +728,18 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.ElementExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 98
+            self.state = 100
             self.primitiveExpression()
-            self.state = 102
+            self.state = 104
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,8,self._ctx)
             if la_ == 1:
-                self.state = 99
+                self.state = 101
                 self.elementAccess()
                 pass
 
             elif la_ == 2:
-                self.state = 100
+                self.state = 102
                 self.callExpression()
                 pass
 
@@ -797,11 +801,11 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.ElementAccessASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 104
-            self.match(monkeyParser.PCIZQ)
-            self.state = 105
-            self.expression()
             self.state = 106
+            self.match(monkeyParser.PCIZQ)
+            self.state = 107
+            self.expression()
+            self.state = 108
             self.match(monkeyParser.PCDER)
         except RecognitionException as re:
             localctx.exception = re
@@ -857,11 +861,11 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.CallExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 108
-            self.match(monkeyParser.PIZQ)
-            self.state = 109
-            self.expressionList()
             self.state = 110
+            self.match(monkeyParser.PIZQ)
+            self.state = 111
+            self.expressionList()
+            self.state = 112
             self.match(monkeyParser.PDER)
         except RecognitionException as re:
             localctx.exception = re
@@ -981,8 +985,9 @@ class monkeyParser ( Parser ):
             super().__init__(parser)
             self.copyFrom(ctx)
 
-        def IDENT(self):
-            return self.getToken(monkeyParser.IDENT, 0)
+        def ident(self):
+            return self.getTypedRuleContext(monkeyParser.IdentContext,0)
+
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPrimitiveExpressionIdentAST" ):
@@ -1104,89 +1109,89 @@ class monkeyParser ( Parser ):
         localctx = monkeyParser.PrimitiveExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 16, self.RULE_primitiveExpression)
         try:
-            self.state = 131
+            self.state = 133
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [monkeyParser.INTEGER]:
                 localctx = monkeyParser.PrimitiveExpressionIntegerASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 112
+                self.state = 114
                 self.match(monkeyParser.INTEGER)
                 pass
             elif token in [monkeyParser.STRING]:
                 localctx = monkeyParser.PrimitiveExpressionStringASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 113
+                self.state = 115
                 self.match(monkeyParser.STRING)
                 pass
             elif token in [monkeyParser.IDENT]:
                 localctx = monkeyParser.PrimitiveExpressionIdentASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
-                self.state = 114
-                self.match(monkeyParser.IDENT)
+                self.state = 116
+                self.ident()
                 pass
             elif token in [monkeyParser.TRUE]:
                 localctx = monkeyParser.PrimitiveExpressionTrueASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
-                self.state = 115
+                self.state = 117
                 self.match(monkeyParser.TRUE)
                 pass
             elif token in [monkeyParser.FALSE]:
                 localctx = monkeyParser.PrimitiveExpressionFalseASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
-                self.state = 116
+                self.state = 118
                 self.match(monkeyParser.FALSE)
                 pass
             elif token in [monkeyParser.PIZQ]:
                 localctx = monkeyParser.PrimitiveExpressionExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
-                self.state = 117
-                self.match(monkeyParser.PIZQ)
-                self.state = 118
-                self.expression()
                 self.state = 119
+                self.match(monkeyParser.PIZQ)
+                self.state = 120
+                self.expression()
+                self.state = 121
                 self.match(monkeyParser.PDER)
                 pass
             elif token in [monkeyParser.PCIZQ]:
                 localctx = monkeyParser.PrimitiveExpressionarrayLiteralastContext(self, localctx)
                 self.enterOuterAlt(localctx, 7)
-                self.state = 121
+                self.state = 123
                 self.arrayLiteral()
                 pass
             elif token in [monkeyParser.LEN, monkeyParser.FIRST, monkeyParser.LAST, monkeyParser.REST, monkeyParser.PUSH]:
                 localctx = monkeyParser.PrimitiveExpressionarrayFunctionsASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 8)
-                self.state = 122
-                self.arrayFunctions()
-                self.state = 123
-                self.match(monkeyParser.PIZQ)
                 self.state = 124
-                self.expressionList()
+                self.arrayFunctions()
                 self.state = 125
+                self.match(monkeyParser.PIZQ)
+                self.state = 126
+                self.expressionList()
+                self.state = 127
                 self.match(monkeyParser.PDER)
                 pass
             elif token in [monkeyParser.FN]:
                 localctx = monkeyParser.PrimitiveExpressionfunctionLiteralASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 9)
-                self.state = 127
+                self.state = 129
                 self.functionLiteral()
                 pass
             elif token in [monkeyParser.LIZQ]:
                 localctx = monkeyParser.PrimitiveExpressionhashLiteralASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 10)
-                self.state = 128
+                self.state = 130
                 self.hashLiteral()
                 pass
             elif token in [monkeyParser.PUTS]:
                 localctx = monkeyParser.PrimitiveExpressionprintExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 11)
-                self.state = 129
+                self.state = 131
                 self.printExpression()
                 pass
             elif token in [monkeyParser.IF]:
                 localctx = monkeyParser.PrimitiveExpressionifExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 12)
-                self.state = 130
+                self.state = 132
                 self.ifExpression()
                 pass
             else:
@@ -1303,37 +1308,37 @@ class monkeyParser ( Parser ):
         localctx = monkeyParser.ArrayFunctionsContext(self, self._ctx, self.state)
         self.enterRule(localctx, 18, self.RULE_arrayFunctions)
         try:
-            self.state = 138
+            self.state = 140
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [monkeyParser.LEN]:
                 localctx = monkeyParser.ArrayFunctionsLenASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 133
+                self.state = 135
                 self.match(monkeyParser.LEN)
                 pass
             elif token in [monkeyParser.FIRST]:
                 localctx = monkeyParser.ArrayFunctionsFirstASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 134
+                self.state = 136
                 self.match(monkeyParser.FIRST)
                 pass
             elif token in [monkeyParser.LAST]:
                 localctx = monkeyParser.ArrayFunctionsLastASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
-                self.state = 135
+                self.state = 137
                 self.match(monkeyParser.LAST)
                 pass
             elif token in [monkeyParser.REST]:
                 localctx = monkeyParser.ArrayFunctionsRestASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
-                self.state = 136
+                self.state = 138
                 self.match(monkeyParser.REST)
                 pass
             elif token in [monkeyParser.PUSH]:
                 localctx = monkeyParser.ArrayFunctionsPushASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
-                self.state = 137
+                self.state = 139
                 self.match(monkeyParser.PUSH)
                 pass
             else:
@@ -1393,11 +1398,11 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.ArrayLiteralASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 140
-            self.match(monkeyParser.PCIZQ)
-            self.state = 141
-            self.expressionList()
             self.state = 142
+            self.match(monkeyParser.PCIZQ)
+            self.state = 143
+            self.expressionList()
+            self.state = 144
             self.match(monkeyParser.PCDER)
         except RecognitionException as re:
             localctx.exception = re
@@ -1466,27 +1471,27 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.FunctionLiteralASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 144
-            self.match(monkeyParser.FN)
-            self.state = 145
-            self.match(monkeyParser.PIZQ)
             self.state = 146
-            self.functionParameters()
+            self.match(monkeyParser.FN)
             self.state = 147
-            self.match(monkeyParser.PDER)
+            self.match(monkeyParser.PIZQ)
             self.state = 148
+            self.functionParameters()
+            self.state = 149
+            self.match(monkeyParser.PDER)
+            self.state = 150
             self.match(monkeyParser.LIZQ)
-            self.state = 152
+            self.state = 154
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << monkeyParser.LIZQ) | (1 << monkeyParser.PIZQ) | (1 << monkeyParser.PCIZQ) | (1 << monkeyParser.FN) | (1 << monkeyParser.IF) | (1 << monkeyParser.LET) | (1 << monkeyParser.RETURN) | (1 << monkeyParser.TRUE) | (1 << monkeyParser.FALSE) | (1 << monkeyParser.PUTS) | (1 << monkeyParser.LEN) | (1 << monkeyParser.FIRST) | (1 << monkeyParser.LAST) | (1 << monkeyParser.REST) | (1 << monkeyParser.PUSH) | (1 << monkeyParser.IDENT) | (1 << monkeyParser.INTEGER) | (1 << monkeyParser.STRING))) != 0):
-                self.state = 149
+                self.state = 151
                 self.statement()
-                self.state = 154
+                self.state = 156
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 155
+            self.state = 157
             self.match(monkeyParser.LDER)
         except RecognitionException as re:
             localctx.exception = re
@@ -1546,17 +1551,17 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.FunctionParametersASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 157
+            self.state = 159
             self.match(monkeyParser.IDENT)
-            self.state = 162
+            self.state = 164
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==monkeyParser.COMA:
-                self.state = 158
+                self.state = 160
                 self.match(monkeyParser.COMA)
-                self.state = 159
+                self.state = 161
                 self.match(monkeyParser.IDENT)
-                self.state = 164
+                self.state = 166
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1623,23 +1628,23 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.HashLiteralASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 165
+            self.state = 167
             self.match(monkeyParser.LIZQ)
-            self.state = 166
+            self.state = 168
             self.hashContent()
-            self.state = 171
+            self.state = 173
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==monkeyParser.COMA:
-                self.state = 167
+                self.state = 169
                 self.match(monkeyParser.COMA)
-                self.state = 168
+                self.state = 170
                 self.hashContent()
-                self.state = 173
+                self.state = 175
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 174
+            self.state = 176
             self.match(monkeyParser.LDER)
         except RecognitionException as re:
             localctx.exception = re
@@ -1696,11 +1701,11 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.HashContentASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 176
-            self.expression()
-            self.state = 177
-            self.match(monkeyParser.DOSPUNTOS)
             self.state = 178
+            self.expression()
+            self.state = 179
+            self.match(monkeyParser.DOSPUNTOS)
+            self.state = 180
             self.expression()
         except RecognitionException as re:
             localctx.exception = re
@@ -1761,21 +1766,21 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.ExpressionListASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 180
+            self.state = 182
             self.expression()
-            self.state = 189
+            self.state = 191
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,15,self._ctx)
             if la_ == 1:
-                self.state = 185
+                self.state = 187
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while _la==monkeyParser.COMA:
-                    self.state = 181
+                    self.state = 183
                     self.match(monkeyParser.COMA)
-                    self.state = 182
+                    self.state = 184
                     self.expression()
-                    self.state = 187
+                    self.state = 189
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
@@ -1841,13 +1846,13 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.PrintExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 191
-            self.match(monkeyParser.PUTS)
-            self.state = 192
-            self.match(monkeyParser.PIZQ)
             self.state = 193
-            self.expression()
+            self.match(monkeyParser.PUTS)
             self.state = 194
+            self.match(monkeyParser.PIZQ)
+            self.state = 195
+            self.expression()
+            self.state = 196
             self.match(monkeyParser.PDER)
         except RecognitionException as re:
             localctx.exception = re
@@ -1915,29 +1920,29 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.IfExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 196
-            self.match(monkeyParser.IF)
-            self.state = 197
-            self.expression()
             self.state = 198
+            self.match(monkeyParser.IF)
+            self.state = 199
+            self.expression()
+            self.state = 200
             self.match(monkeyParser.LIZQ)
-            self.state = 202
+            self.state = 204
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << monkeyParser.LIZQ) | (1 << monkeyParser.PIZQ) | (1 << monkeyParser.PCIZQ) | (1 << monkeyParser.FN) | (1 << monkeyParser.IF) | (1 << monkeyParser.LET) | (1 << monkeyParser.RETURN) | (1 << monkeyParser.TRUE) | (1 << monkeyParser.FALSE) | (1 << monkeyParser.PUTS) | (1 << monkeyParser.LEN) | (1 << monkeyParser.FIRST) | (1 << monkeyParser.LAST) | (1 << monkeyParser.REST) | (1 << monkeyParser.PUSH) | (1 << monkeyParser.IDENT) | (1 << monkeyParser.INTEGER) | (1 << monkeyParser.STRING))) != 0):
-                self.state = 199
+                self.state = 201
                 self.statement()
-                self.state = 204
+                self.state = 206
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 205
+            self.state = 207
             self.match(monkeyParser.LDER)
-            self.state = 208
+            self.state = 210
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [monkeyParser.ELSE]:
-                self.state = 206
+                self.state = 208
                 self.elseExpression()
                 pass
             elif token in [monkeyParser.EOF, monkeyParser.PCOMA, monkeyParser.DOSPUNTOS, monkeyParser.EQUAL, monkeyParser.LIZQ, monkeyParser.LDER, monkeyParser.PIZQ, monkeyParser.PDER, monkeyParser.PCIZQ, monkeyParser.PCDER, monkeyParser.COMA, monkeyParser.MENOR, monkeyParser.MAYOR, monkeyParser.MENOREQUAL, monkeyParser.MAYOREQUAL, monkeyParser.SUMA, monkeyParser.RESTA, monkeyParser.MULT, monkeyParser.DIV, monkeyParser.FN, monkeyParser.IF, monkeyParser.LET, monkeyParser.RETURN, monkeyParser.TRUE, monkeyParser.FALSE, monkeyParser.PUTS, monkeyParser.LEN, monkeyParser.FIRST, monkeyParser.LAST, monkeyParser.REST, monkeyParser.PUSH, monkeyParser.IDENT, monkeyParser.INTEGER, monkeyParser.STRING]:
@@ -2005,21 +2010,21 @@ class monkeyParser ( Parser ):
         try:
             localctx = monkeyParser.ElseExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 210
+            self.state = 212
             self.match(monkeyParser.ELSE)
-            self.state = 211
+            self.state = 213
             self.match(monkeyParser.LIZQ)
-            self.state = 215
+            self.state = 217
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << monkeyParser.LIZQ) | (1 << monkeyParser.PIZQ) | (1 << monkeyParser.PCIZQ) | (1 << monkeyParser.FN) | (1 << monkeyParser.IF) | (1 << monkeyParser.LET) | (1 << monkeyParser.RETURN) | (1 << monkeyParser.TRUE) | (1 << monkeyParser.FALSE) | (1 << monkeyParser.PUTS) | (1 << monkeyParser.LEN) | (1 << monkeyParser.FIRST) | (1 << monkeyParser.LAST) | (1 << monkeyParser.REST) | (1 << monkeyParser.PUSH) | (1 << monkeyParser.IDENT) | (1 << monkeyParser.INTEGER) | (1 << monkeyParser.STRING))) != 0):
-                self.state = 212
+                self.state = 214
                 self.statement()
-                self.state = 217
+                self.state = 219
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 218
+            self.state = 220
             self.match(monkeyParser.LDER)
         except RecognitionException as re:
             localctx.exception = re
@@ -2061,7 +2066,7 @@ class monkeyParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 220
+            self.state = 222
             _la = self._input.LA(1)
             if not(_la==monkeyParser.MULT or _la==monkeyParser.DIV):
                 self._errHandler.recoverInline(self)
@@ -2108,7 +2113,7 @@ class monkeyParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 222
+            self.state = 224
             _la = self._input.LA(1)
             if not(_la==monkeyParser.SUMA or _la==monkeyParser.RESTA):
                 self._errHandler.recoverInline(self)
@@ -2164,13 +2169,66 @@ class monkeyParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 224
+            self.state = 226
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << monkeyParser.EQUAL) | (1 << monkeyParser.MENOR) | (1 << monkeyParser.MAYOR) | (1 << monkeyParser.MENOREQUAL) | (1 << monkeyParser.MAYOREQUAL))) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class IdentContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+            self.decl = None
+
+
+        def getRuleIndex(self):
+            return monkeyParser.RULE_ident
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+            self.decl = ctx.decl
+
+
+
+    class IdentASTContext(IdentContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a monkeyParser.IdentContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def IDENT(self):
+            return self.getToken(monkeyParser.IDENT, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIdentAST" ):
+                return visitor.visitIdentAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+    def ident(self):
+
+        localctx = monkeyParser.IdentContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 44, self.RULE_ident)
+        try:
+            localctx = monkeyParser.IdentASTContext(self, localctx)
+            self.enterOuterAlt(localctx, 1)
+            self.state = 228
+            self.match(monkeyParser.IDENT)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

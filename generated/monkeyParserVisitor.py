@@ -1,4 +1,4 @@
-# Generated from C:/Users/Javier/PycharmProjects/Monkey\monkeyParser.g4 by ANTLR 4.8
+# Generated from C:/Users/Javier/PycharmProjects/ProyectoCompi\monkeyParser.g4 by ANTLR 4.8
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .monkeyParser import monkeyParser
@@ -201,6 +201,11 @@ class monkeyParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by monkeyParser#equalOperators.
     def visitEqualOperators(self, ctx:monkeyParser.EqualOperatorsContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by monkeyParser#identAST.
+    def visitIdentAST(self, ctx:monkeyParser.IdentASTContext):
         return self.visitChildren(ctx)
 
 
