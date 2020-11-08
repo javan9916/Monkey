@@ -112,4 +112,6 @@ equalOperators
     ;
 
 ident
-locals[ decl=None]: IDENT                          #identAST;
+locals [decl = None]
+    : IDENT                                                         #identAST
+    ;

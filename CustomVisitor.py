@@ -1,6 +1,6 @@
 from generated.monkeyParserVisitor import monkeyParserVisitor
 from generated.monkeyParser import monkeyParser
-from TableSymbols import TablaSimbolos
+from SymbolTable import SymbolTable
 
 class CustomVisitor(monkeyParserVisitor):
     cantTabs = 0
@@ -9,8 +9,9 @@ class CustomVisitor(monkeyParserVisitor):
     fromFunc = False
 
     tabla = None
+
     def __init__(self):
-        self.tabla = TablaSimbolos()
+        self.tabla = SymbolTable()
 
     def getOutput(self):
         return self.output
