@@ -47,24 +47,22 @@ class Contextual(monkeyParserVisitor):
             hasReturn = True
 
         identCtx = self.visit(ctx.ident())
-        self.table.push(identCtx.IDENT(), type, ctx, isFunction, hasReturn)
+        lvl = self.table.getCurrentLevel()
+        self.table.push(identCtx.IDENT(), type, lvl, ctx, isFunction, hasReturn)
         self.table.print()
         return None
 
     def visitReturnStatementAST(self, ctx: monkeyParser.ReturnStatementASTContext):
-        result = None
         result = self.visit(ctx.expression())
 
         return result
 
     def visitExpressionStatementAST(self, ctx: monkeyParser.ExpressionStatementASTContext):
-        result = None
         result = self.visit(ctx.expression())
 
         return result
 
     def visitExpressionAST(self, ctx: monkeyParser.ExpressionASTContext):
-        result = None
         result = self.visit(ctx.additionExpression(0))
         i = 1
         while True:
@@ -79,7 +77,6 @@ class Contextual(monkeyParserVisitor):
         return result
 
     def visitAdditionExpressionAST(self, ctx: monkeyParser.AdditionExpressionASTContext):
-        result = None
         result = self.visit(ctx.multiplicationExpression(0))
         i = 1
         while True:
@@ -94,7 +91,6 @@ class Contextual(monkeyParserVisitor):
         return result
 
     def visitMultiplicationExpressionAST(self, ctx: monkeyParser.MultiplicationExpressionASTContext):
-        result = None
         result = self.visit(ctx.elementExpression(0))
         i = 1
         while True:
@@ -108,8 +104,6 @@ class Contextual(monkeyParserVisitor):
         return result
 
     def visitElementExpressionAST(self, ctx: monkeyParser.ElementExpressionASTContext):
-        result = None
-
         result = self.visit(ctx.primitiveExpression())
         if not (ctx.elementAccess() is None):
             result = self.visit(ctx.elementAccess())
@@ -139,9 +133,7 @@ class Contextual(monkeyParserVisitor):
         return "string"
 
     def visitPrimitiveExpressionIdentAST(self, ctx: monkeyParser.PrimitiveExpressionIdentASTContext):
-        self.output += "- Primitive Expression: \n"
         identCtx = self.visit(ctx.ident())
-
         self.output += "- Identifier: \"" + identCtx.IDENT().__str__() + "\"\n"
         return "ident"
 
@@ -152,30 +144,30 @@ class Contextual(monkeyParserVisitor):
         return "false"
 
     def visitPrimitiveExpressionExpressionAST(self, ctx: monkeyParser.PrimitiveExpressionExpressionASTContext):
-        self.output += "- Primitive Expression Expression: \n"
-        self.output += "- PIZQ: \"" + ctx.PIZQ().__str__() + "\"\n"
+        self.table.openScope()
         self.visit(ctx.expression())
+        self.table.closeScope()
         if self.fromIf:
             self.output += ("- PDER: \"" + ctx.PDER().__str__() + "\"\n")
         else:
             self.output += ("- PDER: \"" + ctx.PDER().__str__() + "\"\n")
-
         return "expression"
 
     def visitPrimitiveExpressionarrayLiteralast(self, ctx: monkeyParser.PrimitiveExpressionarrayLiteralastContext):
         return "array"
 
     def visitPrimitiveExpressionarrayFunctionsAST(self, ctx: monkeyParser.PrimitiveExpressionarrayFunctionsASTContext):
-        self.output += "- Primitive Expression Array Function:\n"
         self.visit(ctx.arrayFunctions())
-        self.output += ("- PIZQ: \"" + ctx.PIZQ().__str__() + "\"\n")
         self.visit(ctx.expressionList())
-        self.output += ("- PDER: \"" + ctx.PDER().__str__() + "\"\n")
+
         return "function"
 
     def visitPrimitiveExpressionfunctionLiteralAST(self, ctx: monkeyParser.PrimitiveExpressionfunctionLiteralASTContext):
         self.output += "- Primitive Expression Function Literal:\n"
+        self.table.openScope()
+        print("func lit" + str(self.table.getCurrentLevel()))
         self.visit(ctx.functionLiteral())
+        self.table.closeScope()
         return "funcLiteral"
 
     def visitPrimitiveExpressionhashLiteralAST(self, ctx: monkeyParser.PrimitiveExpressionhashLiteralASTContext):
@@ -298,7 +290,10 @@ class Contextual(monkeyParserVisitor):
         self.output += "- If Expression: \n"
         self.output += "- IF: \"" + ctx.IF().__str__() + "\"\n"
         self.fromIf = True
+        self.table.openScope()
+        print("Curr Lvl: "+str(self.table.getCurrentLevel()))
         self.visit(ctx.expression())
+        self.table.closeScope()
         self.fromIf = False
         self.output += "- LIZQ: \"" + ctx.LIZQ().__str__() + "\"\n"
         self.visit(ctx.statement()[0])

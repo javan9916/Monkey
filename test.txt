@@ -24,7 +24,7 @@ let fibonacci = fn(x) {
         let inside = 10;
     } else {
         if (x == 1) {
-            1
+            let var2 = "Hola";
         } else {
             fibonacci(x - 1) + fibonacci(x - 2);
         }

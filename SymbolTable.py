@@ -1,22 +1,22 @@
 class SymbolTable:
-    global currentLevel
     currentLevel = 0
     table = []
 
     def __init__(self):
-        self.push("len", 0, 0, True, True)
-        self.push("first", 0, 0, True, True)
-        self.push("last", 0, 0, True, True)
-        self.push("rest", 0, 0, True, True)
-        self.push("push", 0, 0, False, False)
-        self.push("puts", 0, 0, False, False)
+        self.push("len", 0, 0, 0, True, True)
+        self.push("first", 0, 0, 0, True, True)
+        self.push("last", 0, 0, 0, True, True)
+        self.push("rest", 0, 0, 0, True, True)
+        self.push("push", 0, 0, 0, False, False)
+        self.push("puts", 0, 0, 0, False, False)
+        self.currentLevel = 0
 
     class Ident:
-        def __init__(self, token, type, decl, isFunc, hasReturn):
+        def __init__(self, token, type, lvl, decl, isFunc, hasReturn):
             if isFunc:
                 self.token = token
                 self.type = type
-                self.level = currentLevel
+                self.level = lvl
                 self.value = 0
                 self.declCtx = decl
                 self.isFunc = isFunc
@@ -24,7 +24,7 @@ class SymbolTable:
             else:
                 self.token = token
                 self.type = type
-                self.level = currentLevel
+                self.level = lvl
                 self.value = 0
                 self.declCtx = decl
                 self.isFunc = isFunc
@@ -48,9 +48,9 @@ class SymbolTable:
         SymbolTable.setTable([])
         SymbolTable.setCurrentLevel(-1)
 
-    def push(self, id, type, decl, isFunc, hasReturn):
+    def push(self, id, type, lvl, decl, isFunc, hasReturn):
         #no se puede insertar un elemento repetido en el mismo nivel
-        item = SymbolTable.Ident(id,type,decl, isFunc, hasReturn)
+        item = SymbolTable.Ident(id, type, lvl, decl, isFunc, hasReturn)
         self.table.append(item)
 
     def search(self, name):
@@ -65,7 +65,7 @@ class SymbolTable:
         self.currentLevel += 1
 
     def closeScope(self):
-        self.table = [i for i in self.table if self.Ident.getLevel() == self.currentLevel]
+        self.table = [i for i in self.table if not(i.getLevel() == self.getCurrentLevel())]
         self.currentLevel -= 1
 
     def print(self):
