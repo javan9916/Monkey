@@ -55,8 +55,7 @@ class Contextual(monkeyParserVisitor):
             isFunction = True
             hasReturn = self.hasReturn
             params = len(result)
-
-        if not self.hasReturn:
+        if not self.hasReturn and isFunction:
             print("La función no tiene retorno, no se puede asignar a una variable")
             self.hasReturn = False
 
@@ -281,7 +280,10 @@ class Contextual(monkeyParserVisitor):
 
     def visitHashContentAST(self, ctx: monkeyParser.HashContentASTContext):
         self.output += "- Hash Content: \n"
-        self.visit(ctx.expression(0))
+
+        ctxResult1 = self.visit(ctx.expression(0))
+        if not type(ctxResult1) is int and not type(ctxResult1) is str:
+            print("Error, dato no aceptado en hashContent")
         self.output += "- DOSPUNTOS: \"" + ctx.DOSPUNTOS().__str__() + "\"\n"
         self.visit(ctx.expression(1))
         return None
