@@ -293,7 +293,6 @@ class Contextual(monkeyParserVisitor):
         self.table.openScope()
         print("Curr Lvl: "+str(self.table.getCurrentLevel()))
         self.visit(ctx.expression())
-        self.table.closeScope()
         self.fromIf = False
         self.output += "- LIZQ: \"" + ctx.LIZQ().__str__() + "\"\n"
         self.visit(ctx.statement()[0])
@@ -309,7 +308,7 @@ class Contextual(monkeyParserVisitor):
 
         if not (ctx.elseExpression() is None):
             self.visit(ctx.elseExpression())
-
+        self.table.closeScope()
         return None
 
     def visitElseExpressionAST(self, ctx: monkeyParser.ElseExpressionASTContext):
