@@ -6,8 +6,12 @@ from SymbolTable import SymbolTable
 class Contextual(monkeyParserVisitor):
     table = None
     output = ""
+    currentIdent = None
     fromFunc = False
     fromIf = False
+    fromAccess = False
+    fromCall = False
+    fromElement = False
 
     def __init__(self):
         self.table = SymbolTable()
@@ -27,39 +31,42 @@ class Contextual(monkeyParserVisitor):
         return None
 
     def visitLetStatementAST(self, ctx: monkeyParser.LetStatementASTContext):
-        exprType = self.visit(ctx.expression())
+        result = self.visit(ctx.expression())
         hasReturn, isFunction = False, False
-        type = -1
+        tp = -1
+        params = -1
+        length = None
 
-        if exprType == "int":
-            type = 1
-        elif exprType == "string":
-            type = 2
-        elif exprType == "true" or exprType == "false":
-            type = 3
-        elif exprType == "array":
-            type = 4
-        elif exprType == "hash":
-            type = 5
-        elif exprType == "function" or exprType == "funcLiteral":
-            type = 6
+        if type(result) is str:
+            if result == "int":
+                tp = 1
+            elif result == "string":
+                tp = 2
+            elif result == "true" or result == "false":
+                tp = 3
+            elif result == "hash":
+                tp = 5
+        elif type(result) is int:
+            tp = 4
+            length = result
+        else:
+            tp = 6
             isFunction = True
             hasReturn = True
+            params = len(result)
 
         identCtx = self.visit(ctx.ident())
         lvl = self.table.getCurrentLevel()
-        self.table.push(identCtx.IDENT(), type, lvl, ctx, isFunction, hasReturn)
+        self.table.push(identCtx.IDENT(), tp, lvl, ctx, isFunction, hasReturn, params, length)
         self.table.print()
         return None
 
     def visitReturnStatementAST(self, ctx: monkeyParser.ReturnStatementASTContext):
         result = self.visit(ctx.expression())
-
         return result
 
     def visitExpressionStatementAST(self, ctx: monkeyParser.ExpressionStatementASTContext):
         result = self.visit(ctx.expression())
-
         return result
 
     def visitExpressionAST(self, ctx: monkeyParser.ExpressionASTContext):
@@ -73,7 +80,6 @@ class Contextual(monkeyParserVisitor):
             else:
                 break
             i += 1
-
         return result
 
     def visitAdditionExpressionAST(self, ctx: monkeyParser.AdditionExpressionASTContext):
@@ -87,7 +93,6 @@ class Contextual(monkeyParserVisitor):
             else:
                 break
             i += 1
-
         return result
 
     def visitMultiplicationExpressionAST(self, ctx: monkeyParser.MultiplicationExpressionASTContext):
@@ -104,38 +109,48 @@ class Contextual(monkeyParserVisitor):
         return result
 
     def visitElementExpressionAST(self, ctx: monkeyParser.ElementExpressionASTContext):
-        result = self.visit(ctx.primitiveExpression())
+        resultCtx = self.visit(ctx.primitiveExpression())
+        if not self.fromFunc:
+            if type(resultCtx) == 'generated.monkeyParser.monkeyParser.IdentASTContext':
+                ident = self.table.search(resultCtx.IDENT().__str__())
+                if ident is None:
+                    print("El identificador \"" + resultCtx.IDENT().__str__() + "\" no ha sido declarado")
         if not (ctx.elementAccess() is None):
-            result = self.visit(ctx.elementAccess())
+            self.currentIdent = resultCtx
+            resultCtx = self.visit(ctx.elementAccess())
+            self.currentIdent = None
         elif not (ctx.callExpression() is None):
-            result = self.visit(ctx.callExpression())
-
-        return result
+            self.currentIdent = resultCtx
+            resultCtx = self.visit(ctx.callExpression())
+            self.currentIdent = None
+        return resultCtx
 
     def visitElementAccessAST(self, ctx: monkeyParser.ElementAccessASTContext):
-        self.output += "- Element Access: \n"
-        self.output += ("- PCIZQ: \"" + ctx.PCIZQ().__str__() + "\"\n")
-        self.visit(ctx.expression())
-        self.output += ("- PCDER: \"" + ctx.PCDER().__str__() + "\"\n")
-        return "access"
+        self.fromAccess = True
+        result = self.visit(ctx.expression())
+        if type(result) == int:
+            ident = self.table.search(self.currentIdent.IDENT().__str__())
+            if result > ident.length:
+                print("El array \"" + self.currentIdent.IDENT().__str__() + "\" tiene " + str(ident.length) +
+                      " elementos en vez de " + str(result))
+        self.fromAccess = False
+        return result
 
     def visitCallExpressionAST(self, ctx: monkeyParser.CallExpressionASTContext):
-        self.output += "- Call Expression: \n"
-        self.output += ("- PIZQ: \"" + ctx.PIZQ().__str__() + "\"\n")
-        self.visit(ctx.expressionList())
-        self.output += ("- PDER: \"" + ctx.PDER().__str__() + "\"\n")
-        return "call"
+        self.fromCall = True
+        result = self.visit(ctx.expressionList())
+        self.fromCall = False
+        return result
 
     def visitPrimitiveExpressionIntegerAST(self, ctx: monkeyParser.PrimitiveExpressionIntegerASTContext):
-        return "int"
+        return int(ctx.INTEGER().__str__())
 
     def visitPrimitiveExpressionStringAST(self, ctx: monkeyParser.PrimitiveExpressionStringASTContext):
         return "string"
 
     def visitPrimitiveExpressionIdentAST(self, ctx: monkeyParser.PrimitiveExpressionIdentASTContext):
         identCtx = self.visit(ctx.ident())
-        self.output += "- Identifier: \"" + identCtx.IDENT().__str__() + "\"\n"
-        return "ident"
+        return identCtx
 
     def visitPrimitiveExpressionTrueAST(self, ctx: monkeyParser.PrimitiveExpressionTrueASTContext):
         return "true"
@@ -151,39 +166,42 @@ class Contextual(monkeyParserVisitor):
             self.output += ("- PDER: \"" + ctx.PDER().__str__() + "\"\n")
         else:
             self.output += ("- PDER: \"" + ctx.PDER().__str__() + "\"\n")
-        return "expression"
+        return ctx
 
     def visitPrimitiveExpressionarrayLiteralast(self, ctx: monkeyParser.PrimitiveExpressionarrayLiteralastContext):
-        return "array"
+        length = self.visit(ctx.arrayLiteral())
+        return length
 
     def visitPrimitiveExpressionarrayFunctionsAST(self, ctx: monkeyParser.PrimitiveExpressionarrayFunctionsASTContext):
         self.visit(ctx.arrayFunctions())
         self.visit(ctx.expressionList())
+        return "arrayFunction"
 
-        return "function"
-
-    def visitPrimitiveExpressionfunctionLiteralAST(self, ctx: monkeyParser.PrimitiveExpressionfunctionLiteralASTContext):
+    def visitPrimitiveExpressionfunctionLiteralAST(self,
+                                                   ctx: monkeyParser.PrimitiveExpressionfunctionLiteralASTContext):
         self.output += "- Primitive Expression Function Literal:\n"
         self.table.openScope()
-        print("func lit" + str(self.table.getCurrentLevel()))
-        self.visit(ctx.functionLiteral())
+        self.fromFunc = True
+        fnCtx = self.visit(ctx.functionLiteral())
+        self.fromFunc = False
         self.table.closeScope()
-        return "funcLiteral"
+        return fnCtx
 
     def visitPrimitiveExpressionhashLiteralAST(self, ctx: monkeyParser.PrimitiveExpressionhashLiteralASTContext):
         self.output += "- Primitive Expression Hash Literal:\n"
         self.visit(ctx.hashLiteral())
         return "hash"
 
-    def visitPrimitiveExpressionprintExpressionAST(self, ctx: monkeyParser.PrimitiveExpressionprintExpressionASTContext):
+    def visitPrimitiveExpressionprintExpressionAST(self,
+                                                   ctx: monkeyParser.PrimitiveExpressionprintExpressionASTContext):
         self.output += "- Primitive Expression Print Expression:\n"
         self.visit(ctx.printExpression())
-        return "print"
+        return ctx
 
     def visitPrimitiveExpressionifExpressionAST(self, ctx: monkeyParser.PrimitiveExpressionifExpressionASTContext):
         self.output += "- Primitive Expression If Expression:\n"
         self.visit(ctx.ifExpression())
-        return "if"
+        return ctx
 
     def visitArrayFunctionsLenAST(self, ctx: monkeyParser.ArrayFunctionsLenASTContext):
         return "len"
@@ -201,17 +219,14 @@ class Contextual(monkeyParserVisitor):
         return "push"
 
     def visitArrayLiteralAST(self, ctx: monkeyParser.ArrayLiteralASTContext):
-        self.output += "- Array Literal\n"
-        self.output += "- PCIZQ: \"" + ctx.PCIZQ().__str__() + "\"\n"
-        self.visit(ctx.expressionList())
-        self.output += "- PCDER: \"" + ctx.PCDER().__str__() + "\"\n"
-        return None
+        length = self.visit(ctx.expressionList())
+        return length
 
     def visitFunctionLiteralAST(self, ctx: monkeyParser.FunctionLiteralASTContext):
         self.output += "- Function Literal: \n"
         self.output += "- FN: \"" + ctx.FN().__str__() + "\"\n"
         self.output += "- PIZQ: \"" + ctx.PIZQ().__str__() + "\"\n"
-        self.visit(ctx.functionParameters())
+        parametersCtx = self.visit(ctx.functionParameters())
         self.output += "- PDER: \"" + ctx.PDER().__str__() + "\"\n"
         self.output += "- LIZQ: \"" + ctx.LIZQ().__str__() + "\"\n"
         i = 0
@@ -225,21 +240,19 @@ class Contextual(monkeyParserVisitor):
             i += 1
 
         self.output += "- LDER: \"" + ctx.LDER().__str__() + "\"\n"
-        return None
+        return parametersCtx
 
     def visitFunctionParametersAST(self, ctx: monkeyParser.FunctionParametersASTContext):
-        self.output += "- Function Parameters: \n"
-        self.output += "- IDENT: \"" + ctx.IDENT()[0].__str__() + "\"\n"
         i = 1
         while True:
-            if i < len(ctx.IDENT()):
-                self.output += "- COMA: \"" + ctx.COMA()[i-1].__str__() + "\"\n"
-                self.output += "- IDENT: \"" + ctx.IDENT()[i].__str__() + "\"\n"
+            if i < len(ctx.ident()):
+                self.output += "- COMA: \"" + ctx.COMA()[i - 1].__str__() + "\"\n"
+                self.output += "- IDENT: \"" + ctx.ident(i).__str__() + "\"\n"
             else:
                 break
             i += 1
 
-        return None
+        return ctx.ident()
 
     def visitHashLiteralAST(self, ctx: monkeyParser.HashLiteralASTContext):
         self.output += "- Hash Literal: \n"
@@ -248,7 +261,7 @@ class Contextual(monkeyParserVisitor):
         i = 1
         while True:
             if i < len(ctx.hashContent()):
-                self.output += "- COMA: \"" + ctx.COMA()[i-1].__str__() + "\"\n"
+                self.output += "- COMA: \"" + ctx.COMA()[i - 1].__str__() + "\"\n"
                 self.visit(ctx.hashContent()[i])
             else:
                 break
@@ -265,18 +278,35 @@ class Contextual(monkeyParserVisitor):
         return None
 
     def visitExpressionListAST(self, ctx: monkeyParser.ExpressionListASTContext):
-        self.output += "- Expression List: \n"
-        self.visit(ctx.expression()[0])
-        i = 1
-        while True:
-            if i < len(ctx.expression()):
-                self.output += "- COMA: \"" + ctx.COMA()[i-1].__str__() + "\"\n"
-                self.visit(ctx.expression()[i])
-            else:
-                break
-            i += 1
+        length = 0
+        if not (self.currentIdent is None):
+            ident = self.table.search(self.currentIdent.IDENT().__str__())
+            if not (ident is None):
+                if ident.params == len(ctx.expression()):
+                    self.visit(ctx.expression()[0])
+                    i = 1
+                    while True:
+                        if i < len(ctx.expression()):
+                            self.output += "- COMA: \"" + ctx.COMA()[i - 1].__str__() + "\"\n"
+                            self.visit(ctx.expression()[i])
+                        else:
+                            break
+                        i += 1
+                else:
+                    print("La función \"" + self.currentIdent.IDENT().__str__() + "\" tiene " + str(ident.params) +
+                          " parámetros en vez de " + str(len(ctx.expression())))
+        else:
+            length = len(ctx.expression())
+            self.visit(ctx.expression()[0])
+            i = 1
+            while True:
+                if i < len(ctx.expression()):
+                    self.visit(ctx.expression()[i])
+                else:
+                    break
+                i += 1
 
-        return None
+        return length
 
     def visitPrintExpressionAST(self, ctx: monkeyParser.PrintExpressionASTContext):
         self.output += "- Print Expression: \n"
@@ -291,7 +321,6 @@ class Contextual(monkeyParserVisitor):
         self.output += "- IF: \"" + ctx.IF().__str__() + "\"\n"
         self.fromIf = True
         self.table.openScope()
-        print("Curr Lvl: "+str(self.table.getCurrentLevel()))
         self.visit(ctx.expression())
         self.fromIf = False
         self.output += "- LIZQ: \"" + ctx.LIZQ().__str__() + "\"\n"
@@ -362,5 +391,3 @@ class Contextual(monkeyParserVisitor):
 
     def visitIdentAST(self, ctx: monkeyParser.IdentASTContext):
         return ctx
-
-

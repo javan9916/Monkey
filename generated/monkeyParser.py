@@ -77,8 +77,8 @@ def serializedATN():
         buf.write("\u009c\7\7\2\2\u0099\u009b\5\4\3\2\u009a\u0099\3\2\2\2")
         buf.write("\u009b\u009e\3\2\2\2\u009c\u009a\3\2\2\2\u009c\u009d\3")
         buf.write("\2\2\2\u009d\u009f\3\2\2\2\u009e\u009c\3\2\2\2\u009f\u00a0")
-        buf.write("\7\b\2\2\u00a0\31\3\2\2\2\u00a1\u00a6\7-\2\2\u00a2\u00a3")
-        buf.write("\7\17\2\2\u00a3\u00a5\7-\2\2\u00a4\u00a2\3\2\2\2\u00a5")
+        buf.write("\7\b\2\2\u00a0\31\3\2\2\2\u00a1\u00a6\5.\30\2\u00a2\u00a3")
+        buf.write("\7\17\2\2\u00a3\u00a5\5.\30\2\u00a4\u00a2\3\2\2\2\u00a5")
         buf.write("\u00a8\3\2\2\2\u00a6\u00a4\3\2\2\2\u00a6\u00a7\3\2\2\2")
         buf.write("\u00a7\33\3\2\2\2\u00a8\u00a6\3\2\2\2\u00a9\u00aa\7\7")
         buf.write("\2\2\u00aa\u00af\5\36\20\2\u00ab\u00ac\7\17\2\2\u00ac")
@@ -1524,11 +1524,12 @@ class monkeyParser ( Parser ):
             super().__init__(parser)
             self.copyFrom(ctx)
 
-        def IDENT(self, i:int=None):
+        def ident(self, i:int=None):
             if i is None:
-                return self.getTokens(monkeyParser.IDENT)
+                return self.getTypedRuleContexts(monkeyParser.IdentContext)
             else:
-                return self.getToken(monkeyParser.IDENT, i)
+                return self.getTypedRuleContext(monkeyParser.IdentContext,i)
+
         def COMA(self, i:int=None):
             if i is None:
                 return self.getTokens(monkeyParser.COMA)
@@ -1552,7 +1553,7 @@ class monkeyParser ( Parser ):
             localctx = monkeyParser.FunctionParametersASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 159
-            self.match(monkeyParser.IDENT)
+            self.ident()
             self.state = 164
             self._errHandler.sync(self)
             _la = self._input.LA(1)
@@ -1560,7 +1561,7 @@ class monkeyParser ( Parser ):
                 self.state = 160
                 self.match(monkeyParser.COMA)
                 self.state = 161
-                self.match(monkeyParser.IDENT)
+                self.ident()
                 self.state = 166
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)

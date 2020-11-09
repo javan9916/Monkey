@@ -72,7 +72,7 @@ functionLiteral
     ;
 
 functionParameters
-    : IDENT (COMA IDENT)*                                           #functionParametersAST
+    : ident (COMA ident)*                                           #functionParametersAST
     ;
 
 hashLiteral

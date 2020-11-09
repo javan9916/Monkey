@@ -3,16 +3,16 @@ class SymbolTable:
     table = []
 
     def __init__(self):
-        self.push("len", 0, 0, 0, True, True)
-        self.push("first", 0, 0, 0, True, True)
-        self.push("last", 0, 0, 0, True, True)
-        self.push("rest", 0, 0, 0, True, True)
-        self.push("push", 0, 0, 0, False, False)
-        self.push("puts", 0, 0, 0, False, False)
+        self.push("len", 0, 0, 0, True, True, 1, None)
+        self.push("first", 0, 0, 0, True, True, 1, None)
+        self.push("last", 0, 0, 0, True, True, 1, None)
+        self.push("rest", 0, 0, 0, True, True, 1, None)
+        self.push("push", 0, 0, 0, True, False, 1, None)
+        self.push("puts", 0, 0, 0, True, False, 1, None)
         self.currentLevel = 0
 
     class Ident:
-        def __init__(self, token, type, lvl, decl, isFunc, hasReturn):
+        def __init__(self, token, type, lvl, decl, isFunc, hasReturn, params, length):
             if isFunc:
                 self.token = token
                 self.type = type
@@ -21,6 +21,7 @@ class SymbolTable:
                 self.declCtx = decl
                 self.isFunc = isFunc
                 self.hasReturn = hasReturn
+                self.params = params
             else:
                 self.token = token
                 self.type = type
@@ -28,6 +29,7 @@ class SymbolTable:
                 self.value = 0
                 self.declCtx = decl
                 self.isFunc = isFunc
+                self.length = length
 
         def setValue(self, value):
             self.value = value
@@ -48,9 +50,9 @@ class SymbolTable:
         SymbolTable.setTable([])
         SymbolTable.setCurrentLevel(-1)
 
-    def push(self, id, type, lvl, decl, isFunc, hasReturn):
+    def push(self, id, type, lvl, decl, isFunc, hasReturn, params, length):
         #no se puede insertar un elemento repetido en el mismo nivel
-        item = SymbolTable.Ident(id, type, lvl, decl, isFunc, hasReturn)
+        item = SymbolTable.Ident(id, type, lvl, decl, isFunc, hasReturn, params, length)
         self.table.append(item)
 
     def search(self, name):
@@ -72,14 +74,19 @@ class SymbolTable:
         print("----- INICIO TABLA ------")
         print("Variables: ")
         for x in range(0, len(self.table)):
-            if not self.table[x].isFunc:
-                s = self.table[x].token
-                print("Nombre: " + s.__str__() + " - " + str(self.table[x].level) + " - " + str(self.table[x].type))
+            item = self.table[x]
+            if not item.isFunc:
+                if item.length is None:
+                    print("Nombre: " + item.token.__str__() + " - " + str(item.level) + " - " + str(item.type))
+                else:
+                    print("Nombre: " + item.token.__str__() + " - " + str(item.level) + " - " + str(item.type) + " - "
+                          + str(item.length))
 
         print("Funciones: ")
         for x in range(0, len(self.table)):
-            if self.table[x].isFunc:
-                s = self.table[x].token
-                print("Nombre: " + s.__str__() + " - " + str(self.table[x].level) + " - " + str(self.table[x].type))
+            item = self.table[x]
+            if item.isFunc:
+                print("Nombre: " + item.token.__str__() + " - " + str(item.level) + " - " + str(item.type) +
+                      " - " + str(item.params))
 
         print("------ FIN TABLA -------")

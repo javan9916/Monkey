@@ -7,17 +7,17 @@ let age = 1;
 
 let name = "Monkey";
 
-let result = 10 * (20 / 2);
-
 let myArray = [1, 2, 3, 4, 5];
 
-let thorsten = {"name": "Javier", 28: "age"};
+let result = 10 * (20 / 2);
 
-myArray[0] // => 1
+let thorsten = {"name": "Javier", 28: "age"};
 
 thorsten["name"] // => "Thorsten"
 
 let add = fn(a, b) { return a + b; };
+
+add(3,4);
 
 let fibonacci = fn(x) {
     if (x == 0) {
@@ -30,4 +30,6 @@ let fibonacci = fn(x) {
         }
     }
 };
+
+let name2 = 0;
 
