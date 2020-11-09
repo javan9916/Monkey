@@ -8,6 +8,7 @@ class Contextual(monkeyParserVisitor):
     output = ""
     currentIdent = None
     fromFunc = False
+    hasReturn = False
     fromIf = False
     fromAccess = False
     fromCall = False
@@ -52,8 +53,12 @@ class Contextual(monkeyParserVisitor):
         else:
             tp = 6
             isFunction = True
-            hasReturn = True
+            hasReturn = self.hasReturn
             params = len(result)
+
+        if not self.hasReturn:
+            print("La función no tiene retorno, no se puede asignar a una variable")
+            self.hasReturn = False
 
         identCtx = self.visit(ctx.ident())
         lvl = self.table.getCurrentLevel()
@@ -63,6 +68,10 @@ class Contextual(monkeyParserVisitor):
 
     def visitReturnStatementAST(self, ctx: monkeyParser.ReturnStatementASTContext):
         result = self.visit(ctx.expression())
+        if not self.fromFunc:
+            print("No se puede retornar, es necesario una función.")
+        else:
+            self.hasReturn = True
         return result
 
     def visitExpressionStatementAST(self, ctx: monkeyParser.ExpressionStatementASTContext):
@@ -130,7 +139,7 @@ class Contextual(monkeyParserVisitor):
         result = self.visit(ctx.expression())
         if type(result) == int:
             ident = self.table.search(self.currentIdent.IDENT().__str__())
-            if result > ident.length:
+            if result >= ident.length:
                 print("El array \"" + self.currentIdent.IDENT().__str__() + "\" tiene " + str(ident.length) +
                       " elementos en vez de " + str(result))
         self.fromAccess = False
