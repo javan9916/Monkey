@@ -13,6 +13,9 @@ class Contextual(monkeyParserVisitor):
     fromAccess = False
     fromCall = False
     fromElement = False
+    fromList = False
+    fromListName = ""
+    fromListparams=-1
 
     def __init__(self):
         self.table = SymbolTable()
@@ -28,7 +31,7 @@ class Contextual(monkeyParserVisitor):
             else:
                 break
             i += 1
-
+        self.table.print()
         return None
 
     def visitLetStatementAST(self, ctx: monkeyParser.LetStatementASTContext):
@@ -37,7 +40,6 @@ class Contextual(monkeyParserVisitor):
         tp = -1
         params = -1
         length = None
-
         if type(result) is str:
             if result == "int":
                 tp = 1
@@ -50,6 +52,7 @@ class Contextual(monkeyParserVisitor):
         elif type(result) is int:
             tp = 4
             length = result
+            print("-------------- "+ str(length))
         else:
             tp = 6
             isFunction = True
@@ -61,8 +64,14 @@ class Contextual(monkeyParserVisitor):
 
         identCtx = self.visit(ctx.ident())
         lvl = self.table.getCurrentLevel()
-        self.table.push(identCtx.IDENT(), tp, lvl, ctx, isFunction, hasReturn, params, length)
-        self.table.print()
+        if self.fromList:
+
+            self.fromListName = "funtion"+identCtx.IDENT().__str__() + str(self.fromListName)
+            self.table.push(self.fromListName, tp, lvl, ctx, True, hasReturn, self.fromListparams, length)
+            self.fromList = False
+            self.fromListName = ""
+        else:
+            self.table.push(identCtx.IDENT(), tp, lvl, ctx, isFunction, hasReturn, params, length)
         return None
 
     def visitReturnStatementAST(self, ctx: monkeyParser.ReturnStatementASTContext):
@@ -138,10 +147,12 @@ class Contextual(monkeyParserVisitor):
         result = self.visit(ctx.expression())
         if type(result) == int:
             ident = self.table.search(self.currentIdent.IDENT().__str__())
-            if result >= ident.length:
-                print("El array \"" + self.currentIdent.IDENT().__str__() + "\" tiene " + str(ident.length) +
-                      " elementos en vez de " + str(result))
+            if not ident is None:
+                if result >= ident.length:
+                    print("El array \"" + self.currentIdent.IDENT().__str__() + "\" tiene " + str(ident.length) +
+                          " elementos en vez de " + str(result))
         self.fromAccess = False
+
         return result
 
     def visitCallExpressionAST(self, ctx: monkeyParser.CallExpressionASTContext):
@@ -178,6 +189,7 @@ class Contextual(monkeyParserVisitor):
 
     def visitPrimitiveExpressionarrayLiteralast(self, ctx: monkeyParser.PrimitiveExpressionarrayLiteralastContext):
         length = self.visit(ctx.arrayLiteral())
+        self.fromList = True
         return length
 
     def visitPrimitiveExpressionarrayFunctionsAST(self, ctx: monkeyParser.PrimitiveExpressionarrayFunctionsASTContext):
@@ -228,6 +240,7 @@ class Contextual(monkeyParserVisitor):
 
     def visitArrayLiteralAST(self, ctx: monkeyParser.ArrayLiteralASTContext):
         length = self.visit(ctx.expressionList())
+        self.fromListName = self.fromListName+str(length)
         return length
 
     def visitFunctionLiteralAST(self, ctx: monkeyParser.FunctionLiteralASTContext):
@@ -248,6 +261,8 @@ class Contextual(monkeyParserVisitor):
             i += 1
 
         self.output += "- LDER: \"" + ctx.LDER().__str__() + "\"\n"
+
+        self.fromListparams = len(parametersCtx)
         return parametersCtx
 
     def visitFunctionParametersAST(self, ctx: monkeyParser.FunctionParametersASTContext):

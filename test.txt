@@ -10,7 +10,7 @@ let name = "Monkey";
 let myArray = [1, 2, 3, 4, 5];
 
 let result = 10 * (20 / 2);
-
+activegalaxy watch
 let thorsten = {"name": "Javier", 28: "age"};
 
 thorsten["name"] // => "Thorsten"
