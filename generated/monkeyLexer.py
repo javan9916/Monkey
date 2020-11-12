@@ -1,4 +1,4 @@
-# Generated from C:/Users/Javier/PycharmProjects/Monkey\monkeyLexer.g4 by ANTLR 4.8
+# Generated from C:/Users/Javier/PycharmProjects/ProyectoCompi\monkeyLexer.g4 by ANTLR 4.8
 from antlr4 import *
 from io import StringIO
 from typing.io import TextIO

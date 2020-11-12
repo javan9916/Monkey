@@ -9,7 +9,7 @@ program
     ;
 
 statement
-    : LET IDENT ASSIGN expression ( PCOMA | )                       #letStatementAST
+    : LET ident ASSIGN expression ( PCOMA | )                       #letStatementAST
     | RETURN expression ( PCOMA | )                                 #returnStatementAST
     | expression ( PCOMA | )                                        #expressionStatementAST
     ;
@@ -43,7 +43,7 @@ callExpression
 primitiveExpression
     : INTEGER                                                       #primitiveExpressionIntegerAST
     | STRING                                                        #primitiveExpressionStringAST
-    | IDENT                                                         #primitiveExpressionIdentAST
+    | ident                                                         #primitiveExpressionIdentAST
     | TRUE                                                          #primitiveExpressionTrueAST
     | FALSE                                                         #primitiveExpressionFalseAST
     | PIZQ expression PDER                                          #primitiveExpressionExpressionAST
@@ -72,7 +72,7 @@ functionLiteral
     ;
 
 functionParameters
-    : IDENT (COMA IDENT)*                                           #functionParametersAST
+    : ident (COMA ident)*                                           #functionParametersAST
     ;
 
 hashLiteral
@@ -109,4 +109,9 @@ addOperators
 
 equalOperators
     : MENOR | MAYOR | MENOREQUAL | MAYOREQUAL | EQUAL               #equalOperatorsAST
+    ;
+
+ident
+locals [decl = None]
+    : IDENT                                                         #identAST
     ;

@@ -1,12 +1,17 @@
 from generated.monkeyParserVisitor import monkeyParserVisitor
 from generated.monkeyParser import monkeyParser
-
+from SymbolTable import SymbolTable
 
 class CustomVisitor(monkeyParserVisitor):
     cantTabs = 0
     output = ""
     fromIf = False
     fromFunc = False
+
+    tabla = None
+
+    def __init__(self):
+        self.tabla = SymbolTable()
 
     def getOutput(self):
         return self.output
@@ -35,7 +40,7 @@ class CustomVisitor(monkeyParserVisitor):
         self.output += (self.addTabs(self.cantTabs) + "- Let Statement: \n")
         self.cantTabs += 1
         self.output += (self.addTabs(self.cantTabs) + "- LET: \"" + ctx.LET().__str__() + "\"\n")
-        self.output += (self.addTabs(self.cantTabs) + "- IDENT: \"" + ctx.IDENT().__str__() + "\"\n")
+        self.output += (self.addTabs(self.cantTabs) + "- IDENT: \"" + self.visit(ctx.ident()) + "\"\n")
         self.output += (self.addTabs(self.cantTabs) + "- ASSIGN: \"" + ctx.ASSIGN().__str__() + "\"\n")
         self.cantTabs += 1
         self.visit(ctx.expression())
@@ -46,6 +51,10 @@ class CustomVisitor(monkeyParserVisitor):
                 self.output += (self.addTabs(self.cantTabs + 1) + "- PCOMA: \"" + ctx.PCOMA().__str__() + "\"\n")
 
         self.cantTabs -= 1
+        # IF int=0 or string=1
+        self.tabla.insertar(ctx.IDENT().getSymbol(), 0, ctx)
+
+        #self.tabla.imprimir();
         return None
 
     def visitReturnStatementAST(self, ctx: monkeyParser.ReturnStatementASTContext):
@@ -503,3 +512,9 @@ class CustomVisitor(monkeyParserVisitor):
 
         self.cantTabs -= 1
         return operator
+
+    def visitIdentAST(self, ctx: monkeyParser.IdentASTContext):
+
+        return ctx. IDENT().getText()
+
+

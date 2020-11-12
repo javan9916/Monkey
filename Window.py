@@ -10,6 +10,7 @@ import keyword
 
 from CustomErrorListener import CustomErrorListener
 from CustomVisitor import CustomVisitor
+from Contextual import Contextual
 from generated.monkeyLexer import monkeyLexer
 from generated.monkeyParser import monkeyParser
 
@@ -616,7 +617,7 @@ class Window(wx.Frame):
         tree = parser.program()
 
         if not (errorListener.HasErrors()):
-            visitor = CustomVisitor()
+            visitor = Contextual()
             visitor.visit(tree)
             output = self.dirname + "\\" + self.filename + \
                      ">\nCompilación Exitosa!!\n\n" + "Output: \n" + visitor.getOutput()
@@ -627,6 +628,7 @@ class Window(wx.Frame):
             output = self.dirname + "\\" + self.filename + \
                      ">\nCompilación Fallida!!\n\n" + errorListener.toString()
 
+            self.control.SetCaretLineBackground()
             newFrame = Output(None, "Output Code", output)
             newFrame.Show()
 
