@@ -3,12 +3,7 @@ class SymbolTable:
     table = []
 
     def __init__(self):
-        self.push("len", 0, 0, 0, True, True, 1, None, False)
-        self.push("first", 0, 0, 0, True, True, 1, None, False)
-        self.push("last", 0, 0, 0, True, True, 1, None, False)
-        self.push("rest", 0, 0, 0, True, True, 1, None, False)
-        self.push("push", 0, 0, 0, True, False, 1, None, False)
-        self.push("puts", 0, 0, 0, True, False, 1, None, False)
+        self.table = []
         self.currentLevel = 0
 
     class Ident:
@@ -38,6 +33,14 @@ class SymbolTable:
         def getLevel(self):
             return self.level
 
+    def pushInternals(self):
+        self.push("len", 0, 0, 0, True, True, 1, None, False)
+        self.push("first", 0, 0, 0, True, True, 1, None, False)
+        self.push("last", 0, 0, 0, True, True, 1, None, False)
+        self.push("rest", 0, 0, 0, True, True, 1, None, False)
+        self.push("push", 0, 0, 0, True, False, 1, None, False)
+        self.push("puts", 0, 0, 0, True, False, 1, None, False)
+
     def getCurrentLevel(self):
         return self.currentLevel
 
@@ -52,12 +55,12 @@ class SymbolTable:
         SymbolTable.setCurrentLevel(-1)
 
     def push(self, id, type, lvl, decl, isFunc, hasReturn, params, length, fromList):
-        #no se puede insertar un elemento repetido en el mismo nivel
+        # no se puede insertar un elemento repetido en el mismo nivel
         item = SymbolTable.Ident(id, type, lvl, decl, isFunc, hasReturn, params, length, fromList)
         self.table.append(item)
 
     def search(self, name):
-        #debe buscarse en otro orden... de atrás para adelante
+        # debe buscarse en otro orden... de atrás para adelante
         temp = None
         for id in self.table:
             if (id.token.__str__() == name):
@@ -68,26 +71,51 @@ class SymbolTable:
         self.currentLevel += 1
 
     def closeScope(self):
-        self.table = [i for i in self.table if not(i.getLevel() == self.getCurrentLevel())]
+        self.table = [i for i in self.table if not (i.getLevel() == self.getCurrentLevel())]
         self.currentLevel -= 1
 
-    def print(self):
-        print("----- INICIO TABLA ------")
-        print("Variables: ")
+    def typeToString(self, item):
+        if item.type == 0:
+            return "internal function"
+        elif item.type == 1:
+            return "int"
+        elif item.type == 2:
+            return "string"
+        elif item.type == 3:
+            return "boolean"
+        elif item.type == 4:
+            return "array"
+        elif item.type == 5:
+            return "hash"
+        elif item.type == 6:
+            return "function"
+        elif item.type == 7:
+            return "array function"
+        else:
+            return "NA"
+
+    def getOutput(self):
+        output = ""
+        output += "-------- INICIO TABLA --------\n"
+        output += "Variables: \n"
         for x in range(0, len(self.table)):
             item = self.table[x]
             if not item.isFunc:
                 if item.length is None:
-                    print("Nombre: " + item.token.__str__() + " - " + str(item.level) + " - " + str(item.type))
+                    output += "Nombre: " + item.token.__str__() + " - Nivel: " + str(
+                        item.level) + " - Tipo: " + self.typeToString(item) + "\n"
                 else:
-                    print("Nombre: " + item.token.__str__() + " - " + str(item.level) + " - " + str(item.type) + " - "
-                          + str(item.length))
+                    output += "Nombre: " + item.token.__str__() + " - Nivel: " + str(
+                        item.level) + " - Tipo: " + self.typeToString(item) + " - " \
+                              + "Tamaño: " + str(item.length) + "\n"
 
-        print("Funciones: ")
+        output += "\nFunciones: \n"
         for x in range(0, len(self.table)):
             item = self.table[x]
             if item.isFunc:
-                print("Nombre: " + item.token.__str__() + " - " + str(item.level) + " - type: " + str(item.type) +
-                      " - " + str(item.params))
+                output += "Nombre: " + item.token.__str__() + " - Nivel: " + str(
+                    item.level) + " - Tipo: " + self.typeToString(item) + \
+                          " - Número parametros: " + str(item.params) + "\n"
 
-        print("------ FIN TABLA -------")
+        output += "-------- FIN TABLA --------"
+        return output

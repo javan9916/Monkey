@@ -1,34 +1,6 @@
-// => sa
-/* ESTE ES UN COMENTARIO NORMAL */
-/* este es/* un comentario */
-anidado */
-
-
-let age = 1;
-
-let name = "Pablo123";
-
-let result = 20 * (20 / 4);
-
-let my_Array = [10, 2, 3, 4, 5];
-
-let listNew = [
-                {"name": "Luis", "age": 18},
-                {"name": "Lucia", "age": 25},
-                {"name": "Erick", "age": 40},
-                {"name": "Jose", "age": 38}
-                ];
-
-len(listNew);
-
-first(listNew);
-
-last(listNew);
-
-myArray[0] // => 1
-
-if (x == 1) {
-    1
-} else {
-    2
-}
+let myArray = [1, 2, 3, 4, fn(a, b) { return a + b; }];
+let p = fn(a, b) { return a + b; }
+myArray[1]
+p(5,6)
+funtion_myArray4(5,6,2)
+let x = 10;

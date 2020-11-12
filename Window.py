@@ -616,25 +616,28 @@ class Window(wx.Frame):
 
         tree = parser.program()
 
-        if not (errorListener.HasErrors()):
-            visitor = Contextual()
-            visitor.visit(tree)
-            if visitor.getOutput() == "":
-                output = self.dirname + "\\" + self.filename + \
-                         ">\nCompilación Exitosa!!\n\n" + "Output: No hay errores"
-            else:
-                output = self.dirname + "\\" + self.filename + \
-                         ">\nCompilación Exitosa!!\n\n" + "Output: \n" + visitor.getOutput()
-
-            newFrame = Output(None, "Output Code", output)
-            newFrame.Show()
+        #if not (errorListener.HasErrors()):
+        visitor = Contextual()
+        visitor.visit(tree)
+        if visitor.getOutput() == "":
+            output = self.dirname + "\\" + self.filename + \
+                         ">\nCompilación Exitosa!!\n\n" + "Output: No hay errores\n" + visitor.getSymbolTable().getOutput()
         else:
+            output = self.dirname + "\\" + self.filename + \
+                        ">\nCompilación Exitosa!!\n\n" + "Output: \n" + visitor.getOutput() + "\n" + \
+                        visitor.getSymbolTable().getOutput()
+
+        visitor.blankTable()
+        newFrame = Output(None, "Output Code", output)
+        newFrame.Show()
+        """else:
             output = self.dirname + "\\" + self.filename + \
                      ">\nCompilación Fallida!!\n\n" + errorListener.toString()
 
             self.control.SetCaretLineBackground()
             newFrame = Output(None, "Output Code", output)
-            newFrame.Show()
+            newFrame.Show()"""
+
 
     def Bypass(self, e):
         pass

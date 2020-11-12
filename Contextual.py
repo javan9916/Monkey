@@ -7,6 +7,7 @@ class Contextual(monkeyParserVisitor):
     table = None
     output = ""
     currentIdent = None
+    isInt = False
     fromFunc = False
     hasReturn = False
     fromIf = False
@@ -15,13 +16,20 @@ class Contextual(monkeyParserVisitor):
     fromElement = False
     fromList = False
     fromListName = ""
-    fromListparams=-1
+    fromListparams = -1
 
     def __init__(self):
         self.table = SymbolTable()
+        self.table.pushInternals()
+
+    def blankTable(self):
+        self.table.table.clear()
 
     def getOutput(self):
         return self.output
+
+    def getSymbolTable(self):
+        return self.table
 
     def visitProgramAST(self, ctx: monkeyParser.ProgramASTContext):
         i = 0
@@ -31,7 +39,6 @@ class Contextual(monkeyParserVisitor):
             else:
                 break
             i += 1
-        self.table.print()
         return None
 
     def visitLetStatementAST(self, ctx: monkeyParser.LetStatementASTContext):
@@ -43,17 +50,18 @@ class Contextual(monkeyParserVisitor):
         params = -1
         length = None
         if type(result) is str:
-            if result == "int":
-                tp = 1
-            elif result == "string":
+            if result == "string":
                 tp = 2
             elif result == "true" or result == "false":
                 tp = 3
             elif result == "hash":
                 tp = 5
         elif type(result) is int:
-            tp = 4
-            length = result
+            if not self.fromList:
+                tp = 1
+            elif self.isInt:
+                tp = 4
+                length = result
         else:
             tp = 6
             isFunction = True
@@ -143,11 +151,13 @@ class Contextual(monkeyParserVisitor):
         if type(result) == int:
             ident = self.table.search(self.currentIdent.IDENT().__str__())
             if not ident is None:
-                if result >= ident.length:
-                    self.output += "ERROR: El array \"" + self.currentIdent.IDENT().__str__() + "\" tiene " + \
-                                   str(ident.length) + " elementos en vez de " + str(result) + "\n "
+                if not (ident.length is None):
+                    if result >= ident.length:
+                        self.output += "ERROR: El array \"" + self.currentIdent.IDENT().__str__() + "\" tiene " + \
+                                       str(ident.length) + " elementos en vez de " + str(result) + "\n "
+            else:
+                self.output += "ERROR: El array \"" + self.currentIdent.IDENT().__str__() + "\" no está declarado \n"
         self.fromAccess = False
-
         return result
 
     def visitCallExpressionAST(self, ctx: monkeyParser.CallExpressionASTContext):
@@ -157,6 +167,8 @@ class Contextual(monkeyParserVisitor):
         return result
 
     def visitPrimitiveExpressionIntegerAST(self, ctx: monkeyParser.PrimitiveExpressionIntegerASTContext):
+        self.fromList = False
+        self.isInt = True
         return int(ctx.INTEGER().__str__())
 
     def visitPrimitiveExpressionStringAST(self, ctx: monkeyParser.PrimitiveExpressionStringASTContext):
@@ -179,6 +191,7 @@ class Contextual(monkeyParserVisitor):
         return ctx
 
     def visitPrimitiveExpressionarrayLiteralast(self, ctx: monkeyParser.PrimitiveExpressionarrayLiteralastContext):
+        self.isInt = False
         length = self.visit(ctx.arrayLiteral())
         self.fromList = True
         return length
@@ -286,7 +299,10 @@ class Contextual(monkeyParserVisitor):
                                        str(ident.params) + " parámetros en vez de " + str(len(ctx.expression())) + "\n"
                 else:
                     self.output += "ERROR: El identificador \"" + self.currentIdent.IDENT().__str__() + "\" no ha " \
-                                                                                        "sido declarado \n "
+                                                                                                        "sido declarado \n "
+            else:
+                self.output += "ERROR: El identificador \"" + self.currentIdent.IDENT().__str__() + "\" no ha " \
+                                                                                                    "sido declarado \n "
 
         else:
             length = len(ctx.expression())
@@ -300,7 +316,7 @@ class Contextual(monkeyParserVisitor):
 
                 if not self.fromListparams == -1:
                     self.fromListName = "function_" + self.fromListName + str(i)
-                    self.table.push(self.fromListName, 6, 0, ctx, True, True, self.fromListparams, -1, True)
+                    self.table.push(self.fromListName, 7, 0, ctx, True, True, self.fromListparams, -1, True)
                 i += 1
 
         return length
