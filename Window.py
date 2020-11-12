@@ -619,8 +619,12 @@ class Window(wx.Frame):
         if not (errorListener.HasErrors()):
             visitor = Contextual()
             visitor.visit(tree)
-            output = self.dirname + "\\" + self.filename + \
-                     ">\nCompilación Exitosa!!\n\n" + "Output: \n" + visitor.getOutput()
+            if visitor.getOutput() == "":
+                output = self.dirname + "\\" + self.filename + \
+                         ">\nCompilación Exitosa!!\n\n" + "Output: No hay errores"
+            else:
+                output = self.dirname + "\\" + self.filename + \
+                         ">\nCompilación Exitosa!!\n\n" + "Output: \n" + visitor.getOutput()
 
             newFrame = Output(None, "Output Code", output)
             newFrame.Show()
