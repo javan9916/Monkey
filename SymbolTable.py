@@ -86,7 +86,7 @@ class SymbolTable:
         for x in range(0, len(self.table)):
             item = self.table[x]
             if item.isFunc:
-                print("Nombre: " + item.token.__str__() + " - " + str(item.level) + " - " + str(item.type) +
+                print("Nombre: " + item.token.__str__() + " - " + str(item.level) + " - type: " + str(item.type) +
                       " - " + str(item.params))
 
         print("------ FIN TABLA -------")
