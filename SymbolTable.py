@@ -3,16 +3,16 @@ class SymbolTable:
     table = []
 
     def __init__(self):
-        self.push("len", 0, 0, 0, True, True, 1, None)
-        self.push("first", 0, 0, 0, True, True, 1, None)
-        self.push("last", 0, 0, 0, True, True, 1, None)
-        self.push("rest", 0, 0, 0, True, True, 1, None)
-        self.push("push", 0, 0, 0, True, False, 1, None)
-        self.push("puts", 0, 0, 0, True, False, 1, None)
+        self.push("len", 0, 0, 0, True, True, 1, None, False)
+        self.push("first", 0, 0, 0, True, True, 1, None, False)
+        self.push("last", 0, 0, 0, True, True, 1, None, False)
+        self.push("rest", 0, 0, 0, True, True, 1, None, False)
+        self.push("push", 0, 0, 0, True, False, 1, None, False)
+        self.push("puts", 0, 0, 0, True, False, 1, None, False)
         self.currentLevel = 0
 
     class Ident:
-        def __init__(self, token, type, lvl, decl, isFunc, hasReturn, params, length):
+        def __init__(self, token, type, lvl, decl, isFunc, hasReturn, params, length, fromList):
             if isFunc:
                 self.token = token
                 self.type = type
@@ -22,6 +22,7 @@ class SymbolTable:
                 self.isFunc = isFunc
                 self.hasReturn = hasReturn
                 self.params = params
+                self.fromList = fromList
             else:
                 self.token = token
                 self.type = type
@@ -50,9 +51,9 @@ class SymbolTable:
         SymbolTable.setTable([])
         SymbolTable.setCurrentLevel(-1)
 
-    def push(self, id, type, lvl, decl, isFunc, hasReturn, params, length):
+    def push(self, id, type, lvl, decl, isFunc, hasReturn, params, length, fromList):
         #no se puede insertar un elemento repetido en el mismo nivel
-        item = SymbolTable.Ident(id, type, lvl, decl, isFunc, hasReturn, params, length)
+        item = SymbolTable.Ident(id, type, lvl, decl, isFunc, hasReturn, params, length, fromList)
         self.table.append(item)
 
     def search(self, name):
