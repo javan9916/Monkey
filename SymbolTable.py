@@ -63,7 +63,7 @@ class SymbolTable:
         # debe buscarse en otro orden... de atrás para adelante
         temp = None
         for id in self.table:
-            if (id.token.__str__() == name):
+            if id.token.__str__() == name:
                 return id
         return temp
 

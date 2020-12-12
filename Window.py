@@ -8,6 +8,7 @@ import wx.stc as stc
 import wx.lib.dialogs
 import keyword
 
+from CodeGenerator import CodeGenerator
 from CustomErrorListener import CustomErrorListener
 from CustomVisitor import CustomVisitor
 from Contextual import Contextual
@@ -617,9 +618,9 @@ class Window(wx.Frame):
         tree = parser.program()
 
         #if not (errorListener.HasErrors()):
-        visitor = Contextual()
+        visitor = CodeGenerator()
         visitor.visit(tree)
-        if visitor.getOutput() == "":
+        """if visitor.getOutput() == "":
             output = self.dirname + "\\" + self.filename + \
                          ">\nCompilación Exitosa!!\n\n" + "Output: No hay errores\n" + visitor.getSymbolTable().getOutput()
         else:
@@ -630,7 +631,7 @@ class Window(wx.Frame):
         visitor.blankTable()
         newFrame = Output(None, "Output Code", output)
         newFrame.Show()
-        """else:
+        else:
             output = self.dirname + "\\" + self.filename + \
                      ">\nCompilación Fallida!!\n\n" + errorListener.toString()
 

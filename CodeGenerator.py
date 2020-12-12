@@ -1,14 +1,20 @@
-from generated.monkeyParserVisitor import monkeyParserVisitor
 from generated.monkeyParser import monkeyParser
-from SymbolTable import SymbolTable
+from generated.monkeyParserVisitor import monkeyParserVisitor
+from Symbols import Symbols
+import types
 
 
-class Contextual(monkeyParserVisitor):
+class CodeGenerator(monkeyParserVisitor):
+    letMain = None
+    indice = None
+    codigo = None
+    fromFunc = False
+
+    insideMain = False
+    isMain = None
     table = None
     output = ""
     currentIdent = None
-    isInt = False
-    fromFunc = False
     hasReturn = False
     fromIf = False
     fromAccess = False
@@ -17,10 +23,17 @@ class Contextual(monkeyParserVisitor):
     fromList = False
     fromListName = ""
     fromListparams = -1
+    bandOpe = None
+    l1 = []
+    l2 = ['x', 'y']
 
     def __init__(self):
-        self.table = SymbolTable()
-        self.table.pushInternals()
+        self.letMain = -1
+        self.isMain = False
+        self.indice = 0
+        self.codigo = []
+        self.table = Symbols()
+        self.bandOpe = False
 
     def blankTable(self):
         self.table.table.clear()
@@ -31,62 +44,109 @@ class Contextual(monkeyParserVisitor):
     def getSymbolTable(self):
         return self.table
 
+    def generar(self, indice, instr, param):
+        if param is not None:
+            self.codigo.append(indice + " " + instr + " " + param)
+
+        else:
+            self.codigo.append(indice + " " + instr)
+        self.indice += 1
+
     def visitProgramAST(self, ctx: monkeyParser.ProgramASTContext):
         i = 0
         while True:
             if i < len(ctx.statement()):
                 self.visit(ctx.statement(i))
+
             else:
                 break
             i += 1
+
+        self.generar(str(self.indice), "END", None)
+        if not self.isMain:
+            print("WARNING: No se declaró el Main.")
+        print(self.l1)
+        print(self.l2)
+        print(self.printEnd())
         return None
 
     def visitLetStatementAST(self, ctx: monkeyParser.LetStatementASTContext):
         identCtx = self.visit(ctx.ident())
-        self.fromListName = identCtx.IDENT().__str__()
-        result = self.visit(ctx.expression())
-        hasReturn, isFunction = False, False
-        tp = -1
-        params = -1
-        length = None
-        if type(result) is str:
-            if result == "string":
-                tp = 2
-            elif result == "true" or result == "false":
-                tp = 3
-            elif result == "hash":
-                tp = 5
-        elif type(result) is int:
-            if not self.fromList:
-                tp = 1
-            elif self.isInt:
-                tp = 4
-                length = result
-        else:
-            tp = 6
-            isFunction = True
-            hasReturn = self.hasReturn
-            params = len(result)
+        if not (identCtx.IDENT().__str__() == 'Main'):
+            self.table.openScope()
+            self.insideMain = True
 
-        if not self.hasReturn and isFunction:
-            self.output += "ERROR: La función no tiene retorno, no se puede asignar a una variable\n"
-            self.hasReturn = False
-
+        tagIndex = self.indice
         lvl = self.table.getCurrentLevel()
+        if lvl <= 0:
+            mode1 = 'GLOBAL'
+            mode2 = 'GLOBAL'
+        else:
+            mode1 = 'LOCAL'
+            mode2 = 'FAST'
 
-        self.table.push(identCtx.IDENT(), tp, lvl, ctx, isFunction, hasReturn, params, length, False)
+        if identCtx.IDENT().__str__() == 'Main' and not self.isMain:
+            self.isMain = True
+            self.generar(str(self.indice), "DEF", "Main")
+        elif identCtx.IDENT().__str__() == 'Main' and self.isMain:
+            print("ERROR: Main ya ha sido declarado...")
+            return None
+        else:
+            self.generar(str(self.indice), "PUSH_" + mode1 + "_WAITFORMAT", identCtx.IDENT().__str__())
+
+        result = self.visit(ctx.expression())
+
+        if not (identCtx.IDENT().__str__() == 'Main' or isinstance(result, list)):
+            self.generar(str(self.indice), "STORE_" + mode2, identCtx.IDENT().__str__())
+
+        if result is not None:
+            if isinstance(result, int):
+                instruction = self.codigo[tagIndex].split()
+                self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_I" + " " + instruction[2]
+                self.table.push(identCtx.IDENT().__str__(), lvl, 1, ctx, False, 0, False)
+            elif isinstance(result, str):
+                instruction = self.codigo[tagIndex].split()
+                self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_C" + " " + instruction[2]
+                self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, 0, False)
+            else:
+                if isinstance(result, list):
+                    instruction = self.codigo[tagIndex].split()
+                    self.codigo[tagIndex] = instruction[0] + " DEF " + identCtx.IDENT().__str__()
+                    if result[0].IDENT().__str__() != '<missing IDENT>':
+                        self.table.push(identCtx.IDENT().__str__(), lvl, 3, ctx, True, len(result), False)
+                    else:
+                        self.table.push(identCtx.IDENT().__str__(), lvl, 3, ctx, True, 0, False)
+                else:
+                    token = self.table.search(result.IDENT().__str__())
+                    if token is not None:
+                        if token.getType() == 1:
+                            instruction = self.codigo[tagIndex].split()
+                            self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_I" + " " + \
+                                                    instruction[2]
+                            self.table.push(identCtx.IDENT().__str__(), lvl, 1, ctx, False, 0, False)
+                        elif token.getType() == 2:
+                            instruction = self.codigo[tagIndex].split()
+                            self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_C" + " " + \
+                                                    instruction[2]
+                            self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, False)
+
+        else:
+            print("ERROR: Ha sucedido algo inesperado...")
+
+        if not (identCtx.IDENT().__str__() == 'Main'):
+            token = self.table.search(identCtx.IDENT().__str__())
+            if token is not None:
+                if token.getType() == 3:
+                    self.generar(str(self.indice), "RETURN", None)
+            self.table.closeScope()
         return None
 
     def visitReturnStatementAST(self, ctx: monkeyParser.ReturnStatementASTContext):
-        result = self.visit(ctx.expression())
-        if not self.fromFunc:
-            self.output += "ERROR: No se puede retornar, es necesario una función\n"
-        else:
-            self.hasReturn = True
-        return result
+        return super().visitReturnStatementAST(ctx)
 
     def visitExpressionStatementAST(self, ctx: monkeyParser.ExpressionStatementASTContext):
         result = self.visit(ctx.expression())
+        # self.generar(str(self.indice), "visitExpressionStatementAST", result)
         return result
 
     def visitExpressionAST(self, ctx: monkeyParser.ExpressionASTContext):
@@ -100,23 +160,68 @@ class Contextual(monkeyParserVisitor):
             else:
                 break
             i += 1
+
         return result
 
     def visitAdditionExpressionAST(self, ctx: monkeyParser.AdditionExpressionASTContext):
+        lvl = self.table.getCurrentLevel()
+        if lvl <= 0:
+            mode1 = 'GLOBAL'
+        else:
+            mode1 = 'FAST'
+
+        operator = ""
+        tokenType = 0
         result = self.visit(ctx.multiplicationExpression(0))
+        result2 = None
+        if isinstance(result, monkeyParser.IdentASTContext):
+            token = self.table.search(result.IDENT().__str__())
+            if token is not None:
+                result2 = result.IDENT().__str__()
+                tokenType = token.getType()
+            else:
+                print("ERROR1: El identificador \"" + result.IDENT().__str__() + "\" no existe")
+                return None
+
         i = 1
         while True:
             if i < len(ctx.multiplicationExpression()):
                 if not (ctx.addOperators()[i - 1] is None):
-                    self.visit(ctx.addOperators()[i - 1])
-                self.visit(ctx.multiplicationExpression(i))
+                    operator = self.visit(ctx.addOperators()[i - 1])
+                result = self.visit(ctx.multiplicationExpression(i))
+
+                if isinstance(result, monkeyParser.IdentASTContext):
+                    token = self.table.search(result.IDENT().__str__())
+                    if token is not None:
+                        if token.getType() != tokenType:
+                            print("ERROR: Los tipos de dato no coinciden")
+                            break
+                    else:
+                        print("ERROR: El identificador \"" + result.IDENT().__str__() + "\" no existe")
+                        break
             else:
                 break
             i += 1
+
+            if operator == "+":
+                operator = 'BINARY_ADD'
+            elif operator == '-':
+                operator = 'BINARY_SUBSTRACT'
+
+            instruction = self.codigo[self.indice - 1].split()
+            if not instruction[1] == "BINARY_ADD":
+                self.generar(str(self.indice), "LOAD_" + mode1, result2)
+                self.l1.append(result2)
+
+            self.generar(str(self.indice), "LOAD_" + mode1, result.IDENT().__str__())
+            self.generar(str(self.indice), operator, None)
+            self.l1.append(result.IDENT().__str__())
+
         return result
 
     def visitMultiplicationExpressionAST(self, ctx: monkeyParser.MultiplicationExpressionASTContext):
         result = self.visit(ctx.elementExpression(0))
+
         i = 1
         while True:
             if i < len(ctx.elementExpression()):
@@ -131,19 +236,35 @@ class Contextual(monkeyParserVisitor):
     def visitElementExpressionAST(self, ctx: monkeyParser.ElementExpressionASTContext):
         resultCtx = self.visit(ctx.primitiveExpression())
         if not self.fromFunc:
-            if type(resultCtx) == 'generated.monkeyParser.monkeyParser.PrimitiveExpressionIdentASTContext':
+            if isinstance(resultCtx, monkeyParser.PrimitiveExpressionIdentASTContext):
                 ident = self.table.search(resultCtx.IDENT().__str__())
                 if ident is None:
                     self.output += "ERROR: El identificador \"" + resultCtx.IDENT().__str__() + "\" no ha sido " \
                                                                                                 "declarado\n "
+
         if not (ctx.elementAccess() is None):
             self.currentIdent = resultCtx
             resultCtx = self.visit(ctx.elementAccess())
             self.currentIdent = None
         elif not (ctx.callExpression() is None):
+            self.fromCall = True
             self.currentIdent = resultCtx
+            token = self.table.search(resultCtx.IDENT().__str__())
             resultCtx = self.visit(ctx.callExpression())
+            self.generar(str(self.indice), "LOAD_GLOBAL", self.currentIdent.IDENT().__str__())
+            if token is not None:
+                if token.getType() == 3:
+                    self.generar(str(self.indice), "CALL_FUNCTION", str(token.getLength()))
             self.currentIdent = None
+            self.fromCall = False
+
+        if isinstance(resultCtx, monkeyParser.IdentASTContext):
+            token = self.table.search(resultCtx.IDENT().__str__())
+            if token is not None:
+                if token.getType() == 3:
+                    self.generar(str(self.indice), "LOAD_GLOBAL", resultCtx.IDENT().__str__())
+                    self.generar(str(self.indice), "CALL_FUNCTION", str(token.getLength()))
+
         return resultCtx
 
     def visitElementAccessAST(self, ctx: monkeyParser.ElementAccessASTContext):
@@ -170,13 +291,24 @@ class Contextual(monkeyParserVisitor):
     def visitPrimitiveExpressionIntegerAST(self, ctx: monkeyParser.PrimitiveExpressionIntegerASTContext):
         self.fromList = False
         self.isInt = True
+        self.generar(str(self.indice), "LOAD_CONST", ctx.INTEGER().__str__())
+
         return int(ctx.INTEGER().__str__())
 
     def visitPrimitiveExpressionStringAST(self, ctx: monkeyParser.PrimitiveExpressionStringASTContext):
+        self.generar(str(self.indice), "LOAD_CONST", ctx.INTEGER().__str__())
         return "string"
 
     def visitPrimitiveExpressionIdentAST(self, ctx: monkeyParser.PrimitiveExpressionIdentASTContext):
         identCtx = self.visit(ctx.ident())
+        token = self.table.search(identCtx.IDENT().__str__())
+        if token.getType() <= 0 or self.insideMain:
+            mode = 'GLOBAL'
+        else:
+            mode = 'FAST'
+
+        if self.fromCall:
+            self.generar(str(self.indice), "LOAD_"+mode, identCtx.IDENT().__str__())
         return identCtx
 
     def visitPrimitiveExpressionTrueAST(self, ctx: monkeyParser.PrimitiveExpressionTrueASTContext):
@@ -186,7 +318,6 @@ class Contextual(monkeyParserVisitor):
         return "false"
 
     def visitPrimitiveExpressionExpressionAST(self, ctx: monkeyParser.PrimitiveExpressionExpressionASTContext):
-        self.table.openScope()
         self.visit(ctx.expression())
         self.table.closeScope()
         return ctx
@@ -204,7 +335,6 @@ class Contextual(monkeyParserVisitor):
 
     def visitPrimitiveExpressionfunctionLiteralAST(self,
                                                    ctx: monkeyParser.PrimitiveExpressionfunctionLiteralASTContext):
-        self.table.openScope()
         self.fromFunc = True
         fnCtx = self.visit(ctx.functionLiteral())
         self.fromFunc = False
@@ -286,7 +416,7 @@ class Contextual(monkeyParserVisitor):
             ident = self.table.search(self.currentIdent.IDENT().__str__())
             if not (ident is None):
                 if not ident.fromList:
-                    if ident.params == len(ctx.expression()):
+                    if ident.getLength() == len(ctx.expression()):
                         self.visit(ctx.expression()[0])
                         i = 1
                         while True:
@@ -296,14 +426,17 @@ class Contextual(monkeyParserVisitor):
                                 break
                             i += 1
                     else:
-                        self.output += "ERROR: La función \"" + self.currentIdent.IDENT().__str__() + "\" tiene " + \
-                                       str(ident.params) + " parámetros en vez de " + str(len(ctx.expression())) + "\n"
+                        print("ERROR: La función \"" + self.currentIdent.IDENT().__str__() + "\" tiene " + \
+                                       str(ident.getLength()) + " parámetros en vez de " + str(len(ctx.expression())) + "\n")
+                        return
                 else:
-                    self.output += "ERROR: El identificador \"" + self.currentIdent.IDENT().__str__() + "\" no ha " \
-                                                                                                        "sido declarado \n "
+                    print("ERROR: El identificador \"" + self.currentIdent.IDENT().__str__() + "\" no ha " \
+                                                                                                        "sido declarado \n ")
+                    return
             else:
-                self.output += "ERROR: El identificador \"" + self.currentIdent.IDENT().__str__() + "\" no ha " \
-                                                                                                    "sido declarado \n "
+                print("ERROR: El identificador \"" + self.currentIdent.IDENT().__str__() + "\" no ha " \
+                                                                                                    "sido declarado \n ")
+                return
 
         else:
             length = len(ctx.expression())
@@ -317,18 +450,28 @@ class Contextual(monkeyParserVisitor):
 
                 if not self.fromListparams == -1:
                     self.fromListName = "function_" + self.fromListName + str(i)
-                    self.table.push(self.fromListName, 7, 0, ctx, True, True, self.fromListparams, -1, True)
+                    # self.table.push(self.fromListName, 7, 0, ctx, True, True, self.fromListparams, -1, True)
                 i += 1
 
         return length
 
     def visitPrintExpressionAST(self, ctx: monkeyParser.PrintExpressionASTContext):
-        self.visit(ctx.expression())
+        result = self.visit(ctx.expression())
+        token = self.table.search(result.IDENT().__str__())
+        lvl = token.getLevel()
+        if lvl <= 0:
+            mode1 = 'GLOBAL'
+        else:
+            mode1 = 'FAST'
+
+        self.generar(str(self.indice), "LOAD_" + mode1, result.IDENT().__str__())
+        methodName = "write"
+        self.generar(str(self.indice), "LOAD_GLOBAL", methodName)
+        self.generar(str(self.indice), "CALL_FUNCTION", str(1))
         return None
 
     def visitIfExpressionAST(self, ctx: monkeyParser.IfExpressionASTContext):
         self.fromIf = True
-        self.table.openScope()
         self.visit(ctx.expression())
         self.fromIf = False
         self.visit(ctx.statement()[0])
@@ -392,3 +535,9 @@ class Contextual(monkeyParserVisitor):
 
     def visitIdentAST(self, ctx: monkeyParser.IdentASTContext):
         return ctx
+
+    def printEnd(self):
+        result = ""
+        for s in self.codigo:
+            result += s + '\n'
+        return result
