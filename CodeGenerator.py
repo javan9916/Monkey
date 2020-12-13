@@ -10,6 +10,7 @@ class CodeGenerator(monkeyParserVisitor):
     codigo = None
     fromFunc = False
     isOperator = None
+    var =None;
 
     insideMain = False
     isMain = None
@@ -67,8 +68,6 @@ class CodeGenerator(monkeyParserVisitor):
         self.generar(str(self.indice), "END", None)
         if not self.isMain:
             print("WARNING: No se declaró el Main.")
-        print(self.l1)
-        print(self.l2)
         print(self.printEnd())
         return None
 
@@ -101,21 +100,36 @@ class CodeGenerator(monkeyParserVisitor):
         result = self.visit(ctx.expression())
 
         if not (identCtx.IDENT().__str__() == 'Main' or isinstance(result, list)):
+            if self.var == '_D':
+                mode2= mode2+'_DICT'
+            elif self.var == '_L':
+                mode2 = mode2+'_LIST'
             self.generar(str(self.indice), "STORE_" + mode2, identCtx.IDENT().__str__())
-
         if result is not None:
             if isinstance(result, int):
                 instruction = self.codigo[tagIndex].split()
                 isPush = instruction[1].split("_")
+                var = None
                 if isPush[0] == 'PUSH':
-                    self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_I" + " " + instruction[2]
+                    if self.var == '_L':
+                        var = '_L'
+                    else:
+                        var = '_I'
+                    self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + var + " " + instruction[2]
                     self.table.push(identCtx.IDENT().__str__(), lvl, 1, ctx, False, 0, False)
+                    self.var = None
             elif isinstance(result, str):
                 instruction = self.codigo[tagIndex].split()
                 isPush = instruction[1].split("_")
                 if isPush[0] == 'PUSH':
-                    self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_C" + " " + instruction[2]
+                    var = "_C"
+                    if self.var == '_D':
+                        var = '_D'
+                    else:
+                        var = '_S'
+                    self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 +  var+ " " + instruction[2]
                     self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, 0, False)
+                    self.var = None
             else:
                 if isinstance(result, list):
                     instruction = self.codigo[tagIndex].split()
@@ -317,12 +331,15 @@ class CodeGenerator(monkeyParserVisitor):
         return int(ctx.INTEGER().__str__())
 
     def visitPrimitiveExpressionStringAST(self, ctx: monkeyParser.PrimitiveExpressionStringASTContext):
-        self.generar(str(self.indice), "LOAD_CONST", ctx.INTEGER().__str__())
-        return "string"
+        self.generar(str(self.indice), "LOAD_CONST", ctx.STRING().__str__())
+        self.var = '_S'
+        return ctx.STRING().__str__()
 
     def visitPrimitiveExpressionIdentAST(self, ctx: monkeyParser.PrimitiveExpressionIdentASTContext):
         identCtx = self.visit(ctx.ident())
         token = self.table.search(identCtx.IDENT().__str__())
+        if token == None:
+            return None
         if token.getType() <= 0 or self.insideMain:
             mode = 'GLOBAL'
         else:
@@ -334,9 +351,11 @@ class CodeGenerator(monkeyParserVisitor):
         return identCtx
 
     def visitPrimitiveExpressionTrueAST(self, ctx: monkeyParser.PrimitiveExpressionTrueASTContext):
+        self.generar(str(self.indice), "LOAD_CONST", ctx.TRUE().__str__())
         return "true"
 
     def visitPrimitiveExpressionFalseAST(self, ctx: monkeyParser.PrimitiveExpressionFalseASTContext):
+        self.generar(str(self.indice), "LOAD_CONST", ctx.FALSE().__str__())
         return "false"
 
     def visitPrimitiveExpressionExpressionAST(self, ctx: monkeyParser.PrimitiveExpressionExpressionASTContext):
@@ -348,6 +367,7 @@ class CodeGenerator(monkeyParserVisitor):
         self.isInt = False
         length = self.visit(ctx.arrayLiteral())
         self.fromList = True
+        self.var = "_L"
         return length
 
     def visitPrimitiveExpressionarrayFunctionsAST(self, ctx: monkeyParser.PrimitiveExpressionarrayFunctionsASTContext):
@@ -427,9 +447,16 @@ class CodeGenerator(monkeyParserVisitor):
 
     def visitHashContentAST(self, ctx: monkeyParser.HashContentASTContext):
         ctxResult = self.visit(ctx.expression(0))
+        if ctxResult == "true" or ctxResult == "false" or self.var == '_L' or ctxResult is None:
+            if self.var == '_L':
+                ctxResult = "Lista"
+            if ctxResult is None:
+                ctxResult = "Ident"
+            print("ERROR: El has no puede llevar el valor de : "+ctxResult+" como llave.")
         if not type(ctxResult) is int and not type(ctxResult) is str:
             self.output += "ERROR: Dato no aceptado en hashContent\n"
         self.visit(ctx.expression(1))
+        self.var = '_D'
         return None
 
     def visitExpressionListAST(self, ctx: monkeyParser.ExpressionListASTContext):
@@ -493,8 +520,6 @@ class CodeGenerator(monkeyParserVisitor):
         return None
 
     def visitIfExpressionAST(self, ctx: monkeyParser.IfExpressionASTContext):
-        print("if")
-
         self.fromIf = True
         self.visit(ctx.expression())
         tagIndex = self.indice
