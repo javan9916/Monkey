@@ -9,6 +9,7 @@ class CodeGenerator(monkeyParserVisitor):
     indice = None
     codigo = None
     fromFunc = False
+    isOperator = None
 
     insideMain = False
     isMain = None
@@ -34,6 +35,7 @@ class CodeGenerator(monkeyParserVisitor):
         self.codigo = []
         self.table = Symbols()
         self.bandOpe = False
+        self.isOperator = False
 
     def blankTable(self):
         self.table.table.clear()
@@ -92,7 +94,9 @@ class CodeGenerator(monkeyParserVisitor):
             print("ERROR: Main ya ha sido declarado...")
             return None
         else:
-            self.generar(str(self.indice), "PUSH_" + mode1 + "_WAITFORMAT", identCtx.IDENT().__str__())
+            token = self.table.search(identCtx.IDENT().__str__())
+            if token == None:
+                self.generar(str(self.indice), "PUSH_" + mode1 + "_WAITFORMAT", identCtx.IDENT().__str__())
 
         result = self.visit(ctx.expression())
 
@@ -102,12 +106,16 @@ class CodeGenerator(monkeyParserVisitor):
         if result is not None:
             if isinstance(result, int):
                 instruction = self.codigo[tagIndex].split()
-                self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_I" + " " + instruction[2]
-                self.table.push(identCtx.IDENT().__str__(), lvl, 1, ctx, False, 0, False)
+                isPush = instruction[1].split("_")
+                if isPush[0] == 'PUSH':
+                    self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_I" + " " + instruction[2]
+                    self.table.push(identCtx.IDENT().__str__(), lvl, 1, ctx, False, 0, False)
             elif isinstance(result, str):
                 instruction = self.codigo[tagIndex].split()
-                self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_C" + " " + instruction[2]
-                self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, 0, False)
+                isPush = instruction[1].split("_")
+                if isPush[0] == 'PUSH':
+                    self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_C" + " " + instruction[2]
+                    self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, 0, False)
             else:
                 if isinstance(result, list):
                     instruction = self.codigo[tagIndex].split()
@@ -151,12 +159,25 @@ class CodeGenerator(monkeyParserVisitor):
 
     def visitExpressionAST(self, ctx: monkeyParser.ExpressionASTContext):
         result = self.visit(ctx.additionExpression(0))
+
         i = 1
         while True:
             if i < len(ctx.additionExpression()):
                 if not (ctx.equalOperators()[i - 1] is None):
-                    self.visit(ctx.equalOperators()[i - 1])
+                    operator = self.visit(ctx.equalOperators()[i - 1])
                 self.visit(ctx.additionExpression(i))
+                value = None
+                if isinstance(result,monkeyParser.IdentASTContext):
+                    token = self.table.search(result.IDENT().__str__())
+                    lvl = token.getLevel()
+                    mode1 = None
+                    if lvl <= 0:
+                        mode1 = 'CONST'
+                    else:
+                        mode1 = 'FAST'
+                    self.generar(str(self.indice), "LOAD_" + mode1, result.IDENT().__str__())
+
+                self.generar(str(self.indice), "COMPARE_OP", operator)
             else:
                 break
             i += 1
@@ -221,9 +242,9 @@ class CodeGenerator(monkeyParserVisitor):
 
     def visitMultiplicationExpressionAST(self, ctx: monkeyParser.MultiplicationExpressionASTContext):
         result = self.visit(ctx.elementExpression(0))
-
         i = 1
         while True:
+
             if i < len(ctx.elementExpression()):
                 if not (ctx.multOperators()[i - 1] is None):
                     self.visit(ctx.multOperators()[i - 1])
@@ -231,6 +252,7 @@ class CodeGenerator(monkeyParserVisitor):
             else:
                 break
             i += 1
+
         return result
 
     def visitElementExpressionAST(self, ctx: monkeyParser.ElementExpressionASTContext):
@@ -290,7 +312,6 @@ class CodeGenerator(monkeyParserVisitor):
 
     def visitPrimitiveExpressionIntegerAST(self, ctx: monkeyParser.PrimitiveExpressionIntegerASTContext):
         self.fromList = False
-        self.isInt = True
         self.generar(str(self.indice), "LOAD_CONST", ctx.INTEGER().__str__())
 
         return int(ctx.INTEGER().__str__())
@@ -309,6 +330,7 @@ class CodeGenerator(monkeyParserVisitor):
 
         if self.fromCall:
             self.generar(str(self.indice), "LOAD_"+mode, identCtx.IDENT().__str__())
+
         return identCtx
 
     def visitPrimitiveExpressionTrueAST(self, ctx: monkeyParser.PrimitiveExpressionTrueASTContext):
@@ -471,10 +493,18 @@ class CodeGenerator(monkeyParserVisitor):
         return None
 
     def visitIfExpressionAST(self, ctx: monkeyParser.IfExpressionASTContext):
+        print("if")
+
         self.fromIf = True
         self.visit(ctx.expression())
+        tagIndex = self.indice
+        self.generar(str(self.indice), "JUMP_IF_FALSE ", str(8))
+
         self.fromIf = False
         self.visit(ctx.statement()[0])
+        self.generar(str(self.indice), "JUMP_ABSOLUTE", str(self.indice+3))
+        jump = self.codigo[tagIndex].split()
+        self.codigo[tagIndex] = jump[0]+" "+jump[1]+" "+str(self.indice)
         i = 1
         while True:
             if i < len(ctx.statement()):

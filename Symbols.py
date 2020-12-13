@@ -4,7 +4,7 @@ class Symbols:
 
     def __init__(self):
         self.table = []
-        self.currentLevel = -1
+        self.currentLevel = 0
 
     class Ident:
         def __init__(self, token, level, type, decl, isFunc, length, fromList):
