@@ -51,7 +51,7 @@ PUSH    : 'push';
 // Otros tokens
 IDENT   : LETRA (LETRA|DIGITO)*;
 INTEGER : DIGITO DIGITO*;
-STRING  : '"'LETRA(LETRA|DIGITO)*'"';
+STRING  : '"'LETRA(LETRA|DIGITO|' ')*'"';
 
 fragment LETRA  : 'a'..'z' | 'A'..'Z' | '_';
 fragment DIGITO : '0'..'9';

@@ -81,7 +81,7 @@ class CodeGenerator(monkeyParserVisitor):
 
         tagIndex = self.indice
         lvl = self.table.getCurrentLevel()
-        if lvl <= 0:
+        if lvl <= 0 or self.insideMain:
             mode1 = 'GLOBAL'
             mode2 = 'GLOBAL'
         else:
@@ -108,6 +108,7 @@ class CodeGenerator(monkeyParserVisitor):
             elif self.var == '_L':
                 mode2 = mode2+'_LIST'
             self.generar(str(self.indice), "STORE_" + mode2, identCtx.IDENT().__str__())
+
         if result is not None:
             if isinstance(result, int):
                 instruction = self.codigo[tagIndex].split()
@@ -119,7 +120,11 @@ class CodeGenerator(monkeyParserVisitor):
                     else:
                         var = '_I'
                     self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + var + " " + instruction[2]
-                    self.table.push(identCtx.IDENT().__str__(), lvl, 1, ctx, False, 0, False)
+
+                    if self.insideMain:
+                        self.table.push(identCtx.IDENT().__str__(), 0, 1, ctx, False, 0, False)
+                    else:
+                        self.table.push(identCtx.IDENT().__str__(), lvl, 1, ctx, False, 0, False)
                     self.var = None
             elif isinstance(result, str):
                 instruction = self.codigo[tagIndex].split()
@@ -130,8 +135,11 @@ class CodeGenerator(monkeyParserVisitor):
                         var = '_D'
                     else:
                         var = '_C'
-                    self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 +  var+ " " + instruction[2]
-                    self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, 0, False)
+                    self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + var+ " " + instruction[2]
+                    if self.insideMain:
+                        self.table.push(identCtx.IDENT().__str__(), 0, 2, ctx, False, 0, False)
+                    else:
+                        self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, 0, False)
                     self.var = None
             else:
                 if isinstance(result, list):
@@ -148,12 +156,18 @@ class CodeGenerator(monkeyParserVisitor):
                             instruction = self.codigo[tagIndex].split()
                             self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_I" + " " + \
                                                     instruction[2]
-                            self.table.push(identCtx.IDENT().__str__(), lvl, 1, ctx, False, 0, False)
+                            if self.insideMain:
+                                self.table.push(identCtx.IDENT().__str__(), 0, 1, ctx, False, 0, False)
+                            else:
+                                self.table.push(identCtx.IDENT().__str__(), lvl, 1, ctx, False, 0, False)
                         elif token.getType() == 2:
                             instruction = self.codigo[tagIndex].split()
                             self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_C" + " " + \
                                                     instruction[2]
-                            self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, False)
+                            if self.insideMain:
+                                self.table.push(identCtx.IDENT().__str__(), 0, 2, ctx, False, 0, False)
+                            else:
+                                self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, 0, False)
         else:
             print("ERROR: Ha sucedido algo inesperado...")
         res = self.table.search(identCtx.IDENT().__str__())
@@ -524,17 +538,18 @@ class CodeGenerator(monkeyParserVisitor):
         self.paramsFun = True
         if not self.isMain:
             result = self.visit(ctx.ident()[0])
-            self.generar(str(self.indice), "PUSH_LOCAL_VAR", result.IDENT().__str__())
-            self.table.push(result.IDENT().__str__(), self.table.getCurrentLevel(), 0, ctx, False, 0, False)
-            i = 1
-            while True:
-                if i < len(ctx.ident()):
-                    result = self.visit(ctx.ident()[i])
-                    self.generar(str(self.indice), "PUSH_LOCAL_VAR", result.IDENT().__str__())
-                    self.table.push(result.IDENT().__str__(), self.table.getCurrentLevel(), 0, ctx, False, 0, False)
-                else:
-                    break
-                i += 1
+            if result.IDENT().__str__() != '<missing IDENT>':
+                self.generar(str(self.indice), "PUSH_LOCAL_VAR", result.IDENT().__str__())
+                self.table.push(result.IDENT().__str__(), self.table.getCurrentLevel(), 0, ctx, False, 0, False)
+                i = 1
+                while True:
+                    if i < len(ctx.ident()):
+                        result = self.visit(ctx.ident()[i])
+                        self.generar(str(self.indice), "PUSH_LOCAL_VAR", result.IDENT().__str__())
+                        self.table.push(result.IDENT().__str__(), self.table.getCurrentLevel(), 0, ctx, False, 0, False)
+                    else:
+                        break
+                    i += 1
         self.paramsFun = False
         return ctx.ident()
 
@@ -635,7 +650,7 @@ class CodeGenerator(monkeyParserVisitor):
         self.fromIf = True
         self.visit(ctx.expression())
         tagIndex = self.indice
-        self.generar(str(self.indice), "JUMP_IF_FALSE ", str(8))
+        self.generar(str(self.indice), "JUMP_IF_FALSE", str(8))
 
         self.fromIf = False
         self.visit(ctx.statement()[0])
