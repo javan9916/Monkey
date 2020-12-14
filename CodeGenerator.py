@@ -166,7 +166,11 @@ class CodeGenerator(monkeyParserVisitor):
         return None
 
     def visitReturnStatementAST(self, ctx: monkeyParser.ReturnStatementASTContext):
-        return super().visitReturnStatementAST(ctx)
+
+        result = self.visit(ctx.expression())
+        self.generar(str(self.indice), "LOAD_FAST", result.IDENT().__str__())
+        self.generar(str(self.indice), "RETURN_VALUE", None)
+        return result
 
     def visitExpressionStatementAST(self, ctx: monkeyParser.ExpressionStatementASTContext):
         result = self.visit(ctx.expression())
