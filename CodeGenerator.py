@@ -11,6 +11,8 @@ class CodeGenerator(monkeyParserVisitor):
     fromFunc = False
     isOperator = None
     var =None;
+    isHas = False
+    paramsFun = False
 
     insideMain = False
     isMain = None
@@ -26,8 +28,6 @@ class CodeGenerator(monkeyParserVisitor):
     fromListName = ""
     fromListparams = -1
     bandOpe = None
-    l1 = []
-    l2 = ['x', 'y']
 
     def __init__(self):
         self.letMain = -1
@@ -95,7 +95,8 @@ class CodeGenerator(monkeyParserVisitor):
         else:
             token = self.table.search(identCtx.IDENT().__str__())
             if token == None:
-                self.generar(str(self.indice), "PUSH_" + mode1 + "_WAITFORMAT", identCtx.IDENT().__str__())
+                self.generar(str(self.indice), "PUSH_" + mode1 + "_VAR", identCtx.IDENT().__str__())
+
 
         result = self.visit(ctx.expression())
 
@@ -151,10 +152,11 @@ class CodeGenerator(monkeyParserVisitor):
                             self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 + "_C" + " " + \
                                                     instruction[2]
                             self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, False)
-
         else:
             print("ERROR: Ha sucedido algo inesperado...")
-
+        res = self.table.search(identCtx.IDENT().__str__())
+        if res is None:
+            self.table.push(identCtx.IDENT().__str__(), lvl, 0, 0, False,0, False)
         if not (identCtx.IDENT().__str__() == 'Main'):
             token = self.table.search(identCtx.IDENT().__str__())
             if token is not None:
@@ -208,8 +210,13 @@ class CodeGenerator(monkeyParserVisitor):
         operator = ""
         tokenType = 0
         result = self.visit(ctx.multiplicationExpression(0))
-        result2 = None
-        if isinstance(result, monkeyParser.IdentASTContext):
+
+        if isinstance(result,int):
+            tokenType =1
+        elif isinstance(result,str):
+            tokenType=2
+        result2 = result
+        if isinstance(result, monkeyParser.IdentASTContext) and not self.isHas and not self.paramsFun:
             token = self.table.search(result.IDENT().__str__())
             if token is not None:
                 result2 = result.IDENT().__str__()
@@ -245,12 +252,12 @@ class CodeGenerator(monkeyParserVisitor):
 
             instruction = self.codigo[self.indice - 1].split()
             if not instruction[1] == "BINARY_ADD":
-                self.generar(str(self.indice), "LOAD_" + mode1, result2)
-                self.l1.append(result2)
-
-            self.generar(str(self.indice), "LOAD_" + mode1, result.IDENT().__str__())
+                if not isinstance(result2,int):
+                    self.generar(str(self.indice), "LOAD_" + mode1, result2)
+            if not isinstance(result,int):
+                self.generar(str(self.indice), "LOAD_" + mode1, result.IDENT().__str__())
             self.generar(str(self.indice), operator, None)
-            self.l1.append(result.IDENT().__str__())
+
 
         return result
 
@@ -338,15 +345,14 @@ class CodeGenerator(monkeyParserVisitor):
     def visitPrimitiveExpressionIdentAST(self, ctx: monkeyParser.PrimitiveExpressionIdentASTContext):
         identCtx = self.visit(ctx.ident())
         token = self.table.search(identCtx.IDENT().__str__())
-        if token == None:
-            return None
-        if token.getType() <= 0 or self.insideMain:
-            mode = 'GLOBAL'
-        else:
-            mode = 'FAST'
+        if token is not None:
+            if token.getType() <= 0 or self.insideMain:
+                mode = 'GLOBAL'
+            else:
+                mode = 'FAST'
 
-        if self.fromCall:
-            self.generar(str(self.indice), "LOAD_"+mode, identCtx.IDENT().__str__())
+            if self.fromCall:
+                self.generar(str(self.indice), "LOAD_"+mode, identCtx.IDENT().__str__())
 
         return identCtx
 
@@ -431,9 +437,25 @@ class CodeGenerator(monkeyParserVisitor):
         return parametersCtx
 
     def visitFunctionParametersAST(self, ctx: monkeyParser.FunctionParametersASTContext):
+        self.paramsFun = True
+        if not self.isMain:
+            result = self.visit(ctx.ident()[0])
+            self.generar(str(self.indice), "PUSH_LOCAL_VAR", result.IDENT().__str__())
+            self.table.push(result.IDENT().__str__(), self.table.getCurrentLevel(), 0, ctx, False, 0, False)
+            i = 1
+            while True:
+                if i < len(ctx.ident()):
+                    result = self.visit(ctx.ident()[i])
+                    self.generar(str(self.indice), "PUSH_LOCAL_VAR", result.IDENT().__str__())
+                    self.table.push(result.IDENT().__str__(), self.table.getCurrentLevel(), 0, ctx, False, 0, False)
+                else:
+                    break
+                i += 1
+        self.paramsFun = False
         return ctx.ident()
 
     def visitHashLiteralAST(self, ctx: monkeyParser.HashLiteralASTContext):
+        self.isHas = True
         self.visit(ctx.hashContent()[0])
         i = 1
         while True:
@@ -442,15 +464,15 @@ class CodeGenerator(monkeyParserVisitor):
             else:
                 break
             i += 1
-
+        self.isHas=False
         return None
 
     def visitHashContentAST(self, ctx: monkeyParser.HashContentASTContext):
         ctxResult = self.visit(ctx.expression(0))
-        if ctxResult == "true" or ctxResult == "false" or self.var == '_L' or ctxResult is None:
+        if ctxResult == "true" or ctxResult == "false" or self.var == '_L' or isinstance(ctxResult,monkeyParser.IdentASTContext):
             if self.var == '_L':
                 ctxResult = "Lista"
-            if ctxResult is None:
+            if isinstance(ctxResult,monkeyParser.IdentASTContext):
                 ctxResult = "Ident"
             print("ERROR: El has no puede llevar el valor de : "+ctxResult+" como llave.")
         if not type(ctxResult) is int and not type(ctxResult) is str:
@@ -466,14 +488,16 @@ class CodeGenerator(monkeyParserVisitor):
             if not (ident is None):
                 if not ident.fromList:
                     if ident.getLength() == len(ctx.expression()):
-                        self.visit(ctx.expression()[0])
+                        result = self.visit(ctx.expression()[0])
                         i = 1
                         while True:
                             if i < len(ctx.expression()):
-                                self.visit(ctx.expression()[i])
+                                result = self.visit(ctx.expression()[i])
                             else:
                                 break
                             i += 1
+
+                        ident = self.table.search(self.currentIdent.IDENT().__str__())
                     else:
                         print("ERROR: La función \"" + self.currentIdent.IDENT().__str__() + "\" tiene " + \
                                        str(ident.getLength()) + " parámetros en vez de " + str(len(ctx.expression())) + "\n")
@@ -489,7 +513,7 @@ class CodeGenerator(monkeyParserVisitor):
 
         else:
             length = len(ctx.expression())
-            self.visit(ctx.expression()[0])
+            result = self.visit(ctx.expression()[0])
             i = 1
             while True:
                 if i < len(ctx.expression()):

@@ -1,7 +1,6 @@
 class Symbols:
     table = []
     currentLevel = 0
-
     def __init__(self):
         self.table = []
         self.currentLevel = 0
@@ -27,6 +26,7 @@ class Symbols:
 
         def getFromList(self):
             return self.fromList
+
 
 
     def getCurrentLevel(self):
