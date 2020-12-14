@@ -347,7 +347,10 @@ class CodeGenerator(monkeyParserVisitor):
                 mode1 = 'FAST'
             self.generar(str(self.indice), "LOAD_"+mode1, resultCtx.IDENT().__str__())
             resultCtx = self.visit(ctx.elementAccess())
-            self.generar(str(self.indice), "LOAD_INDEX", str(resultCtx))
+            if isinstance(resultCtx,int):
+                self.generar(str(self.indice), "LOAD_INDEX", str(resultCtx))
+            else:
+                self.generar(str(self.indice), "LOAD_INDEX", resultCtx)
             print(resultCtx)
             self.isAcces = False
             self.currentIdent = None
@@ -401,8 +404,9 @@ class CodeGenerator(monkeyParserVisitor):
         return int(ctx.INTEGER().__str__())
 
     def visitPrimitiveExpressionStringAST(self, ctx: monkeyParser.PrimitiveExpressionStringASTContext):
-        self.generar(str(self.indice), "LOAD_CONST", ctx.STRING().__str__())
-        self.var = '_S'
+        if not self.isAcces:
+            self.generar(str(self.indice), "LOAD_CONST", ctx.STRING().__str__())
+            self.var = '_S'
         return ctx.STRING().__str__()
 
     def visitPrimitiveExpressionIdentAST(self, ctx: monkeyParser.PrimitiveExpressionIdentASTContext):
