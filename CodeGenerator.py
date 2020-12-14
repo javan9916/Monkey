@@ -251,7 +251,7 @@ class CodeGenerator(monkeyParserVisitor):
                 operator = 'BINARY_SUBSTRACT'
 
             instruction = self.codigo[self.indice - 1].split()
-            if not instruction[1] == "BINARY_ADD":
+            if not (instruction[1] == "BINARY_ADD" or instruction == "BINARY_SUBSTRACT"):
                 if not isinstance(result2,int):
                     self.generar(str(self.indice), "LOAD_" + mode1, result2)
             if not isinstance(result,int):
@@ -262,17 +262,62 @@ class CodeGenerator(monkeyParserVisitor):
         return result
 
     def visitMultiplicationExpressionAST(self, ctx: monkeyParser.MultiplicationExpressionASTContext):
+        lvl = self.table.getCurrentLevel()
+        if lvl <= 0:
+            mode1 = 'GLOBAL'
+        else:
+            mode1 = 'FAST'
+
+        operator = ""
+        tokenType = 0
         result = self.visit(ctx.elementExpression(0))
+
+        if isinstance(result, int):
+            tokenType = 1
+        elif isinstance(result, str):
+            tokenType = 2
+        result2 = result
+        if isinstance(result, monkeyParser.IdentASTContext) and not self.isHas and not self.paramsFun:
+            token = self.table.search(result.IDENT().__str__())
+            if token is not None:
+                result2 = result.IDENT().__str__()
+                tokenType = token.getType()
+            else:
+                print("ERROR1: El identificador \"" + result.IDENT().__str__() + "\" no existe")
+                return None
         i = 1
         while True:
 
             if i < len(ctx.elementExpression()):
                 if not (ctx.multOperators()[i - 1] is None):
-                    self.visit(ctx.multOperators()[i - 1])
-                self.visit(ctx.elementExpression(i))
+                    operator = self.visit(ctx.multOperators()[i - 1])
+
+                result = self.visit(ctx.elementExpression(i))
+                if isinstance(result, monkeyParser.IdentASTContext):
+                    token = self.table.search(result.IDENT().__str__())
+                    if token is not None:
+                        if token.getType() != tokenType:
+                            print("ERROR: Los tipos de dato no coinciden")
+                            break
+                    else:
+                        print("ERROR: El identificador \"" + result.IDENT().__str__() + "\" no existe")
+                        break
             else:
                 break
             i += 1
+
+            if operator == '*':
+                operator = 'BINARY_MULTIPLY'
+            elif operator == '/':
+                operator = 'BINARY_DIVIDE'
+
+            instruction = self.codigo[self.indice - 1].split()
+            if not (instruction[1] == "BINARY_MULTIPLY" or instruction == "BINARY_DIVIDE"):
+                if not isinstance(result2,int):
+                    self.generar(str(self.indice), "LOAD_" + mode1, result2)
+            if not isinstance(result,int):
+                self.generar(str(self.indice), "LOAD_" + mode1, result.IDENT().__str__())
+            self.generar(str(self.indice), operator, None)
 
         return result
 
