@@ -243,14 +243,17 @@ class CodeGenerator(monkeyParserVisitor):
             elif operator == '-':
                 operator = 'BINARY_SUBSTRACT'
 
-            instruction = self.codigo[self.indice - 1].split()
-            if not instruction[1] == "BINARY_ADD":
-                self.generar(str(self.indice), "LOAD_" + mode1, result2)
-                self.l1.append(result2)
 
-            self.generar(str(self.indice), "LOAD_" + mode1, result.IDENT().__str__())
+            instruction = self.codigo[self.indice - 1].split()
+            if isinstance(result, int):
+                if not instruction[1] == "BINARY_ADD":
+                    self.generar(str(self.indice), "LOAD_" + mode1, result2)
+                    self.l1.append(result2)
+
+                self.generar(str(self.indice), "LOAD_" + mode1, str(result))
+            else:
+                self.generar(str(self.indice), "LOAD_" + mode1, result.IDENT().__str__())
             self.generar(str(self.indice), operator, None)
-            self.l1.append(result.IDENT().__str__())
 
         return result
 
