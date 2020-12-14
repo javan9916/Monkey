@@ -13,6 +13,8 @@ class CodeGenerator(monkeyParserVisitor):
     var =None;
     isHas = False
     paramsFun = False
+    isFuctionArray = False
+    isAcces = False
 
     insideMain = False
     isMain = None
@@ -127,7 +129,7 @@ class CodeGenerator(monkeyParserVisitor):
                     if self.var == '_D':
                         var = '_D'
                     else:
-                        var = '_S'
+                        var = '_C'
                     self.codigo[tagIndex] = instruction[0] + " " + "PUSH_" + mode1 +  var+ " " + instruction[2]
                     self.table.push(identCtx.IDENT().__str__(), lvl, 2, ctx, False, 0, False)
                     self.var = None
@@ -336,7 +338,18 @@ class CodeGenerator(monkeyParserVisitor):
 
         if not (ctx.elementAccess() is None):
             self.currentIdent = resultCtx
+            self.isAcces = True
+            lvl = self.table.getCurrentLevel()
+            mode1 =""
+            if lvl <= 0:
+                mode1 = 'GLOBAL'
+            else:
+                mode1 = 'FAST'
+            self.generar(str(self.indice), "LOAD_"+mode1, resultCtx.IDENT().__str__())
             resultCtx = self.visit(ctx.elementAccess())
+            self.generar(str(self.indice), "LOAD_INDEX", str(resultCtx))
+            print(resultCtx)
+            self.isAcces = False
             self.currentIdent = None
         elif not (ctx.callExpression() is None):
             self.fromCall = True
@@ -382,7 +395,8 @@ class CodeGenerator(monkeyParserVisitor):
 
     def visitPrimitiveExpressionIntegerAST(self, ctx: monkeyParser.PrimitiveExpressionIntegerASTContext):
         self.fromList = False
-        self.generar(str(self.indice), "LOAD_CONST", ctx.INTEGER().__str__())
+        if not self.isAcces:
+            self.generar(str(self.indice), "LOAD_CONST", ctx.INTEGER().__str__())
 
         return int(ctx.INTEGER().__str__())
 
@@ -426,8 +440,23 @@ class CodeGenerator(monkeyParserVisitor):
         return length
 
     def visitPrimitiveExpressionarrayFunctionsAST(self, ctx: monkeyParser.PrimitiveExpressionarrayFunctionsASTContext):
-        self.visit(ctx.arrayFunctions())
-        self.visit(ctx.expressionList())
+        result = self.visit(ctx.arrayFunctions())
+        self.isFuctionArray = True
+        var = self.visit(ctx.expressionList())
+
+        if result == 'push':
+            if var > 3:
+                print("Error el número de parametros aceptado es de 1 y vienen " + str(var)+" en la función de "+result)
+            self.generar(str(self.indice), "LOAD_GLOBAL", result)
+            self.generar(str(self.indice), "CALL_FUNCTION", str(1))
+        else:
+            if not var == 1:
+                print("Error el número de parametros aceptado es de 1 y vienen " + str(var)+" en la función de "+result)
+            self.generar(str(self.indice), "LOAD_GLOBAL", result)
+            self.generar(str(self.indice), "CALL_FUNCTION", str(1))
+        print(var)
+        print("---------")
+        self.isFuctionArray = False
         return "arrayFunction"
 
     def visitPrimitiveExpressionfunctionLiteralAST(self,
@@ -452,6 +481,7 @@ class CodeGenerator(monkeyParserVisitor):
         return ctx
 
     def visitArrayFunctionsLenAST(self, ctx: monkeyParser.ArrayFunctionsLenASTContext):
+        #self.generar(str(self.indice), "LEN", ctx.FALSE().__str__())
         return "len"
 
     def visitArrayFunctionsFirstAST(self, ctx: monkeyParser.ArrayFunctionsFirstASTContext):
@@ -563,6 +593,10 @@ class CodeGenerator(monkeyParserVisitor):
         else:
             length = len(ctx.expression())
             result = self.visit(ctx.expression()[0])
+            if self.isFuctionArray:
+                print("----**DETERMINAR NIVEL")
+                print(result.IDENT().__str__())
+                self.generar(str(self.indice), "LOAD_FAST", result.IDENT().__str__())
             i = 1
             while True:
                 if i < len(ctx.expression()):
