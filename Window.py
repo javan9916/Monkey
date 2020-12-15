@@ -8,6 +8,8 @@ import wx.stc as stc
 import wx.lib.dialogs
 import keyword
 
+from subprocess import call
+
 from CodeGenerator import CodeGenerator
 from CustomErrorListener import CustomErrorListener
 from CustomVisitor import CustomVisitor
@@ -620,6 +622,18 @@ class Window(wx.Frame):
         #if not (errorListener.HasErrors()):
         visitor = CodeGenerator()
         visitor.visit(tree)
+
+        script = "0 DEF Main\n1 PUSH_GLOBAL_I x\n2 LOAD_CONST 2\n3 STORE_GLOBAL x\n4 LOAD_GLOBAL x\n5 LOAD_GLOBAL write\n6 CALL_FUNCTION 1\n7 END"
+
+        code = open("codeVM.txt", "w")
+        code.write(script)
+        code.close()
+
+        path = os.path.abspath("VM_CS/bin/Debug/Minics.exe")
+
+        output = call([path, "codeVM.txt"])
+        print(output)
+
         """if visitor.getOutput() == "":
             output = self.dirname + "\\" + self.filename + \
                          ">\nCompilación Exitosa!!\n\n" + "Output: No hay errores\n" + visitor.getSymbolTable().getOutput()

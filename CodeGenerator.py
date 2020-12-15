@@ -77,6 +77,7 @@ class CodeGenerator(monkeyParserVisitor):
         identCtx = self.visit(ctx.ident())
         if not (identCtx.IDENT().__str__() == 'Main'):
             self.table.openScope()
+        else:
             self.insideMain = True
 
         tagIndex = self.indice
@@ -179,6 +180,8 @@ class CodeGenerator(monkeyParserVisitor):
                 if token.getType() == 3:
                     self.generar(str(self.indice), "RETURN", None)
             self.table.closeScope()
+
+
         return None
 
     def visitReturnStatementAST(self, ctx: monkeyParser.ReturnStatementASTContext):
