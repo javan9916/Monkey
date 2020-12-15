@@ -62,7 +62,6 @@ class CodeGenerator(monkeyParserVisitor):
         while True:
             if i < len(ctx.statement()):
                 self.visit(ctx.statement(i))
-
             else:
                 break
             i += 1
@@ -70,7 +69,7 @@ class CodeGenerator(monkeyParserVisitor):
         self.generar(str(self.indice), "END", None)
         if not self.isMain:
             print("WARNING: No se declaró el Main.")
-        print(self.printEnd())
+        self.output = self.printEnd()
         return None
 
     def visitLetStatementAST(self, ctx: monkeyParser.LetStatementASTContext):
@@ -245,7 +244,7 @@ class CodeGenerator(monkeyParserVisitor):
                 result2 = result.IDENT().__str__()
                 tokenType = token.getType()
             else:
-                print("ERROR1: El identificador \"" + result.IDENT().__str__() + "\" no existe")
+                print("ERROR: El identificador \"" + result.IDENT().__str__() + "\" no existe")
                 return None
 
         i = 1
@@ -307,7 +306,7 @@ class CodeGenerator(monkeyParserVisitor):
                 result2 = result.IDENT().__str__()
                 tokenType = token.getType()
             else:
-                print("ERROR1: El identificador \"" + result.IDENT().__str__() + "\" no existe")
+                print("ERROR: El identificador \"" + result.IDENT().__str__() + "\" no existe")
                 return None
         i = 1
         while True:
@@ -358,18 +357,20 @@ class CodeGenerator(monkeyParserVisitor):
             self.currentIdent = resultCtx
             self.isAcces = True
             lvl = self.table.getCurrentLevel()
-            mode1 =""
+            mode1 = ""
             if lvl <= 0:
                 mode1 = 'GLOBAL'
             else:
                 mode1 = 'FAST'
             self.generar(str(self.indice), "LOAD_"+mode1, resultCtx.IDENT().__str__())
             resultCtx = self.visit(ctx.elementAccess())
-            if isinstance(resultCtx,int):
+            if isinstance(resultCtx, monkeyParser.IdentASTContext):
+                self.generar(str(self.indice), "LOAD_INDEX", resultCtx.IDENT().__str__())
+            elif isinstance(resultCtx,int):
                 self.generar(str(self.indice), "LOAD_INDEX", str(resultCtx))
             else:
                 self.generar(str(self.indice), "LOAD_INDEX", resultCtx)
-            print(resultCtx)
+
             self.isAcces = False
             self.currentIdent = None
         elif not (ctx.callExpression() is None):
@@ -476,8 +477,7 @@ class CodeGenerator(monkeyParserVisitor):
                 print("Error el número de parametros aceptado es de 1 y vienen " + str(var)+" en la función de "+result)
             self.generar(str(self.indice), "LOAD_GLOBAL", result)
             self.generar(str(self.indice), "CALL_FUNCTION", str(1))
-        print(var)
-        print("---------")
+
         self.isFuctionArray = False
         return "arrayFunction"
 
@@ -499,7 +499,8 @@ class CodeGenerator(monkeyParserVisitor):
         return ctx
 
     def visitPrimitiveExpressionifExpressionAST(self, ctx: monkeyParser.PrimitiveExpressionifExpressionASTContext):
-        self.visit(ctx.ifExpression())
+        index = self.visit(ctx.ifExpression())
+        self.codigo[index]=str(index)+" JUMP_ABSOLUTE "+str(self.indice)
         return ctx
 
     def visitArrayFunctionsLenAST(self, ctx: monkeyParser.ArrayFunctionsLenASTContext):
@@ -617,8 +618,6 @@ class CodeGenerator(monkeyParserVisitor):
             length = len(ctx.expression())
             result = self.visit(ctx.expression()[0])
             if self.isFuctionArray:
-                print("----**DETERMINAR NIVEL")
-                print(result.IDENT().__str__())
                 self.generar(str(self.indice), "LOAD_FAST", result.IDENT().__str__())
             i = 1
             while True:
@@ -657,7 +656,8 @@ class CodeGenerator(monkeyParserVisitor):
 
         self.fromIf = False
         self.visit(ctx.statement()[0])
-        self.generar(str(self.indice), "JUMP_ABSOLUTE", str(self.indice+3))
+        tagIndex2 = self.indice
+        self.generar(str(self.indice), "JUMP_ABSOLUTE", str(self.indice))
         jump = self.codigo[tagIndex].split()
         self.codigo[tagIndex] = jump[0]+" "+jump[1]+" "+str(self.indice)
         i = 1
@@ -671,7 +671,7 @@ class CodeGenerator(monkeyParserVisitor):
         if not (ctx.elseExpression() is None):
             self.visit(ctx.elseExpression())
         self.table.closeScope()
-        return None
+        return tagIndex2
 
     def visitElseExpressionAST(self, ctx: monkeyParser.ElseExpressionASTContext):
         i = 0

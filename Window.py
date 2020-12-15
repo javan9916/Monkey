@@ -623,7 +623,7 @@ class Window(wx.Frame):
         visitor = CodeGenerator()
         visitor.visit(tree)
 
-        script = "0 DEF Main\n1 PUSH_GLOBAL_I x\n2 LOAD_CONST 2\n3 STORE_GLOBAL x\n4 LOAD_GLOBAL x\n5 LOAD_GLOBAL write\n6 CALL_FUNCTION 1\n7 END"
+        script = visitor.getOutput()
 
         code = open("codeVM.txt", "w")
         code.write(script)
@@ -632,7 +632,11 @@ class Window(wx.Frame):
         path = os.path.abspath("VM_CS/bin/Debug/Minics.exe")
 
         output = call([path, "codeVM.txt"])
-        print(output)
+
+        if output == 0:
+            print("Compilación Exitosa!!\n")
+        else:
+            print("Compilación Fallida!!\n")
 
         """if visitor.getOutput() == "":
             output = self.dirname + "\\" + self.filename + \
